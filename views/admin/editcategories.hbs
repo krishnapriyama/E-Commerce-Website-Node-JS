@@ -1,0 +1,29 @@
+<body>
+
+   <div class="container">
+      <div class="card o-hidden border-5 shadow-lg my-5">
+         <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+               <div class="col-lg">
+                  <div class="p-5">
+                     <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">EDIT CATEGORY</h1>
+                     </div>
+                     <form class="user" action="/admin/editcategory/{{category._id}}" method="post" enctype="multipart/form-data">
+                        <div class="form-group row">
+                                 <input type="text" class="form-control form-control-user text-center"
+                                    id="exampleFirstName" placeholder="Category" name="category" value="{{category.category}}">
+                        </div>
+                        {{!-- <input type="submit"> --}}
+                        <input type="submit" class="btn btn-user btn-block"
+                           style="background-color: #FB641B;color:white ;">
+                        </a>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+   </div>

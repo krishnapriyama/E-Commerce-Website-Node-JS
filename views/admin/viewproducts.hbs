@@ -1,0 +1,41 @@
+
+<section>
+   <center>
+      <h3 class="mt-5">
+         LIST OF PRODUCTS
+      </h3>
+   </center>
+   <div class="container ml-5">
+      <div>
+         <a href="/admin/addproducts" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD
+            PRODUCT</a>
+      </div>
+      <table class="table mt-5" id="mytbl">
+         <thead>
+            <tr>
+               <th scope="col">Sl.no</th>
+               <th scope="col">Name</th>
+               <th scope="col">Price</th>
+               <th scope="col">Image</th>
+               <th scope="col">Status</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each products}}
+            <tr>
+               <th scope="row">1</th>
+               <td style="width: 36rem; word-wrap:break-word;">{{this.name}}</td>
+               <td>{{this.price}}</td>
+               <td><img style="width:80px; height:80px;" src="/product-images/{{this._id}}.png" alt=""></td>
+               <td>
+                  <a href="/admin/deleteproduct/{{this._id}}" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</a>
+                  <a href="/admin/editproducts/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;" class="btn">EDIT</a>
+                  <a href="/admin/moredetails/{{this._id}}" style="width:145px; background-color: #FB641B;color: white;" class="btn mt-2">MORE DETAILS</a>
+               </td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+      </div>
+</section>
+

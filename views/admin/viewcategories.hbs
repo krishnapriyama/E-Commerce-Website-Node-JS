@@ -1,0 +1,33 @@
+<section>
+   <center>
+<h3 class="mt-5">
+      LIST OF USERS
+   </h3>
+   </center>
+   <div class="container ml-5" style="width: 75rem;">
+   <div>
+      <a href="/admin/addcategories" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD CATEGORY</a>
+   </div>
+      <table class="table mt-5" id="mytbl">
+         <thead>
+            <tr>
+               <th scope="col">Sl.No</th>
+               <th scope="col">Category</th>
+                <th scope="col">Status</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each category}}
+            <tr>
+               <th scope="row">{{inc @index}}</th>
+               <td>{{this.category}}</td>
+               <td>
+                  <a href="/admin/deletecategory/{{this._id}}" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</a>
+                  <a href="/admin/editcategory/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;" class="btn">EDIT</a>
+               </td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+</section>

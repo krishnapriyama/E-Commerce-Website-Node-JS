@@ -1,0 +1,105 @@
+<body>
+
+   <div class="container">
+
+      <div class="card o-hidden border-5 shadow-lg my-5">
+         <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+               <div class="col-lg">
+                  <div class="p-5">
+                     <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">ADD PRODUCTS</h1>
+                     </div>
+                     <form class="user" action="/admin/addproducts" method="post" enctype="multipart/form-data">
+                        <div class="form-group row">
+                           <div class="col-sm-6 mb-3 mb-sm-3">
+                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                 placeholder="Name" name="name">
+                           </div>
+                           <div class="col-sm-6">
+                              <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                 placeholder="Model Number" name="modelnumber">
+                           </div>
+                           <div class="col-sm-6 mb-3 mb-sm-3">
+                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                 placeholder="Port Number" name="portnumber">
+                           </div>
+                           <div class="col-sm-6">
+                              <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                 placeholder="Model Name" name="modelname">
+                           </div>
+                           <div class="col-sm-6 mb-3 mb-sm-0">
+                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                 placeholder="Series" name="series">
+                           </div>
+                           <div class="col-sm-6">
+                              <input type="text" class="form-control form-control-user" id="exampleLastName"
+                                 placeholder="Color" name="color">
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <div class="col-sm-6 mb-3 mb-sm-3">
+                              <div class="dropdown">
+                                 <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style= "height: 3rem;">
+                                    Category
+                                 </button>
+                                 <div class=" dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <ul>{{#each categories}}
+                                       
+                                    <li>
+                                       <input type="radio" name="type" value="{{this.category}}"> {{this.category}}</li>
+                                    {{/each}}</ul>
+                                    
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
+                              placeholder="Battery Backup" name="batterybackup">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                           <input type="text" class="form-control form-control-user" id="exampleInputPassword"
+                              placeholder="Suitable for" name="suitablefor">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
+                              placeholder="Power Supply" name="powersupply">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
+                              name="Image">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
+                              name="Image1">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
+                              name="Image2">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
+                              name="Image3">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="number" class="form-control form-control-user" id="exampleRepeatPassword"
+                              placeholder="Price" name="price">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
+                              placeholder="Description" name="description">
+                        </div>
+                  </div>
+                  {{!-- <input type="submit"> --}}
+                  <input type="submit" class="btn btn-user btn-block" style="background-color: #FB641B;color:white ;">
+                  </a>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   </div>

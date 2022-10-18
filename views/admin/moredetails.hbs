@@ -1,0 +1,41 @@
+<section>
+   <center>
+      <h3 class="mt-5">
+         DETAILS PRODUCTS
+      </h3>
+   </center>
+   <div class="container ml-5">
+      <table class="table mt-5" id="mytbl">
+         <thead>
+            <tr>
+               <th scope="col">Model Number</th>
+               <th scope="col">Port Number</th>
+               <th scope="col">Model Name</th>
+               <th scope="col">Series</th>
+               <th scope="col">Type</th>
+               <th scope="col">BatteryBackup</th>
+               <th scope="col">Suitable For</th>
+               <th scope="col">Power Supply</th>
+               <th scope="col">Images</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td>{{productdetails.modelnumber}}</td>
+               <td>{{productdetails.portnumber}}</td>
+               <td>{{productdetails.modelname}}</td>
+               <td>{{productdetails.series}}</td>
+               <td>{{productdetails.type}}</td>
+               <td>{{productdetails.batterybackup}}</td>
+               <td>{{productdetails.suitablefor}}</td>
+               <td>{{productdetails.powersupply}}</td>
+               <td>
+                  <img style="width:80px; height:80px;" class="mb-2" src="/product-images/{{productdetails._id}}1.png" alt="">
+               <img style="width:80px; height:80px;" class="mb-2" src="/product-images/{{productdetails._id}}2.png" alt="">
+               <img style="width:80px; height:80px;" src="/product-images/{{productdetails._id}}3.png" alt="">
+               </td>
+               
+            </tr>
+         </tbody>
+      </table>
+      </div>
