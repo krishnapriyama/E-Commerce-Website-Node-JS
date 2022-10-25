@@ -1,4 +1,4 @@
-
+</style>
 <section>
    <center>
       <h3 class="mt-5">
@@ -7,15 +7,18 @@
    </center>
    <div class="container ml-5">
       <div>
-         <a href="/admin/addproducts" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD
+         <a href="/admin/addproducts" class="btn float-right mb-3" style="background-color: #FB641B; color: white;">ADD
             PRODUCT</a>
       </div>
+      
       <table class="table mt-5" id="mytbl">
          <thead>
             <tr>
                <th scope="col">Sl.no</th>
                <th scope="col">Name</th>
                <th scope="col">Price</th>
+               <th scope="col">Category</th>
+               <th scope="col">Stock</th>
                <th scope="col">Image</th>
                <th scope="col">Status</th>
             </tr>
@@ -23,19 +26,62 @@
          <tbody>
             {{#each products}}
             <tr>
-               <th scope="row">1</th>
-               <td style="width: 36rem; word-wrap:break-word;">{{this.name}}</td>
+               <th scope="row">{{inc @index}}</th>
+               <td style="width: 32rem; word-wrap:break-word;">{{this.name}}</td>
                <td>{{this.price}}</td>
-               <td><img style="width:80px; height:80px;" src="/product-images/{{this._id}}.png" alt=""></td>
+               <td>{{this.type}}</td>
+               <td>{{this.stock}}</td>
+               <td><img style="width:60px; height:100px;" src="/product-images/{{this._id}}.png" alt=""></td>
                <td>
-                  <a href="/admin/deleteproduct/{{this._id}}" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</a>
-                  <a href="/admin/editproducts/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;" class="btn">EDIT</a>
-                  <a href="/admin/moredetails/{{this._id}}" style="width:145px; background-color: #FB641B;color: white;" class="btn mt-2">MORE DETAILS</a>
+                  <button onclick="deleteproduct('{{this._id}}')"
+                     style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
+                  <a href="/admin/editproducts/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;"
+                     class="btn">EDIT</a>
+                  <a href="/admin/moredetails/{{this._id}}" style="width:145px; background-color: #FB641B;color: white;"
+                     class="btn mt-2">MORE DETAILS</a>
                </td>
             </tr>
             {{/each}}
          </tbody>
       </table>
-      </div>
+   </div>
 </section>
 
+<script>
+   function deleteproduct(prodId) {
+      $.ajax({
+         url: `/admin/deleteproduct/${prodId}`,
+         method: "get",
+         success: (response) => {
+            if (response) {
+               Swal.fire({
+                  title: "DELETED PRODUCT",
+                  text: "CONFORM!",
+                  icon: "success",
+                  buttonsStyling: false,
+                  confirmButtonText: "Yes Conform",
+                  customClass: {
+                     confirmButton: "btn btn-primary"
+                  }
+               }).then(() => {
+                  location.reload()
+               });
+            }
+         }
+      })
+   }
+
+
+   {{!-- $(document).ready(function () {
+      $('#mytbl').DataTable();
+   }); --}}
+
+  $(document).ready(function() {
+    $('#mytbl').DataTable( {
+        dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+</script>

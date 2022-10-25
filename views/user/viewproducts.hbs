@@ -37,7 +37,7 @@
       padding: 0.75rem 1.25rem;
       margin-bottom: 0;
       background-color: #fff;
-   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
    }
 
    .filter-group .card-header {
@@ -136,147 +136,27 @@
 
 
 <section>
-   <div>
-      <div class=" ms-auto">
-         <div class=" mt-5">
-            <div class="row d-flex justify-content-center">
-               <div class="col-md-4 me-auto" style="width: 17em;">
-                  <div class="card border-none">
-                     <article class="filter-group">
-                        <header class="card-header">
-                           <a href="#" data-toggle="collapse" data-target="#collapse_aside1" data-abc="true"
-                              aria-expanded="false" class="collapsed">
-                              <i class="icon-control fa fa-chevron-down"></i>
-                              <h6 class="title">Categories </h6>
-                           </a>
-                        </header>
-                        <div class="filter-content collapse" id="collapse_aside1" style="">
-                           <div class="card-body">
-
-                              <ul class="list-menu">
-                                 <li><a href="#" data-abc="true">Electronics </a></li>
-                                 <li><a href="#" data-abc="true">Watches </a></li>
-                                 <li><a href="#" data-abc="true">Laptops </a></li>
-                                 <li><a href="#" data-abc="true">Clothes </a></li>
-                                 <li><a href="#" data-abc="true">Accessories </a></li>
-                              </ul>
-
-                           </div>
-                        </div>
-                     </article>
-                     <article class="filter-group">
-                        <header class="card-header">
-                           <a href="#" data-toggle="collapse" data-target="#collapse_aside2" data-abc="true"
-                              aria-expanded="false" class="collapsed">
-                              <i class="icon-control fa fa-chevron-down"></i>
-                              <h6 class="title">Price </h6>
-                           </a>
-                        </header>
-                        <div class="filter-content collapse" id="collapse_aside2" style="">
-                           <div class="card-body">
-                              <input type="range" class="custom-range" min="0" max="100" name="">
-                              <div class="form-row">
-                                 <div class="form-group col-md-6">
-                                    <label>Min</label>
-                                    <input class="form-control" placeholder="$0" type="number">
-                                 </div>
-                                 <div class="form-group text-right col-md-6">
-                                    <label>Max</label>
-                                    <input class="form-control" placeholder="$1,0000" type="number">
-                                 </div>
-                              </div>
-                              <a href="#" class="highlight-button btn btn-medium button xs-margin-bottom-five"
-                                 data-abc="true">Apply Now</a>
-                           </div>
-                        </div>
-                     </article>
-                     <article class="filter-group">
-                        <header class="card-header">
-                           <a href="#" data-toggle="collapse" data-target="#collapse_aside3" data-abc="true"
-                              aria-expanded="false" class="collapsed">
-                              <i class="icon-control fa fa-chevron-down"></i>
-                              <h6 class="title">Size </h6>
-                           </a>
-                        </header>
-                        <div class="filter-content collapse" id="collapse_aside3" style="">
-                           <div class="card-body">
-                              <label class="checkbox-btn">
-                                 <input type="checkbox">
-                                 <span class="btn btn-light"> XS </span>
-                              </label>
-
-                              <label class="checkbox-btn">
-                                 <input type="checkbox">
-                                 <span class="btn btn-light"> SM </span>
-                              </label>
-
-                              <label class="checkbox-btn">
-                                 <input type="checkbox">
-                                 <span class="btn btn-light"> LG </span>
-                              </label>
-
-                              <label class="checkbox-btn">
-                                 <input type="checkbox">
-                                 <span class="btn btn-light"> XXL </span>
-                              </label>
-                              <label class="checkbox-btn">
-                                 <input type="checkbox">
-                                 <span class="btn btn-light"> XXXL </span>
-                              </label>
-                           </div>
-                        </div>
-                     </article>
-                     <article class="filter-group">
-                        <header class="card-header">
-                           <a href="#" data-toggle="collapse" data-target="#collapse_aside4" data-abc="true"
-                              class="collapsed" aria-expanded="false">
-                              <i class="icon-control fa fa-chevron-down"></i>
-                              <h6 class="title">Rating </h6>
-                           </a>
-                        </header>
-                        <div class="filter-content collapse" id="collapse_aside4" style="">
-                           <div class="card-body">
-                              <label class="custom-control">
-                                 <input type="checkbox" checked="" class="custom-control-input">
-                                 <div class="custom-control-label">Better </div>
-                              </label>
-
-                              <label class="custom-control">
-                                 <input type="checkbox" checked="" class="custom-control-input">
-                                 <div class="custom-control-label">Best </div>
-                              </label>
-
-                              <label class="custom-control">
-                                 <input type="checkbox" checked="" class="custom-control-input">
-                                 <div class="custom-control-label">Good</div>
-                              </label>
-
-                              <label class="custom-control">
-                                 <input type="checkbox" checked="" class="custom-control-input">
-                                 <div class="custom-control-label">Not good</div>
-                              </label>
-                           </div>
-                        </div>
-                     </article>
-                  </div>
-
-               </div>
                <div class="col py-3 mb-5">
                   <div class="container mb-5" style="margin-top: -14px;">
                      <div class="row">
                         {{#each products}}
-                        <div class="col-md-3 mb-5">
-                           <div class="card   border-white">
-                              <img class="card-img-top p-4" src="/product-images/{{this._id}}.png" style="width: 320px; height:300px" alt="Card image cap">
+                        <div class="col-md-3 mb-5 container">
+                           <div class="card border-white ">
+                              <center>
+                                 <img class="card-img-top p-4 d-flex" src="/product-images/{{this._id}}.png"
+                                    style="width: 220px; height:400px;" alt="Card image cap">
+                              </center>
                               <div class="card-body" style="width: 320px;">
                                  <strong>
                                     <center>
-                                       <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.name}}</p>
+                                       <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.name}}
+                                       </p>
                                  </strong>
-                                 <p class="card-text" style="color: #FF6700;">Rs - {{this.price}}/-</p>
-                                 <a href="/singleproduct/{{this._id}}" class="btn text-white"
-                                    style="background: #FF6700;">MORE
-                                    DETAILS</a></center>
+                                 <p class="card-text" style="color: #FF6700; margin-bottom: -17px;">Rs - {{this.price}}/-</p>
+                                 <p class="card-text mt-3" style="color: red; font-size: 12px; margin-bottom: 12px;">IN STOCK - {{this.stock}}</p>
+                                 <a href="/singleproduct/{{this._id}}" class="btn text-white mr-3 btn-dark">MORE
+                                    <a onclick="addtocartconfrom('{{this._id}}')" class="btn text-white btn-dark">ADD TO
+                                       CART</a></center>
                               </div>
                            </div>
                         </div>
@@ -288,10 +168,30 @@
             </div>
          </div>
       </div>
-
-
-
-
-   </div>
-
 </section>
+
+<script>
+   function addtocartconfrom(prodId) {
+      $.ajax({
+         url: `/add-to-cart/${prodId}`,
+         method: "get",
+         success: (response) => {
+            if (response) {
+               let count = $('#cartCount').html()
+               count = parseInt(count) + 1
+               $('#cartCount').html(count)
+               Swal.fire({
+                  title: "ADDED TO CART",
+                  text: "CONFORM!",
+                  icon: "success",
+                  buttonsStyling: false,
+                  confirmButtonText: "Yes Conform",
+                  customClass: {
+                     confirmButton: "btn btn-primary"
+                  }
+               });
+            }
+         }
+      })
+   }
+</script>

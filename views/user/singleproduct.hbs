@@ -1,5 +1,5 @@
 <style>
-    body{
+    body {
         background-color: white;
     }
 </style>
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3" style="border: none;">
-                        <img class="card-img img-fluid mx-auto d-block" src="/product-images/{{singleproduct._id}}.png"
+                        <img class="card-img img-fluid mx-auto block__pic" src="/product-images/{{singleproduct._id}}.png"
                             alt="Card image cap" id="product-detail" style="height: 600px;width:300px;">
                     </div>
                     <div class="row d-flex align-items-center justify-content-center">
@@ -42,20 +42,23 @@
                             <div class="row">
                                 <div class="col-4">
                                     <a href="#">
-                                        <img class="card-img img-fluid" src="/product-images/{{singleproduct._id}}1.png"
-                                            alt="Product Image 1" style="height: 150px;width: 150px;">
+                                        <img class="card-img img-fluid img-item"
+                                            src="/product-images/{{singleproduct._id}}1.png" alt="Product Image 1"
+                                            style="height: 290px;width: 150px;">
                                     </a>
                                 </div>
                                 <div class="col-4">
                                     <a href="#">
-                                        <img class="card-img img-fluid" src="/product-images/{{singleproduct._id}}2.png"
-                                            alt="Product Image 2" style="height: 150px;width: 150px;">
+                                        <img class="card-img img-fluid img-item"
+                                            src="/product-images/{{singleproduct._id}}2.png" alt="Product Image 2"
+                                            style="height: 290px;width: 150px;">
                                     </a>
                                 </div>
                                 <div class="col-4">
                                     <a href="#">
-                                        <img class="card-img img-fluid" src="/product-images/{{singleproduct._id}}3.png"
-                                            alt="Product Image 3" style="height: 150px;width: 150px;">
+                                        <img class="card-img img-fluid img-item"
+                                            src="/product-images/{{singleproduct._id}}3.png" alt="Product Image 3"
+                                            style="height: 290px;width: 150px;">
                                     </a>
                                 </div>
                             </div>
@@ -64,7 +67,7 @@
                 </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">
-                    <div class="card"  style="border: none;">
+                    <div class="card" style="border: none;">
                         <div class="card-body">
                             <h1 class="h2 text-dark">{{singleproduct.name}}</h1>
                             <p class="h3 py-2 text-dark"><strong>Rs - {{singleproduct.price}}/-</strong></p>
@@ -76,24 +79,35 @@
                                 <i class="fa fa-star text-secondary"></i>
                                 <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
                             </p>
-                            <ul class="list-inline">
+                            <ul class="list-inline" style="color: black;">
                                 <li class="list-inline-item">
                                     <h6>Avaliable Color :</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong>White / Black / Peach / Neavy Blue</strong></p>
+                                    <p class="text-muted"><strong style="color: black;">White / Black / Peach / Neavy
+                                            Blue</strong></p>
                                 </li>
                             </ul>
-                            <ul class="list-inline">
+                            <ul class="list-inline" style="color: black;">
                                 <li class="list-inline-item">
                                     <h6>Category :</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong>{{singleproduct.type}}</strong></p>
+                                    <p class="text-muted"><strong style="color: black;">{{singleproduct.type}}</strong>
+                                    </p>
                                 </li>
                             </ul>
-                            <h6>Description:</h6>
-                            <p>{{singleproduct.description}}</p>
+                            <ul class="list-inline btn">
+                                <li class="list-inline-item">
+                                    <h6 style="color: red;">In-Stock :</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong style="color: red;">{{singleproduct.stock}}</strong>
+                                    </p>
+                                </li>
+                            </ul>
+                            <h6 style="color: black;">Description:</h6>
+                            <p style="color: black;">{{singleproduct.description}}</p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6> </h6>
@@ -103,7 +117,6 @@
                             <ul class="list-unstyled pb-3 text-dark ">
                                 <li>Model Number &nbsp; - &nbsp; {{singleproduct.modelnumber}}</li>
                                 <li>Model Name &nbsp; - &nbsp; {{singleproduct.modelname}}</li>
-                                <li>Port Number &nbsp; - &nbsp; {{singleproduct.portnumber}}</li>
                                 <li>Series &nbsp; - &nbsp; {{singleproduct.series}}</li>
                                 <li>Battery Backup &nbsp; - &nbsp; {{singleproduct.batterybackup}}</li>
                                 <li>Power Supply &nbsp; - &nbsp; {{singleproduct.powersupply}}</li>
@@ -114,8 +127,7 @@
 
                             <div class="row pb-3">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn  btn-lg" name="submit"
-                                        value="buy">Buy</button>
+                                    <button type="submit" class="btn  btn-lg" name="submit" value="buy">Buy</button>
                                 </div>
                                 <div class="col d-grid">
                                     <a type="submit" onclick="addtocartconfrom('{{singleproduct._id}}')"
@@ -138,6 +150,10 @@
     <script src="/images/js/templatemo.js"></script>
     <script src="/images/js/custom.js"></script>
 
+
+
+
+
     {{!-- ajax functions --}}
     <script>
         function addtocartconfrom(prodId) {
@@ -147,7 +163,7 @@
                 success: (response) => {
                     if (response) {
                         let count = $('#cartCount').html()
-                        count = parseInt(count)+1
+                        count = parseInt(count) + 1
                         $('#cartCount').html(count)
                         Swal.fire({
                             title: "ADDED TO CART",
@@ -163,4 +179,18 @@
                 }
             })
         }
+
     </script>
+
+    <script src="/static/javascripts/productDetails.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha384-JUMjoW8OzDJw4oFpWIB2Bu/c6768ObEthBMVSiIx4ruBIEdyNSUQAjJNFqT5pnJ6"
+        crossorigin="anonymous"></script>
+        <script src="/javascripts/zoomsl.js"></script>
+        <script>
+
+        $(document).ready(function () {
+            $(".block__pic").imagezoomsl({
+                zoomrange: [3, 3]
+            });
+        });  </script>

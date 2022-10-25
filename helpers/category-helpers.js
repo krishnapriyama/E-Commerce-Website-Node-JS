@@ -2,18 +2,28 @@ var db = require('../config/connection')
 var collection = require('../config/collections')
 const { ObjectId, Admin } = require('mongodb')
 module.exports = {
-   getAllcategory:()=>{
-      return new Promise(async(resolve,reject)=>{
+   getAllcategory: () => {
+      return new Promise(async (resolve, reject) => {
          let category = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
          resolve(category)
       })
    },
    addcategory: (category) => {
-      return new Promise ((resolve,reject)=>{
-         db.get().collection(collection.CATEGORY_COLLECTION).insertOne(category).then((data) => {
-            resolve(data.insertedId)
-      }) 
+      console.log(category);
+      return new Promise(async (resolve, reject) => {
+         let cat = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ category: category})
+         console.log(cat,"dfssedf");
+         const err = "Category Already Added"
+         if (cat) {
+            reject(err)
+         } else {
+            db.get().collection(collection.CATEGORY_COLLECTION).insertOne({category}).then((data) => {
+               resolve(data.insertedId)
+            })
+
+         }
       })
+
    },
    deleteCategory: (dataId) => {
       return new Promise((resolve, reject) => {

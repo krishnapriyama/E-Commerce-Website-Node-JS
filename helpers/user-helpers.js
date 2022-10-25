@@ -4,6 +4,19 @@ const bcrypt = require('bcrypt')
 const { response } = require('../app')
 const { ObjectId, Admin } = require('mongodb')
 const { ChallengeList } = require('twilio/lib/rest/verify/v2/service/entity/challenge')
+const Razorpay = require('razorpay');
+const paypal = require('paypal-rest-sdk');
+const e = require('express')
+
+var instance = new Razorpay({
+   key_id: 'rzp_test_JqPjDeZbLpvY3e',
+   key_secret: 'J5OUnWR9Bzigj9ausIn7TC6B',
+});
+paypal.configure({
+   'mode': 'sandbox', //sandbox or live
+   'client_id': 'AbpKrkJjwekFEpH75Waps6LWMFSPw9B8zc7Txi5b9_y-p1DudBcS_-nynqqtwi1tFHcMJ6fN3uIVOLJY',
+   'client_secret': 'EG1QABR2Hqy-_oNDjL01AaeT-DjDLrZyF58rXN3WysLptKdrlvLqSeoNU6FjTWC_gVVzI5N24rM7P0iq'
+});
 
 module.exports = {
    getAllusers: () => {
@@ -35,7 +48,6 @@ module.exports = {
                   console.log(user.blocked);
                   console.log(user);
                   if (user.blocked) {
-
                      reject(blockerror)
                   } else {
                      console.log(user.blocked);
@@ -71,7 +83,6 @@ module.exports = {
                email: userDetails.email,
                place: userDetails.place,
                mobile: userDetails.mobile
-
             }
          }).then((response) => {
             resolve()
@@ -126,7 +137,6 @@ module.exports = {
    },
    getcartproducts: (userId) => {
       return new Promise(async (resolve, reject) => {
-         console.log(userId,'fukffgifg');
          let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
             {
                $match: { user: ObjectId(userId) }
@@ -161,7 +171,7 @@ module.exports = {
    },
    getcartCount: (userId) => {
       return new Promise(async (resolve, reject) => {
-         console.log(userId,"id");
+         console.log(userId, "id");
          let count = 0
          let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userId) })
          if (cart) {
@@ -279,7 +289,13 @@ module.exports = {
             delivaryDetails: {
                mobile: order.mobile,
                address: order.address,
-               pincode: order.pincode
+               pincode: order.pincode,
+               name: order.name,
+               lastname: order.lastname,
+               email: order.email,
+               country: order.country,
+               state: order.state
+
             },
             userId: ObjectId(order.userId),
             paymentMethod: order['paymentMethod'],
@@ -291,7 +307,7 @@ module.exports = {
          }
          db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
             db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectId(order.userId) })
-            resolve()
+            resolve(response.insertedId)
          })
       })
    },
@@ -329,7 +345,6 @@ module.exports = {
             }
 
          ]).toArray()
-         console.log(orderItems, "fdgdzfg");
          resolve(orderItems)
 
       })
@@ -343,12 +358,155 @@ module.exports = {
             }
          }).then((response) => {
             resolve(response)
-         }).catch((err)=>{
+         }).catch((err) => {
             console.log(err);
             reject(err)
          })
       })
+   },
+   AddNewaddress: (userId, address) => {
+      let addressobj = {
+         user: ObjectId(userId),
+         address: [{
+            name: address.name,
+            lastname: address.lastname,
+            email: address.email,
+            mobile: address.mobile,
+            address: address.address,
+            country: address.country,
+            state: address.state,
+            pincode: address.pincode
+         }]
+      }
+      return new Promise(async (resolve, reject) => {
+         db.get().collection(collection.ADDRESS_COLLECTION).insertOne(addressobj).then((data) => {
+            resolve(data)
+         })
+      })
+   },
+   findAddress: (userID) => {
+      return new Promise(async (resolve, reject) => {
+         let address1 = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: ObjectId(userID) })
+         resolve(address1)
+      })
+   },
+   addAddress: (userId, address) => {
+      let addNewaddress = {
+         name: address.name,
+         lastname: address.lastname,
+         email: address.email,
+         mobile: address.mobile,
+         address: address.address,
+         country: address.country,
+         state: address.state,
+         pincode: address.pincode
+
+      }
+      return new Promise((resolve, reject) => {
+         db.get().collection(collection.ADDRESS_COLLECTION).updateOne({ user: ObjectId(userId) }, {
+            $push: { address: addNewaddress }
+         }).then((response) => {
+            resolve(response)
+         })
+      })
+   },
+   generateRazorpay: (orderId, totalPrice) => {
+      return new Promise((resolve, reject) => {
+         var options = {
+            amount: totalPrice * 100,  // amount in the smallest currency unit
+            currency: "INR",
+            receipt: orderId.toString()
+         };
+         instance.orders.create(options, function (err, order) {
+            if (err) {
+               console.log(err);
+            } else {
+               console.log(order, "order from razorpay");
+               resolve(order)
+            }
+         })
+      })
+
+   },
+   verifyPayment: (PaymentDetials) => {
+      console.log(PaymentDetials);
+      return new Promise((resolve, reject) => {
+         var crypto = require("crypto");
+         let data = PaymentDetials['paymentdata[razorpay_order_id]'] + "|" + PaymentDetials['paymentdata[razorpay_payment_id]']
+         let hmac = crypto.createHmac('sha256', 'J5OUnWR9Bzigj9ausIn7TC6B').update(data.toString()).digest('hex')
+         console.log(" received ", PaymentDetials['paymentdata[razorpay_signature]']);
+         console.log(hmac);
+         // console.log(" generated ", expectedSignature);
+
+         if (hmac === PaymentDetials['paymentdata[razorpay_signature]']) {
+            console.log("Sucess");
+            resolve()
+         } else {
+            console.log("failed");
+            reject()
+         }
+
+
+      })
+   },
+   changePayemntStatus: (orderID) => {
+
+      return new Promise((resolve, reject) => {
+         db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderID) }, {
+            $set: {
+               status: "Placed"
+            }
+         }).then(() => {
+            resolve()
+         })
+      })
+
+   },
+   generatePaypal: (orderID, totalAmount) => {
+      parseInt(totalPrice).toFixed(2)
+      return new promises((resolve, reject) => {
+         const create_payment_json = {
+            "intent": "sale",
+            "payer": {
+               "payment_method": "paypal"
+            },
+            "redirect_urls": {
+               "return_url": "http://localhost:3000/success",
+               "cancel_url": "http://localhost:3000/cancel"
+            },
+            "transactions": [{
+               "item_list": {
+                  "items": [{
+                     "name": "list added",
+                     "sku": "001",
+                     "price": totalAmount,
+                     "currency": "USD",
+                     "quantity": 1
+                  }]
+               },
+               "amount": {
+                  "currency": "USD",
+                  "total": totalAmount
+               },
+               "description": "Hat "
+            }]
+         };
+
+         let data = paypal.payment.create(create_payment_json, function (error, payment) {
+            if (error) {
+               console.log(error, 'error ahda kuta');
+               throw error;
+            } else {
+               console.log('payment ayiiii');
+               resolve(payment)
+            }
+         })
+      })
+
+
    }
+
+
 
 }
 

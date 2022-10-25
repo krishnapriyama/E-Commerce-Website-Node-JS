@@ -1,57 +1,61 @@
-<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 
-   <div class="container">
+<div class="container">
 
-      <div class="card o-hidden border-5 shadow-lg my-5">
-         <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-               <div class="col-lg">
-                  <div class="p-5">
-                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">ADD PRODUCTS</h1>
-                     </div>
-                     <form class="user" action="/admin/addproducts" method="post" enctype="multipart/form-data">
-                        <div class="form-group row">
-                           <div class="col-sm-6 mb-3 mb-sm-3">
-                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                 placeholder="Name" name="name">
-                           </div>
-                           <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                 placeholder="Model Number" name="modelnumber">
-                           </div>
-                           <div class="col-sm-6 mb-3 mb-sm-3">
-                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                 placeholder="Port Number" name="portnumber">
-                           </div>
-                           <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                 placeholder="Model Name" name="modelname">
-                           </div>
-                           <div class="col-sm-6 mb-3 mb-sm-0">
-                              <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                 placeholder="Series" name="series">
-                           </div>
-                           <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                 placeholder="Color" name="color">
-                           </div>
+   <div class="card o-hidden border-5 shadow-lg my-5">
+      <div class="card-body p-0">
+         <!-- Nested Row within Card Body -->
+         <div class="row">
+            <div class="col-lg">
+               <div class="p-5">
+                  <div class="text-center">
+                     <h1 class="h4 text-gray-900 mb-4">ADD PRODUCTS</h1>
+                  </div>
+                  <form class="user" action="/admin/addproducts" method="post" enctype="multipart/form-data">
+                     <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                              placeholder="Name" name="name">
                         </div>
-                        <div class="form-group row">
-                           <div class="col-sm-6 mb-3 mb-sm-3">
-                              <div class="dropdown">
-                                 <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style= "height: 3rem;">
-                                    Category
-                                 </button>
-                                 <div class=" dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <ul>{{#each categories}}
-                                       
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleLastName"
+                              placeholder="Model Number" name="modelnumber">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                              placeholder="Stock" name="stock">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleLastName"
+                              placeholder="Model Name" name="modelname">
+                        </div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                              placeholder="Series" name="series">
+                        </div>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control form-control-user" id="exampleLastName"
+                              placeholder="Color" name="color">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                           <div class="dropdown">
+                              <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton"
+                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                 style="height: 3rem;">
+                                 Category
+                              </button>
+                              <div class=" dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                 <ul>{{#each categories}}
+
                                     <li>
-                                       <input type="radio" name="type" value="{{this.category}}"> {{this.category}}</li>
-                                    {{/each}}</ul>
-                                    
+                                       <input type="radio" name="type" value="{{this.category}}"> {{this.category}}
+                                    </li>
+                                    {{/each}}
+                                 </ul>
+
                               </div>
                            </div>
                         </div>
@@ -80,9 +84,21 @@
                               name="Image2">
                         </div>
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
-                              name="Image3">
+                           <input type="file" id="id_image1" name="Image3" accept="image/*" onchange="viewImage1(event)"
+                            class="form-control-user" placeholder="Image">
+
+                            <img src="" id="imgView1" alt="" style="height:100px">
+                        <div class="vald-info mb-3" id="info"></div>
+                        <h5 class="error_form text-danger" id="image1_error_message"></h5>
+                        <div style="display:flex">
+                           <div id="image-box1" class="image-container"></div>
+                           
                         </div>
+
+                        <button type="button" class="btn btn-outline-dark  ms-3" id="crop-btn1" style="display: none; margin: 1rem 1rem 1rem;">Crop</button>
+                        </div>
+         
+                        
                         <div class="col-sm-6">
                            <input type="number" class="form-control form-control-user" id="exampleRepeatPassword"
                               placeholder="Price" name="price">
@@ -91,10 +107,10 @@
                            <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
                               placeholder="Description" name="description">
                         </div>
-                  </div>
-                  {{!-- <input type="submit"> --}}
-                  <input type="submit" class="btn btn-user btn-block" style="background-color: #FB641B;color:white ;">
-                  </a>
+                     </div>
+                     {{!-- <input type="submit"> --}}
+                     <input type="submit" class="btn btn-user btn-block btn-dark">
+                     </a>
                   </form>
                </div>
             </div>
@@ -102,4 +118,72 @@
       </div>
    </div>
 
-   </div>
+</div>
+
+
+<script>
+
+   /* --------------------------------- image 1 -------------------------------- */
+   const imagebox1 = document.getElementById('image-box1')
+   const crop_btn1 = document.getElementById('crop-btn1')
+   const input1 = document.getElementById('id_image1')
+   function viewImage1(event) {
+      var fileInput1 = document.getElementById('id_image1');
+      var filePath1 = fileInput1.value;
+      var allowedExtensions = /(\.jpg|)$/i;
+      if (!allowedExtensions.exec(filePath1)) {
+         fileInput1.value = '';
+         swal("There is a problem!", "Please choose image file.");
+         return false;
+      } else {
+         document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+      }
+   }
+   // When user uploads the image this event will get triggered
+   input1.addEventListener('change', () => {
+      // Getting image file object from the input variable
+      const img_data1 = input1.files[0]
+      // createObjectURL() static method creates a DOMString containing a URL representing the object given in the parameter.
+      // The new object URL represents the specified File object or Blob object.
+      const url1 = URL.createObjectURL(img_data1)
+      // Creating a image tag inside imagebox which will hold the cropping view image(uploaded file) to it using the url created before.
+      imagebox1.innerHTML = `<img src="${url1}" id="image1" style="width:100%;">`
+      // Storing that cropping view image in a variable
+      const image = document.getElementById('image')
+      // Displaying the image box
+      document.getElementById('image-box1').style.display = 'block'
+      // Displaying the Crop buttton
+      document.getElementById('crop-btn1').style.display = 'block'
+      // Hiding the Post button
+      const cropper1 = new Cropper(image1, {
+         autoCropArea: 1,
+         viewMode: 1,
+         scalable: false,
+         zoomable: false,
+         movable: false,
+         minCropBoxWidth: 50,
+         minCropBoxHeight: 50,
+      })
+      // When crop button is clicked this event will get triggered
+      crop_btn1.addEventListener('click', () => {
+         // This method coverts the selected cropped image on the cropper canvas into a blob object
+         cropper1.getCroppedCanvas().toBlob((blob) => {
+            // Gets the original image data
+            let fileInputElement1 = document.getElementById('id_image1');
+            // Make a new cropped image file using that blob object, image_data.name will make the new file name same as original image
+            let file1 = new File([blob], img_data1.name, { type: "image/*", lastModified: new Date().getTime() });
+            // Create a new container
+            let container1 = new DataTransfer();
+            // Add the cropped image file to the container
+            container1.items.add(file1);
+            // Replace the original image file with the new cropped image file
+            fileInputElement1.files = container1.files;
+            document.getElementById('imgView1').src = URL.createObjectURL(fileInputElement1.files[0])
+            // Hide the cropper box
+            document.getElementById('image-box1').style.display = 'none'
+            // Hide the crop button
+            document.getElementById('crop-btn1').style.display = 'none'
+         })
+      })
+   })
+</script>

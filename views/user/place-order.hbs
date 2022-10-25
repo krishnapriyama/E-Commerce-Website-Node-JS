@@ -42,7 +42,7 @@
                     <div class="col-md-6 mb-3">
                         <input type="text" name="userId" value="{{user._id}}" hidden>
                         <label for="firstName">First name</label>
-                        <input type="text" name="firstname" class="form-control" id="firstName" placeholder="" value=""
+                        <input type="text" name="name" class="form-control" id="firstName" placeholder="" value=""
                             required="">
                         <div class="invalid-feedback"> Valid first name is required. </div>
                     </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="address">Mobile Number</label>
-                    <input type="text" name="mobile" class="form-control" id="mobilenumber" placeholder="0000000000"
+                    <input type="text" name="mobile" class="form-control" id="mobile" placeholder="0000000000"
                         required="">
                     <div class="invalid-feedback"> Please enter your shipping address. </div>
                 </div>
@@ -78,81 +78,78 @@
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="country">Country</label>
-                        <select class="custom-select d-block w-100" name="country" id="country" required="">
+                        <select class="custom-select d-block w-100" name="country" id="country">
                             <option value="">Choose...</option>
-                            <option>United States</option>
+                            <option id="country">United States</option>
                         </select>
                         <div class="invalid-feedback"> Please select a valid country. </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="state">State</label>
-                        <select class="custom-select d-block w-100" name="state" id="state" required="">
+                        <select class="custom-select d-block w-100" name="state" id="state">
                             <option value="">Choose...</option>
-                            <option>California</option>
+                            <option id="state">California</option>
                         </select>
                         <div class="invalid-feedback"> Please provide a valid state. </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="zip">Zip</label>
-                        <input type="text" class="form-control" id="zip" placeholder="" name="pincode" required="">
+                        <input type="text" class="form-control" id="pincode" placeholder="" name="pincode">
                         <div class="invalid-feedback"> Zip code required. </div>
                     </div>
                 </div>
                 <hr class="mb-4">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="same-address">
-                    <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
-                        address</label>
+                <div class="custom-control custom-checkbox text-center">
+                    {{#each address.address}}
+                    <p>
+                        <input type="radio" class="text-center" value="`{{this.name}}{{this.lastname}}`,
+									`{{this.email}}`,`{{this.mobile}}`,`{{this.address}}`,`{{this.country}}`,`{{this.state}}`,`{{pincode}}`"
+                            name="Saved_address" id="{{@index}}"
+                            onclick="selectAddress('{{this.name}}','{{this.lastname}}','{{this.email}}','{{this.mobile}}','{{this.address}}','{{this.country}}','{{this.state}}','{{this.pincode}}')">
+                        <label for="{{@index}}">
+                            {{this.name}}{{this.lastname}},
+                            {{this.email}},{{this.mobile}}<br>
+                            {{this.address}},{{this.country}},{{this.state}},{{this.pincode}}
+                        </label>
+                        <br>
+                    </p>
+                    {{/each}}
                 </div>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="save-info">
-                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
-                </div>
+
                 <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
                 <div class="d-block my-3">
-                    <div class="custom-control custom-radio">
-                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" value="cod"
-                            checked>
-                        <label class="custom-control-label" for="credit">Cash On Delivery (COD)</label>
+                    <div class="form-check">
+                        <input id="credit" name="paymentMethod" type="radio" value="cod" class="form-check-input"
+                            required>
+                        <label class="form-check-label" for="credit">Cash on Delivery</label>
                     </div>
-                    {{!-- <div class="custom-control custom-radio">
-                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input">
-                        <label class="custom-control-label" for="debit">Debit card</label>
+                    <div class="form-check">
+                        <input id="debit" name="paymentMethod" type="radio" value="razorpay" class="form-check-input"
+                            required>
+                        <label class="form-check-label" for="debit">razorpay</label>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input">
-                        <label class="custom-control-label" for="paypal">PayPal</label>
-                    </div> --}}
+                    <div class="form-check">
+                        <input id="paypal" name="paymentMethod" type="radio" onclick="displayPaypal()" value="PayPal"
+                            class="form-check-input" required>
+                        <label class="form-check-label" for="paypal">PayPal</label>
+                    </div>
+                    <div id="placeorder"></div>
                 </div>
-                {{!-- <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="cc-name">Name on card</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                        <small class="text-muted">Full name as displayed on card</small>
-                        <div class="invalid-feedback"> Name on card is required </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="cc-number">Credit card number</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                        <div class="invalid-feedback"> Credit card number is required </div>
-                    </div>
+
+                <script src="/javascripts/paypal.js"></script>
+                <hr class="my-4">
+                <!-- Replace "test" with your own sandbox Business account app client ID -->
+                <script
+                    src="https://www.paypal.com/sdk/js?client-id=ASVAT4RqsGB4WwcfuVT2NpKbt0seSFXUW3ic6R5K0oevO6WKB0XoYeWBiwXA75DRi0HvBH_XBQd94qZb&currency=USD"
+                    data-namespace="paypal_sdk"></script>
+
+                <!-- Set up a container element for the button -->
+                <div id="paypal-button-container" hidden class="clr"></div>
+                <div id="checkout-button" class="clr">
+                    <button class="w-100 btn btn-primary btn-lg" id="checkoutSubmit" type="submit">Continue
+                        to checkout</button>
                 </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                        <div class="invalid-feedback"> Expiration date required </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-cvv">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                        <div class="invalid-feedback"> Security code required </div>
-                    </div>
-                </div> --}}
-                <hr class="mb-4">
-                <button type="submit" class="btn btn-lg btn-block text-white" style="background: #FF6700;"
-                    type="submit">Continue to checkout</button>
             </form>
         </div>
     </div>
@@ -189,10 +186,106 @@
             method: 'post',
             data: $('#checkout-form').serialize(),
             success: (response) => {
-                if(response.status){
-                    location.href='/order-success'
+                if (response.cod_success) {
+                    location.href = '/order-success'
+                } else {
+                    razorpayPayment(response)
                 }
             }
         })
     })
+
+    function selectAddress(name, lastname, email, mobile, address, country, state, pincode) {
+
+        document.getElementById('firstName').value = name
+        document.getElementById('lastName').value = lastname
+        document.getElementById('email').value = email
+        document.getElementById('address').value = address
+        document.getElementById('mobile').value = mobile
+        document.getElementById('country').value = country
+        document.getElementById('state').value = state
+        document.getElementById('pincode').value = pincode
+    }
+    function razorpayPayment(order) {
+        var options = {
+            "key": "rzp_test_JqPjDeZbLpvY3e", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Phono-Mart",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+                verifyPayment(response, order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+
+    function verifyPayment(paymentdata, order) {
+        $.ajax({
+            url: '/verify-payment',
+            data: {
+                paymentdata,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.href = '/order-success'
+                } else {
+                    alert('Payment Failed')
+                }
+            }
+        })
+    }
+
+
+
+
+    function displayPaypal() {
+        let list1 = document.getElementById("checkoutSubmit").hidden = true
+        let list2 = document.getElementById("paypal-button-container").hidden = false
+
+
+    }
+    paypal_sdk.Buttons({
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: {{total}}  // Can also reference a variable or function
+                    }
+                }]
+            });
+        },
+
+
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function (orderData) {
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                $(document).ready(function () {
+                    $("#placeorder").trigger("click");
+                })
+            });
+        }
+    }).render('#paypal-button-container');
+
+
+
 </script>

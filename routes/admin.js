@@ -49,7 +49,6 @@ router.get('/viewproducts', function (req, res, next) {
   productHelpers.getAllProducts().then((products) => {
     //console.log(products,'productlist from database');
     res.render('admin/viewproducts', { admin: true, products });
-    console.log(products);
   })
 });
 
@@ -96,12 +95,15 @@ router.post("/addusers", function (req, res, next) {
 
 router.get('/addcategories', function (req, res, next) {
   res.render('admin/addcategories', { admin: true });
-});
+})
 router.post("/addcategories", function (req, res, next) {
   //console.log(req.body);
-  categoryHelpers.addcategory(req.body).then((response) => {
+  let { category } = req.body
+  categoryHelpers.addcategory(category).then((response) => {
     res.render("admin/addcategories", { admin: true });
-  });
+  }).catch((err) => {
+    res.render("admin/addcategories", { admin: true, err });
+  })
 });
 
 
@@ -114,6 +116,7 @@ router.get('/viewcategories', function (req, res, next) {
 
 
 router.get('/editusers/:id', (req, res, next) => {
+  console.log("edit uders");
   try {
     var Userid = req.params.id;
     userHelpers.editUsers(Userid).then((userData) => {
@@ -127,7 +130,7 @@ router.post("/editusers/:id", (req, res,) => {
   try {
     let dataId = req.params.id
     userHelpers.updateUser(dataId, req.body).then((response) => {
-      res.redirect("/admin/viewusers");
+      res.json({ status: true })
     })
   } catch (err) {
     console.log(err, 'error happened in edit usr post');
@@ -164,7 +167,7 @@ router.post("/editproducts/:id", (req, res,) => {
   try {
     let dataId = req.params.id
     productHelpers.updateProducts(dataId, req.body).then((response) => {
-      res.redirect("/admin/viewproducts");
+      res.json({ status: true });
     })
   } catch (err) {
     console.log(err, 'error happened in edit usr post');
@@ -192,8 +195,10 @@ router.get('/editcategory/:id', (req, res, next) => {
 router.post("/editcategory/:id", (req, res,) => {
   try {
     let dataId = req.params.id
+    console.log(dataId);
+    console.log(req.body, "vfsdgh");
     categoryHelpers.updateCategory(dataId, req.body).then((response) => {
-      res.redirect("/admin/viewcategories");
+      res.json({ status: true })
     })
   } catch (err) {
     console.log(err, 'error happened in edit usr post');
@@ -217,5 +222,41 @@ router.get('/Unblock_user/:id', (req, res, next) => {
   userHelpers.unblockUser(req.params.id).then((response) => {
     res.redirect("/admin/viewusers");
   })
+})
+
+router.get('/chartWeek', (req, res, next) => {
+  adminHelpers.weekOrderCount().then((value) => {
+    res.json(value)
+  }).catch((err) => {
+    res.json(err)
+  })
+})
+
+router.get('/chartMonth', (req, res, next) => {
+  adminHelpers.MonthOrderCount().then((value) => {
+    res.json(value)
+  }).catch((err) => {
+    res.json(err)
+  })
+})
+
+router.get('/chartYear', (req, res, next) => {
+  adminHelpers.YearOrderCount().then((value) => {
+    res.json(value)
+  }).catch((err) => {
+    res.json(err)
+  })
+})
+
+router.get('/vieworders', (req, res) => {
+  adminHelpers.getallUserOrders().then((orders) => {
+    res.render('admin/vieworders', { admin: true, orders })
+  })
+})
+
+router.get('/orderdetail/:id', (req, res) => {
+ adminHelpers.getOrderProducts(req.params.id).then((products)=>{
+  res.render('admin/orderdetails-admin', { admin: true, products })
+ })
 })
 module.exports = router;

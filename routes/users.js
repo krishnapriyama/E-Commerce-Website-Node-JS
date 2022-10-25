@@ -6,10 +6,15 @@ var router = express.Router();
 // const accountSID = 'AC674a3db162fadea27864cc9da3b8120b'
 // const authtoken = '645976ce65e3d8d6a0f127d92c647981'
 const serverSID = 'VA0487c8ae3c95e1685cc4fcea045087ab'
-const accountSID = 'AC472499e6d3525bca27a343dd80624fa4'
+const accountSID = 'AC472499e6d3525bca27aa343dd80624fa4'
 const authtoken = '073127a1c7ba79c78a86978916dde2d7'
 const client = require('twilio')(accountSID, authtoken)
-
+const Handlebars = require('handlebars');
+var paypal = require('paypal-rest-sdk');
+const { response } = require('../app');
+Handlebars.registerHelper("inc", function (value, options) {
+  return parseInt(value) + 1;
+});
 const verifylogin = (req, res, next) => {
   if (req.session.user) {
     next()
@@ -154,7 +159,6 @@ router.post('/change-product-quantity', (req, res, next) => {
   console.log(req.body, "body of change product quantity");
   userHelpers.changeproductquantity(req.body).then(async (response) => {
     response.total = await userHelpers.getTotalamount(req.body.user)
-    console.log(response.total, "tjhjhgjhg");
     res.json(response)
   })
 })
@@ -163,9 +167,10 @@ router.get('/place-order', verifylogin, async (req, res) => {
   let total = await userHelpers.getTotalamount(req.session.user._id)
   let cartCount = await userHelpers.getcartCount(req.session.user._id)
   let products = await userHelpers.getcartproducts(req.session.user._id)
+  let address = await userHelpers.findAddress(req.session.user._id)
   console.log(products);
   let user = req.session.user
-  res.render('user/place-order', { user, total, cartCount, products })
+  res.render('user/place-order', { user, total, cartCount, products, address })
 })
 
 router.post('/removeCartProduct', (req, res, next) => {
@@ -177,8 +182,14 @@ router.post('/removeCartProduct', (req, res, next) => {
 router.post('/place-order', async (req, res) => {
   let products = await userHelpers.getCartProductlist(req.body.userId)
   let totalPrice = await userHelpers.getTotalamount(req.body.userId)
-  userHelpers.placeOrder(req.body, products, totalPrice).then((response) => {
-    res.json({ status: true })
+  userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
+    if (req.body['paymentMethod'] == 'cod') {
+      res.json({ cod_success: true })
+    } else {
+      userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
+        res.json(response)
+      })
+    }
   })
   //console.log(req.body);
 })
@@ -189,15 +200,24 @@ router.get('/order-success', (req, res) => {
 })
 
 
-router.get('/profile', (req, res) => {
+router.get('/profile', verifylogin, async (req, res) => {
   let user = req.session.user
-  res.render('user/profile', { user })
+  let cartCount = await userHelpers.getcartCount(req.session.user._id)
+  let address = await userHelpers.findAddress(req.session.user._id)
+  console.log(req.session.user._id, "idddddd");
+  if (address) {
+    console.log(address);
+    res.render('user/profile', { user, cartCount, address })
+  } else {
+    res.render('user/profile', { user, cartCount })
+  }
 })
+
 
 router.get('/cancel-order/:id', (req, res) => {
   let orderid = req.params.id
-  userHelpers.cancel_order(orderid).then((response)=>{
-res.json(true)
+  userHelpers.cancel_order(orderid).then((response) => {
+    res.json(true)
   })
 })
 
@@ -207,11 +227,47 @@ router.get('/orders', verifylogin, async (req, res, next) => {
   res.render('user/order', { user, orders })
 })
 
-router.get('/orderdetails/:id',verifylogin, async(req, res) => {
+router.get('/orderdetails/:id', verifylogin, async (req, res) => {
   let user = req.session.user
   let products = await userHelpers.getOrderProducts(req.params.id)
-  res.render('user/orderdetails', { user ,products})
+  res.render('user/orderdetails', { user, products })
 })
 
+router.get('/address', verifylogin, function (req, res, next) {
+  let user = req.session.user
+  res.render('user/address', { user });
+});
+
+router.post('/address', async (req, res, next) => {
+  let addexist = await userHelpers.findAddress(req.session.user._id).catch((err) => {
+    console.log(err);
+  })
+  console.log(addexist + 'jgjg');
+  if (addexist) {
+    userHelpers.addAddress(req.session.user._id, req.body).then((response) => {
+      res.redirect('/profile')
+    })
+  } else {
+    userHelpers.AddNewaddress(req.session.user._id, req.body).then((response) => {
+      console.log(req.body, "address");
+      console.log(req.session.user._id);
+      res.redirect('/profile')
+    })
+  }
+})
+
+
+
+router.post('/verify-payment',(req,res)=>{
+  console.log(req.body,"body-verify")
+  userHelpers.verifyPayment(req.body).then(()=>{
+    userHelpers.changePayemntStatus(req.body['order[receipt]']).then(()=>{
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log(err,"Error");
+    res.json({status:false})
+  })
+})
 
 module.exports = router;

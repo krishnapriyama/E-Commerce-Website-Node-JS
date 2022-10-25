@@ -22,7 +22,7 @@
                <th scope="row">{{inc @index}}</th>
                <td>{{this.category}}</td>
                <td>
-                  <a href="/admin/deletecategory/{{this._id}}" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</a>
+                  <button onclick="deletecategory('{{this._id}}')" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
                   <a href="/admin/editcategory/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;" class="btn">EDIT</a>
                </td>
             </tr>
@@ -31,3 +31,36 @@
       </table>
    </div>
 </section>
+<script>
+   function deletecategory(catId) {
+      $.ajax({
+         url: `/admin/deletecategory/${catId}`,
+         method: "get",
+         success: (response) => {
+            if (response) {
+               Swal.fire({
+                  title: "DELETED USER",
+                  text: "CONFORM!",
+                  icon: "success",
+                  buttonsStyling: false,
+                  confirmButtonText: "Yes Conform",
+                  customClass: {
+                     confirmButton: "btn btn-primary"
+                  }
+               }).then(() => {
+                  location.reload()
+               });
+            }
+         }
+      })
+   }
+
+   $(document).ready(function() {
+    $('#mytbl').DataTable( {
+        dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+</script>

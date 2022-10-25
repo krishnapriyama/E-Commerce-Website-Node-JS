@@ -3,9 +3,21 @@ var collection = require('../config/collections')
 const { ObjectId, Admin } = require('mongodb')
 module.exports = {
    addProduct: (product, callback) => {
-  
-      db.get().collection('product').insertOne(product).then((data) => {
-         //console.log(data.insertedId, 'id of product image')
+     let products = {
+         name:product.name,
+         modelnumber:product.modelnumber,
+         stock:product.stock,
+         modelname:product.modelname,
+         series:product.series,
+         color:product.color,
+         type:product.type,
+         batterybackup:product.batterybackup,
+         suitablefor:product.suitablefor,
+         powersupply:product.powersupply,
+         price:Number(product.price),
+         description:product.description
+      }
+      db.get().collection('product').insertOne(products).then((data) => {
          callback(data.insertedId)
       })
    },
@@ -41,8 +53,7 @@ module.exports = {
             $set: {
                name: productDetails.name,
                modelnumber: productDetails.modelnumber,
-               portnumber: productDetails.portnumber,
-               portnumber: productDetails.portnumber,
+               stock: productDetails.stock,
                modelname: productDetails.modelname,
                series: productDetails.series,
                color: productDetails.color,
