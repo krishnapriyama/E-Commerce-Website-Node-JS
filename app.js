@@ -22,17 +22,39 @@ app.engine(
     extname: "hbs",
     defaultLayout: "layout",
     layoutsDir: __dirname + "/views/layout/",
-    partialsDir: __dirname + "/views/partials/"
+    partialsDir: __dirname + "/views/partials/",
+    helpers: {
+      // Function to do basic mathematical operation in handlebar
+      math: function (lvalue, operator, rvalue) {
+        lvalue = parseFloat(lvalue);
+        rvalue = parseFloat(rvalue);
+        return {
+          "+": lvalue + rvalue,
+          "-": lvalue - rvalue,
+          "*": lvalue * rvalue,
+          "/": lvalue / rvalue,
+          "%": lvalue % rvalue
+        }[operator];
+      },
+      stringCompare: function (value1, value2) {
+        if (value1 == value2) {
+          return true
+        }
+        else {
+          return false
+        }
+      }
+    }
   })
 );
 
 
 app.use(session({
-  secret:"Key", 
-  resave:false,
-  saveUninitialized:true
-  
-}) )
+  secret: "Key",
+  resave: false,
+  saveUninitialized: true
+
+}))
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store')
   next()
@@ -66,7 +88,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error',{errorstatus:true});
 });
 
 module.exports = app;

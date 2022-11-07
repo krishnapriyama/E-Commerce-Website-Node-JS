@@ -1,29 +1,38 @@
-<section>
+<section style="width: 100%;">
    <center>
-<h3 class="mt-5">
-      LIST OF USERS
-   </h3>
+      <h3 class="mt-5">
+         LIST OF USERS
+      </h3>
    </center>
-   <div class="container ml-5" style="width: 75rem;">
-   <div>
-      <a href="/admin/addcategories" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD CATEGORY</a>
-   </div>
-      <table class="table mt-5" id="mytbl">
-         <thead>
+   <div class="p-5">
+      <div>
+         <a href="/admin/addcategories" class="btn float-right mb-5"
+            style="background-color: #FB641B; color: white;">ADD CATEGORY</a>
+      </div>
+      <table class="table mt-5 align-middle text-center table-bordered" id="mytbl">
+         <thead class="text-center">
             <tr>
-               <th scope="col">Sl.No</th>
-               <th scope="col">Category</th>
-                <th scope="col">Status</th>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Category</th>
+               <th class="text-center">Offer %</th>
+               <th class="text-center">Date</th>
+               <th class="text-center">Image</th>
+               <th class="text-center">Status</th>
             </tr>
          </thead>
-         <tbody>
+         <tbody class="text-center">
             {{#each category}}
             <tr>
-               <th scope="row">{{inc @index}}</th>
+               <th>{{inc @index}}</th>
                <td>{{this.category}}</td>
+               <td>{{this.offer}}</td>
+               <td>{{this.data}}</td>
+               <td><img style="width:60px; height:100px;" src="/category-images/{{this._id}}.png" alt=""></td>
                <td>
-                  <button onclick="deletecategory('{{this._id}}')" style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
-                  <a href="/admin/editcategory/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;" class="btn">EDIT</a>
+                  <button onclick="deletecategory('{{this._id}}')"
+                     style="width:90px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
+                  <a href="/admin/editcategory/{{this._id}}" style="width:70px; background-color: #FB641B;color: white;"
+                     class="btn">EDIT</a>
                </td>
             </tr>
             {{/each}}
@@ -31,6 +40,9 @@
       </table>
    </div>
 </section>
+
+
+{{!-- ajax function --}}
 <script>
    function deletecategory(catId) {
       $.ajax({
@@ -38,16 +50,7 @@
          method: "get",
          success: (response) => {
             if (response) {
-               Swal.fire({
-                  title: "DELETED USER",
-                  text: "CONFORM!",
-                  icon: "success",
-                  buttonsStyling: false,
-                  confirmButtonText: "Yes Conform",
-                  customClass: {
-                     confirmButton: "btn btn-primary"
-                  }
-               }).then(() => {
+               Swal.fire('Category Deleted').then(() => {
                   location.reload()
                });
             }
@@ -55,12 +58,13 @@
       })
    }
 
-   $(document).ready(function() {
-    $('#mytbl').DataTable( {
-        dom: 'Bfrtip',
+
+   $(document).ready(function () {
+      $('#mytbl').DataTable({
+         dom: 'Bfrtip',
          buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-} );
+         ]
+      });
+   });
 </script>

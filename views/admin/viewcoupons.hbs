@@ -1,0 +1,115 @@
+<section style="width: 100%;">
+   <center>
+      <h3 class="mt-5">
+         LIST OF COUPONS
+      </h3>
+   </center>
+   <div class="p-5">
+      <div>
+         <a href="/admin/addcoupons" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD
+            COUPONS</a>
+      </div>
+      <table class="table table-bordered mt-5" id="mytbl">
+         <thead>
+            <tr>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Coupon Name</th>
+               <th class="text-center">Discount Amount in Rs/-</th>
+               <th class="text-center">Date </th>
+               <th class="text-center">Status</th>
+               <th class="text-center">Active Status</th>
+
+            </tr>
+         </thead>
+         <tbody>
+            {{#each coupons}}
+            <tr class="text-center">
+               <th scope="row">{{inc @index}}</th>
+               <td>{{this.coupon}}</td>
+               <td>{{this.offeramount}}</td>
+               <td>{{this.data}}</td>
+               <td>
+                  <button onclick="deletecoupon('{{this._id}}')"
+                     style="width:90px; background-color: #FB641B; color: white;" class="btn">DELETE</button>
+                  <a href="/admin/editcoupon/{{this._id}}" style="width:70px; background-color: #FB641B; color: white;"
+                     class="btn">EDIT</a> <br>
+               </td>
+               {{#if this.isActive}}
+               <td scope="row" style="width:5rem ;">
+                  <div class="form-check form-switch">
+                     <input type="checkbox" class="form-check-input"  id="{{this._id}}"
+                        onclick="activeStatus('{{this._id}}')" checked>
+                  </div>
+               </td>
+               {{else}}
+               <td scope="row" style="width:5rem ;">
+                  <div class="form-check form-switch">
+                     <input type="checkbox" class="form-check-input" id="{{this._id}}"
+                        onclick="activeStatus('{{this._id}}')">
+                  </div>
+               </td>
+               {{/if}}
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+</section>
+
+<script>
+   function deletecoupon(couponId) {
+      $.ajax({
+         url: `/admin/deletecoupon/${couponId}`,
+         method: "get",
+         success: (response) => {
+            if (response) {
+               Swal.fire({
+                  title: "DELETE COUPON",
+                  text: "CONFORM!",
+                  icon: "success",
+                  buttonsStyling: false,
+                  confirmButtonText: "Yes Conform",
+                  customClass: {
+                     confirmButton: "btn btn-primary"
+                  }
+               }).then(() => {
+                  location.reload()
+               });
+            }
+         }
+      })
+   }
+
+function activeStatus(id) {
+      let activeStatus = document.getElementById(id)
+      if (activeStatus.checked == true) {
+         $.ajax({
+            url: `/admin/CouponactiveTrue/${id}`,
+            method: 'get',
+            success: (response) => {
+               Swal.fire('Coupon InActive')
+            }
+
+         })
+      } else if (activeStatus.checked == false) {
+         $.ajax({
+            url: `/admin/CouponactiveFalse/${id}`,
+            method: 'get',
+            success: (response) => {
+               Swal.fire('Coupon Active')
+            }
+         })
+      }
+   }
+
+
+
+  $(document).ready(function() {
+    $('#mytbl').DataTable( {
+        dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+</script>

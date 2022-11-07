@@ -6,6 +6,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
+  {{!-- links for template --}}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
   <link rel="stylesheet" href="/fonts/icomoon/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -18,29 +20,35 @@
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
   <link rel="stylesheet" href="/stylesheets/aos.css">
-
   <link rel="stylesheet" href="/stylesheets/style.css">
+  {{!-- end link --}}
 
 
+  {{!-- Payment Integeration --}}
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script
     src="https://www.paypal.com/sdk/js?client-id=ASVAT4RqsGB4WwcfuVT2NpKbt0seSFXUW3ic6R5K0oevO6WKB0XoYeWBiwXA75DRi0HvBH_XBQd94qZb&currency=USD"
     data-namespace="paypal_sdk"></script>
+  {{!-- end --}}
 
 
-
-  {{!--
-  <script src="/javascripts/jquery-3.3.1.min.js"></script> --}}
-  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
-    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    
+  {{!-- Preloader --}}
   <script src="https://code.jquery.com/jquery-3.6.1.slim.js"
     integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script>
   <script src="/javascripts/Preloader.js"></script>
+  {{!-- end --}}
+
+
+  {{!-- imageZoom --}}
+  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" rel="stylesheet"
+    type="text/css">
+  <link rel="stylesheet" href="/stylesheets/jqZoom.css" type="text/css" />
+  {{!-- end --}}
 </head>
+
+
 
 <body>
   <!-- Page Preloder -->
@@ -82,7 +90,7 @@
                   <li><a href="/login"><span class='fa fa-user-tag' style="text-decoration: none;"></span></a></li>
                   {{/if}}
 
-                  <li><a href="#"><span class='fa fa-heart-o'></span></a></li>
+                  <li><a href="/wishlist"><span class='fa fa-heart-o'></span></a></li>
 
                   <li>
                     {{#if user}}
@@ -119,11 +127,11 @@
               {{/if}}
             </li>
             <li class="has-children">
-              <a href="about.html">About <i class="fa fa-caret-down"></i></a>
+              <a>About <i class="fa fa-caret-down"></i></a>
               <ul class="dropdown">
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/orders">Orders</a></li>
-                <li><a href="/coupons">Coupons</a></li>
+                <li><a href="/viewcoupons">Coupons</a></li>
               </ul>
             </li>
             <li><a href="/viewproducts">Shop</a></li>

@@ -1,0 +1,130 @@
+<style>
+   body{
+      color: black;
+   }
+</style>
+
+<section style="width: 100%;">
+   <h3 class="mt-5 text-center">
+         SALES REPORT
+      </h3>
+   <center>
+      <h3 class="mt-5">
+         CATEGORY REPORT
+      </h3>
+   </center>
+   <div class="p-5">
+      <table class="table table-bordered text-center" id="tbl1">
+         <thead>
+            <tr>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Category</th>
+               <th class="text-center">Amount</th>
+               <th class="text-center">Count</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each catwise}}
+            <tr>
+               <th scope="row">{{inc @index}}</th>
+               <td>{{this._id}}</td>
+               <td>{{this.Total}}</td>
+               <td>{{this.count}}</td>
+            </tr>  
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+
+    <center>
+      <h3 class="mt-5">
+         PRODUCT REPORT
+      </h3>
+   </center>
+   <div class="p-5">
+
+      <table class="table table-bordered text-center" id="tbl2">
+         <thead>
+            <tr>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Product</th>
+               <th class="text-center">Count</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each productwise}}
+            <tr>
+               <th scope="row">{{inc @index}}</th>
+               <td>{{this._id}}</td>
+               <td>{{this.count}}</td>
+            </tr>
+            {{/each}}
+         </tbody>
+         {{!-- {{/each}} --}}
+
+      </table>
+
+   </div>
+
+   
+    <center>
+      <h3 class="mt-5">
+         STATUS REPORT
+      </h3>
+   </center>
+   <div class="p-5">
+
+      <table class="table table-bordered text-center" id="tbl3">
+         <thead>
+            <tr>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Status</th>
+               <th class="text-center">Product</th>
+               <th class="text-center">Count</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each statuswise}}
+            <tr>
+               <th scope="row">{{inc @index}}</th>
+               <td style="text-transform: uppercase;">{{this._id.status}}</td>
+               <td>{{this._id.product}}</td>
+               <td>{{this.count}}</td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+</section>
+
+<script>
+   $(document).ready(function () {
+      $('#tbl1').DataTable({
+         dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+         ]
+      });
+   });
+</script>
+<script>
+   $(document).ready(function () {
+      $('#tbl2').DataTable({
+         dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+         ]
+      });
+   });
+</script>
+<script>
+   $(document).ready(function () {
+      $('#tbl3').DataTable({
+         dom: 'Bfrtip',
+         buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+         ]
+      });
+   });
+</script>

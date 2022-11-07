@@ -120,12 +120,12 @@
                 <h4 class="mb-3">Payment</h4>
                 <div class="d-block my-3">
                     <div class="form-check">
-                        <input id="credit" name="paymentMethod" type="radio" value="cod" class="form-check-input"
+                        <input id="credit" name="paymentMethod" onclick="displayCOD()" type="radio" value="cod" class="form-check-input"
                             required>
                         <label class="form-check-label" for="credit">Cash on Delivery</label>
                     </div>
                     <div class="form-check">
-                        <input id="debit" name="paymentMethod" type="radio" value="razorpay" class="form-check-input"
+                        <input id="debit" name="paymentMethod" onclick="displayRazorpay()" type="radio" value="razorpay" class="form-check-input"
                             required>
                         <label class="form-check-label" for="debit">razorpay</label>
                     </div>
@@ -147,7 +147,7 @@
                 <!-- Set up a container element for the button -->
                 <div id="paypal-button-container" hidden class="clr"></div>
                 <div id="checkout-button" class="clr">
-                    <button class="w-100 btn btn-primary btn-lg" id="checkoutSubmit" type="submit">Continue
+                    <button class="w-100 btn btn-primary btn-lg" id="checkoutSubmit" hidden type="submit">Continue
                         to checkout</button>
                 </div>
             </form>
@@ -188,8 +188,10 @@
             success: (response) => {
                 if (response.cod_success) {
                     location.href = '/order-success'
-                } else {
+                } else if(response.RazorPay_success) {
                     razorpayPayment(response)
+                }else if(response.Paypal_success){
+                    location.href = '/order-success'
                 }
             }
         })
@@ -261,6 +263,22 @@
 
 
     }
+
+     function displayCOD() {
+        let list1 = document.getElementById("checkoutSubmit").hidden = false
+        let list2 = document.getElementById("paypal-button-container").hidden = true
+
+
+    }
+
+     function displayRazorpay() {
+        let list1 = document.getElementById("checkoutSubmit").hidden = false
+        let list2 = document.getElementById("paypal-button-container").hidden = true
+
+
+    }
+
+
     paypal_sdk.Buttons({
         // Sets up the transaction when a payment button is clicked
         createOrder: (data, actions) => {
@@ -278,9 +296,9 @@
             return actions.order.capture().then(function (orderData) {
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                 const transaction = orderData.purchase_units[0].payments.captures[0];
-                alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
                 $(document).ready(function () {
-                    $("#placeorder").trigger("click");
+                    $("#checkoutSubmit").trigger("click");
                 })
             });
         }

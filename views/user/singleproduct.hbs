@@ -4,6 +4,9 @@
     }
 </style>
 
+{{!-- image zoom cdn --}}
+<script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+
 <body>
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" style="background-color: white;"
@@ -30,8 +33,8 @@
         <div class="container pb-5">
             <div class="row">
                 <div class="col-lg-5 mt-5">
-                    <div class="card mb-3" style="border: none;">
-                        <img class="card-img img-fluid mx-auto block__pic" src="/product-images/{{singleproduct._id}}.png"
+                    <div class="card mb-3 example" style="border: none; z-index: 1;" id="img-container">
+                        <img class="card-img mx-auto" src="/product-images/{{singleproduct._id}}.png"
                             alt="Card image cap" id="product-detail" style="height: 600px;width:300px;">
                     </div>
                     <div class="row d-flex align-items-center justify-content-center">
@@ -66,74 +69,93 @@
                     </div>
                 </div>
                 <!-- col end -->
-                <div class="col-lg-7 mt-5">
+                <div class="col-lg-7 mt-5" style="z-index:auto;">
                     <div class="card" style="border: none;">
                         <div class="card-body">
                             <h1 class="h2 text-dark">{{singleproduct.name}}</h1>
-                            <p class="h3 py-2 text-dark"><strong>Rs - {{singleproduct.price}}/-</strong></p>
-                            <p class="py-2">
-                                <i class="fa fa-star text-warning"></i>
-                                <i class="fa fa-star text-warning"></i>
-                                <i class="fa fa-star text-warning"></i>
-                                <i class="fa fa-star text-warning"></i>
-                                <i class="fa fa-star text-secondary"></i>
-                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
-                            </p>
-                            <ul class="list-inline" style="color: black;">
-                                <li class="list-inline-item">
-                                    <h6>Avaliable Color :</h6>
-                                </li>
-                                <li class="list-inline-item">
-                                    <p class="text-muted"><strong style="color: black;">White / Black / Peach / Neavy
-                                            Blue</strong></p>
-                                </li>
-                            </ul>
-                            <ul class="list-inline" style="color: black;">
-                                <li class="list-inline-item">
-                                    <h6>Category :</h6>
-                                </li>
-                                <li class="list-inline-item">
-                                    <p class="text-muted"><strong style="color: black;">{{singleproduct.type}}</strong>
+                            {{#if singleproduct.offer}}
+                                <p class="h3 py-2 text-dark"><strong>-{{singleproduct.offer}}% OFF</strong></p>
+                            <p class="h3 py-2 text-dark">
+                                <strike><strong style="color: red;">{{singleproduct.price}}</strong></strike><strong>
+                                    {{singleproduct.offerAmount}}/-</strong></p>
+                                    {{else}}
+                                    <p class="h3 py-2 text-dark"><strong>Rs - {{singleproduct.price}}/-</strong></p>
+                                    {{/if}}
+                                    <p class="py-2">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-secondary"></i>
+                                        <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
                                     </p>
-                                </li>
-                            </ul>
-                            <ul class="list-inline btn">
-                                <li class="list-inline-item">
-                                    <h6 style="color: red;">In-Stock :</h6>
-                                </li>
-                                <li class="list-inline-item">
-                                    <p class="text-muted"><strong style="color: red;">{{singleproduct.stock}}</strong>
-                                    </p>
-                                </li>
-                            </ul>
-                            <h6 style="color: black;">Description:</h6>
-                            <p style="color: black;">{{singleproduct.description}}</p>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <h6> </h6>
-                                </li>
-                            </ul>
-                            <h6 class="text-dark"><strong>SPECIFICATIONS</strong></h6>
-                            <ul class="list-unstyled pb-3 text-dark ">
-                                <li>Model Number &nbsp; - &nbsp; {{singleproduct.modelnumber}}</li>
-                                <li>Model Name &nbsp; - &nbsp; {{singleproduct.modelname}}</li>
-                                <li>Series &nbsp; - &nbsp; {{singleproduct.series}}</li>
-                                <li>Battery Backup &nbsp; - &nbsp; {{singleproduct.batterybackup}}</li>
-                                <li>Power Supply &nbsp; - &nbsp; {{singleproduct.powersupply}}</li>
-                            </ul>
+                                    <ul class="list-inline" style="color: black;">
+                                        <li class="list-inline-item">
+                                            <h6>Avaliable Color :</h6>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <p class="text-muted"><strong style="color: black;">White / Black / Peach /
+                                                    Neavy
+                                                    Blue</strong></p>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline" style="color: black;">
+                                        <li class="list-inline-item">
+                                            <h6>Category :</h6>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <p class="text-muted"><strong
+                                                    style="color: black;">{{singleproduct.category}}</strong>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline btn">
+                                        <li class="list-inline-item">
+                                            <h6 style="color: red;">In-Stock :</h6>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <p class="text-muted"><strong
+                                                    style="color: red;">{{singleproduct.stock}}</strong>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <h6 style="color: black;">Description:</h6>
+                                    <p style="color: black;">{{singleproduct.description}}</p>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <h6> </h6>
+                                        </li>
+                                    </ul>
+                                    <h6 class="text-dark"><strong>SPECIFICATIONS</strong></h6>
+                                    <ul class="list-unstyled pb-3 text-dark ">
+                                        <li>Model Number &nbsp; - &nbsp; {{singleproduct.modelnumber}}</li>
+                                        <li>Model Name &nbsp; - &nbsp; {{singleproduct.modelname}}</li>
+                                        <li>Series &nbsp; - &nbsp; {{singleproduct.series}}</li>
+                                        <li>Battery Backup &nbsp; - &nbsp; {{singleproduct.batterybackup}}</li>
+                                        <li>Power Supply &nbsp; - &nbsp; {{singleproduct.powersupply}}</li>
+                                    </ul>
 
 
-                            <input type="hidden" name="product-title" value="Activewear">
+                                    <input type="hidden" name="product-title" value="Activewear">
 
-                            <div class="row pb-3">
-                                <div class="col d-grid">
-                                    <button type="submit" class="btn  btn-lg" name="submit" value="buy">Buy</button>
-                                </div>
-                                <div class="col d-grid">
-                                    <a type="submit" onclick="addtocartconfrom('{{singleproduct._id}}')"
-                                        class="btn  btn-lg text-dark" name="submit" value="addtocard">Add To Cart</a>
-                                </div>
-                            </div>
+                                    <div class="row pb-3 text-center">
+                                        <div class="col ">
+                                            <a type="submit" onclick="addtocartconfrom('{{singleproduct._id}}')"
+                                                class="btn  btn-lg text-dark" name="submit" value="addtocard">Add To
+                                                Cart</a>
+
+                                            <span>
+
+                                                <a type="submit" onclick="addtowishlist('{{singleproduct._id}}')"
+                                                    class="btn" name="submit" value="buy"><span>
+                                                        <i class="fa-solid fa-heart"></i>
+                                                    </span></a>
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
 
                         </div>
                     </div>
@@ -141,17 +163,6 @@
             </div>
         </div>
     </section>
-
-
-    <!-- Start Script -->
-    <script src="/images/js/jquery-1.11.0.min.js"></script>
-    <script src="/images/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="/images/js/bootstrap.bundle.min.js"></script>
-    <script src="/images/js/templatemo.js"></script>
-    <script src="/images/js/custom.js"></script>
-
-
-
 
 
     {{!-- ajax functions --}}
@@ -166,31 +177,53 @@
                         count = parseInt(count) + 1
                         $('#cartCount').html(count)
                         Swal.fire({
-                            title: "ADDED TO CART",
-                            text: "CONFORM!",
-                            icon: "success",
-                            buttonsStyling: false,
-                            confirmButtonText: "Yes Conform",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        });
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Added to Cart',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 }
             })
         }
 
+        function addtowishlist(prodId) {
+            $.ajax({
+                url: `/add-to-wishlist/${prodId}`,
+                method: "get",
+                success: (response) => {
+                    if (response.status == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Added to Wishlist',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    } else {
+                        location.href = '/login'
+                    }
+                }
+            })
+        }
     </script>
 
-    <script src="/static/javascripts/productDetails.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
-        integrity="sha384-JUMjoW8OzDJw4oFpWIB2Bu/c6768ObEthBMVSiIx4ruBIEdyNSUQAjJNFqT5pnJ6"
-        crossorigin="anonymous"></script>
-        <script src="/javascripts/zoomsl.js"></script>
-        <script>
+    {{!-- ImageZoom --}}
+    <script>
 
-        $(document).ready(function () {
-            $(".block__pic").imagezoomsl({
-                zoomrange: [3, 3]
-            });
-        });  </script>
+        var options1 = {
+            zoomWidth: 1000,
+            offset: { "vertical": 0, "horizontal": 100 }
+
+        };
+
+        // If the width and height of the image are not known or to adjust the image to the container of it
+        var options2 = {
+            fillContainer: true,
+            offset: { vertical: 0, horizontal: 10 }
+        };
+
+        new ImageZoom(document.getElementById("img-container"), options1);
+
+    </script>

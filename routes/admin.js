@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var { render } = require('../app')
+var { render, response } = require('../app')
 var productHelpers = require('../helpers/product-helpers')
 const userHelpers = require('../helpers/user-helpers')
 const categoryHelpers = require('../helpers/category-helpers')
+const couponHelpers = require('../helpers/coupon-helpers')
 const adminHelpers = require('../helpers/admin-helpers');
 const nodemon = require('nodemon');
 const Handlebars = require('handlebars')
-
 const credential = {
   username: "admin",
   password: "123admin",
@@ -25,8 +25,15 @@ router.get('/', function (req, res, next) {
   }
 });
 
-router.get('/admin-homepage', function (req, res, next) {
-  res.render('admin/admin-homepage', { admin: true });
+router.get('/admin-homepage', async function (req, res, next) {
+  let amount = await adminHelpers.getTotalAmount()
+  let pending = await adminHelpers.getPendingCount()
+  let placed = await adminHelpers.getPlacedCount()
+  let totalcount = await adminHelpers.getTotalCount()
+  let codcount = await adminHelpers.getcodCount()
+  let razorcount = await adminHelpers.getrazorCount()
+  let paypalcount = await adminHelpers.getpaypalCount()
+  res.render('admin/admin-homepage', { admin: true, amount, pending, placed, totalcount, codcount, razorcount, paypalcount });
 });
 
 router.post('/loginadmin', (req, res) => {
@@ -98,8 +105,9 @@ router.get('/addcategories', function (req, res, next) {
 })
 router.post("/addcategories", function (req, res, next) {
   //console.log(req.body);
-  let { category } = req.body
-  categoryHelpers.addcategory(category).then((response) => {
+  categoryHelpers.addcategory(req.body).then((response) => {
+    let image = req.files.Image
+    image.mv('./public/category-images/' + response + '.png')
     res.render("admin/addcategories", { admin: true });
   }).catch((err) => {
     res.render("admin/addcategories", { admin: true, err });
@@ -109,7 +117,6 @@ router.post("/addcategories", function (req, res, next) {
 
 router.get('/viewcategories', function (req, res, next) {
   categoryHelpers.getAllcategory().then((category) => {
-    //console.log(products);
     res.render('admin/viewcategories', { admin: true, category })
   })
 });
@@ -157,7 +164,9 @@ router.get('/editproducts/:id', (req, res, next) => {
   try {
     var productid = req.params.id;
     productHelpers.editProducts(productid).then((product) => {
-      res.render('admin/editproduct', { admin: true, product })
+      categoryHelpers.getAllcategory().then((categories) => {
+        res.render('admin/editproduct', { admin: true, product, categories })
+      });
     });
   } catch (err) {
     console.log(err, 'error happedned in edit user pafe');
@@ -249,14 +258,80 @@ router.get('/chartYear', (req, res, next) => {
 })
 
 router.get('/vieworders', (req, res) => {
-  adminHelpers.getallUserOrders().then((orders) => {
-    res.render('admin/vieworders', { admin: true, orders })
+  adminHelpers.getallUserCodOrders(req.params.id).then((codOrders) => {
+    adminHelpers.getallUserRazorOrders(req.params.id).then((razorpayorder) => {
+      adminHelpers.getallUserPaypalOrders(req.params.id).then((paypalOrders) => {
+        res.render('admin/vieworders', { admin: true, codOrders, razorpayorder, paypalOrders })
+      })
+    })
   })
 })
 
 router.get('/orderdetail/:id', (req, res) => {
- adminHelpers.getOrderProducts(req.params.id).then((products)=>{
-  res.render('admin/orderdetails-admin', { admin: true, products })
- })
+  adminHelpers.getOrderProducts(req.params.id).then((products) => {
+    res.render('admin/orderdetails-admin', { admin: true, products })
+  })
+})
+
+router.get('/payemntdetails', async (req, res) => {
+  let catwise = await adminHelpers.getCatwiseTotal()
+  let productwise = await adminHelpers.getProductwiseTotal()
+  let statuswise = await adminHelpers.getStatuswiseplacedTotal()
+  res.render('admin/paymentdetails', { admin: true, catwise, productwise, statuswise })
+})
+
+router.get('/activeTrue/:id', (req, res, next) => {
+  productHelpers.activeTrue(req.params.id).then((response) => {
+    res.json(true)
+  })
+})
+
+router.get('/activeFalse/:id', (req, res, next) => {
+  productHelpers.activeFalse(req.params.id).then((response) => {
+    res.json(true)
+  })
+})
+
+router.get('/viewcoupons', (req, res, next) => {
+  couponHelpers.getAllcoupons().then((coupons) => {
+    console.log(coupons);
+    res.render('admin/viewcoupons', { admin: true, coupons })
+  })
+})
+router.get('/addcoupons', (req, res, next) => {
+  res.render('admin/addcoupons', { admin: true })
+})
+
+router.post('/addcoupons', (req, res, next) => {
+  couponHelpers.addcoupons(req.body).then((response) => {
+    res.render("admin/addcoupons", { admin: true });
+  }).catch((err) => {
+    res.render("admin/addcoupons", { admin: true, err });
+  })
+})
+
+router.get("/deletecoupon/:id", (req, res, next) => {
+  var cid = req.params.id;
+  couponHelpers.deleteCoupon(cid).then(() => {
+    res.redirect("/admin/viewcoupons");
+  });
+});
+
+router.get('/CouponactiveTrue/:id', (req, res, next) => {
+  couponHelpers.CouponactiveTrue(req.params.id).then((response) => {
+    res.json(true)
+  })
+})
+
+router.get('/CouponactiveFalse/:id', (req, res, next) => {
+  couponHelpers.CouponactiveFalse(req.params.id).then((response) => {
+    res.json(true)
+  })
+})
+
+router.post('/change-status/:id',(req,res,next)=>{
+  adminHelpers.statusUpdate(req.params.id,req.body).then((value)=>{
+    res.redirect('/admin/vieworders')
+  })
 })
 module.exports = router;

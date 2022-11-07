@@ -136,38 +136,63 @@
 
 
 <section>
-               <div class="col py-3 mb-5">
-                  <div class="container mb-5" style="margin-top: -14px;">
-                     <div class="row">
-                        {{#each products}}
-                        <div class="col-md-3 mb-5 container">
-                           <div class="card border-white ">
-                              <center>
-                                 <img class="card-img-top p-4 d-flex" src="/product-images/{{this._id}}.png"
-                                    style="width: 220px; height:400px;" alt="Card image cap">
-                              </center>
-                              <div class="card-body" style="width: 320px;">
-                                 <strong>
-                                    <center>
-                                       <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.name}}
-                                       </p>
-                                 </strong>
-                                 <p class="card-text" style="color: #FF6700; margin-bottom: -17px;">Rs - {{this.price}}/-</p>
-                                 <p class="card-text mt-3" style="color: red; font-size: 12px; margin-bottom: 12px;">IN STOCK - {{this.stock}}</p>
-                                 <a href="/singleproduct/{{this._id}}" class="btn text-white mr-3 btn-dark">MORE
-                                    <a onclick="addtocartconfrom('{{this._id}}')" class="btn text-white btn-dark">ADD TO
-                                       CART</a></center>
-                              </div>
-                           </div>
-                        </div>
-                        {{/each}}
-                     </div>
+   <div class="col py-3 mb-5">
+      <div class="container mb-5" style="margin-top: -14px;">
+         <div class="row">
+            {{#each offerAmount}}
+            <div class="col-md-3 mb-5 container">
+               <div class="card border-white ">
+
+
+                  <center>
+                     <img class="card-img-top p-4 d-flex " src="/product-images/{{this.result._id}}.png"
+                        style="width: 239px; height:420px;" alt="Card image cap">
+                  </center>
+
+                  {{#if this.offer}}
+                  <div
+                     style="background-color: black; color: white; height: 2rem; width:4rem; position: absolute; left: 3em; top: 1rem;border-radius: 100%; text-align: center;">
+                     -{{this.offer}}%
+                  </div>
+                  {{/if}}
+
+                  <div class="card-body" style="width: 320px;">
+                     <strong>
+                        <center>
+                           <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.result.name}}
+                           </p><br>
+                     </strong>
+
+
+
+                     {{#if this.offer}}
+
+                     <p class="card-text text-bold" style="color: green; margin-bottom: -17px;">
+                        <strike style="color: red;">{{this.result.price}} </strike>&nbsp;&nbsp; {{this.offer_amount}}/-
+                     </p>
+                     <br>
+
+                     {{else}}
+
+                     <p class="card-text" style="color: #FF6700; margin-bottom: -17px;">{{this.result.price}}/-</p>
+                     <br>
+
+                     {{/if}}
+
+                     <a href="/singleproduct/{{this.result._id}}" class="btn text-white mr-3 btn-dark">MORE
+                        <a onclick="addtocartconfrom('{{this.result._id}}')" class="btn text-white btn-dark">ADD TO
+                           CART</a></center>
                   </div>
                </div>
-
             </div>
+            {{/each}}
          </div>
       </div>
+   </div>
+
+   </div>
+   </div>
+   </div>
 </section>
 
 <script>
@@ -181,17 +206,37 @@
                count = parseInt(count) + 1
                $('#cartCount').html(count)
                Swal.fire({
-                  title: "ADDED TO CART",
-                  text: "CONFORM!",
-                  icon: "success",
-                  buttonsStyling: false,
-                  confirmButtonText: "Yes Conform",
-                  customClass: {
-                     confirmButton: "btn btn-primary"
-                  }
-               });
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Added to Cart',
+                  showConfirmButton: false,
+                  timer: 1500
+               })
             }
          }
       })
    }
 </script>
+<script>
+   function findThisVal(a) {
+      console.log(a)
+   }
+</script>
+
+
+
+
+{{!--
+[{
+$lookup: {
+from: 'product',
+localField: 'category',
+foreignField: 'category',
+as: 'result'
+}
+}, {
+$project: {
+category: 1,
+result: 1
+}
+}] --}}

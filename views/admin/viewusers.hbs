@@ -1,29 +1,29 @@
-<section>
+<section style="width: 100%;">
    <center>
       <h3 class="mt-5">
          LIST OF USERS
       </h3>
    </center>
-   <div class="container ml-5" style="width: 75rem;">
+   <div class="p-5">
       <div>
          <a href="/admin/addusers" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD
             USERS</a>
       </div>
-      <table class="table mt-5" id="mytbl">
+      <table class="table table-bordered mt-5" id="mytbl">
          <thead>
             <tr>
-               <th scope="col">Sl.No</th>
-               <th scope="col">First Name</th>
-               <th scope="col">Email</th>
-               <th scope="col">Place</th>
-               <th scope="col">Password</th>
-               <th scope="col">Status</th>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">First Name</th>
+               <th class="text-center">Email</th>
+               <th class="text-center">Place</th>
+               <th class="text-center">Password</th>
+               <th class="text-center">Status</th>
 
             </tr>
          </thead>
          <tbody>
             {{#each users}}
-            <tr>
+            <tr class="text-center">
                <th scope="row">{{inc @index}}</th>
                <td>{{this.fname}}</td>
                <td>{{this.email}}</td>
@@ -31,17 +31,17 @@
                <td style="font-size: 5px;">{{this.password}}</td>
                <td>
                   <button onclick="deleteuser('{{this._id}}')"
-                     style="width:80px; background-color: #FB641B; color: white;" class="btn">DELETE</button>
-                  <a href="/admin/editusers/{{this._id}}" style="width:60px; background-color: #FB641B; color: white;"
+                     style="width:90px; background-color: #FB641B; color: white;" class="btn">DELETE</button>
+                  <a href="/admin/editusers/{{this._id}}" style="width:70px; background-color: #FB641B; color: white;"
                      class="btn">EDIT</a> <br>
                   <div class="mt-3">
                      {{#if this.blocked}}
                      <button onclick="unblockUser('{{this._id}}')"
-                        style="width:100px;  background-color: #FB641B; color: white; margin-left: 29px;"
+                        style="width:110px;  background-color: #FB641B; color: white; margin-left: 29px;"
                         class="btn ">UNBLOCK</button>
                      {{else}}
                      <button onclick="blockUser('{{this._id}}')"
-                        style="width:100px; background-color: #FB641B; color: white; margin-left: 29px;"
+                        style="width:110px; background-color: #FB641B; color: white; margin-left: 29px;"
                         class="btn">BLOCK</button>
                      {{/if}}
                   </div>

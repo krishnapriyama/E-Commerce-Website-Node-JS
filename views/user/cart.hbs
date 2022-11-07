@@ -5,7 +5,7 @@
         <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
 
           <!-- Shopping cart table -->
-            {{#if products}}
+          {{#if products}}
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -39,7 +39,7 @@
                       </div>
                     </div>
                   </th>
-                  <td class="border-0 align-middle"><strong>00.00</strong></td>
+                  <td class="border-0 align-middle"><strong>{{this.product.price}}</strong></td>
                   <td class="border-0 align-middle">
                     <center>
                       <div class="input-group mb-3" style="max-width: 120px;">
@@ -50,8 +50,8 @@
                         {{!-- <span id="{{this.product._id}}" class="form-control text-center">
                           {{this.quantity}}
                         </span> --}}
-                        <input type="number" readonly="true" class="form-control text-center" value="{{this.quantity}}" placeholder=""
-                          id="{{this.product._id}}" aria-label="Example text with button addon"
+                        <input type="number" readonly="true" class="form-control text-center" value="{{this.quantity}}"
+                          placeholder="" id="{{this.product._id}}" aria-label="Example text with button addon"
                           aria-describedby="button-addon1">
                         <div class="input-group-append">
                           <button class="btn btn-outline-dark js-btn-plus" type="button"
@@ -61,12 +61,14 @@
                     </center>
 
                   </td>
-                  <td class="border-0 align-middle"><a href="#" class="text-dark" onclick="removeProducts('{{this._id}}','{{this.product._id}}')"><i class="fa fa-trash"></i></a></td>
+                  <td class="border-0 align-middle"><a href="#" class="text-dark"
+                      onclick="removeProducts('{{this._id}}','{{this.product._id}}')"><i class="fa fa-trash"></i></a>
+                  </td>
                 </tr>
                 {{/each}}
               </tbody>
             </table>
-            
+
           </div>
           <!-- End -->
         </div>
@@ -81,10 +83,67 @@
               <input type="text" placeholder="Apply coupon" aria-describedby="button-addon3"
                 class="form-control border-0">
               <div class="input-group-append border-0">
-                <button id="button-addon3" type="button" class="btn btn-dark px-4 rounded-pill "><i
+                <button id="buttonclick" type="button" class="btn btn-dark px-4 rounded-pill "  onclick="buttonclick()"><i
                     class="fa fa-gift mr-2"></i>Apply coupon</button>
               </div>
             </div>
+
+
+
+
+            <!-- Button trigger modal -->
+            <a href="" data-toggle="modal" data-target="#exampleModalCenter">Click Here</a>
+            <span>For Avalilabilty of Coupon</span>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Coupons Availability</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+
+
+                    <table class="table table-borderless">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Sl.No</th>
+                          <th class="text-center">Coupon Name</th>
+                          <th class="text-center">Amount in Rs/-</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each coupons}}
+                        <tr class="text-center">
+                          <th scope="row">{{inc @index}}</th>
+                          <td><input type="text" value="{{this.coupon}}" id="myInput">
+                            <button onclick="myFunction()" class="btn">Copy text</button>
+                          </td>
+                          <td>Rs - {{this.offeramount}}/-</td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                    </table>
+
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
           </div>
           <div class="p-4">
             <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below
@@ -100,11 +159,17 @@
             <ul class="list-unstyled mb-4">
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal
                 </strong><strong> <span id="total1">{{totalValue}}.00</strong></li>
-              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Shipping and
-                  handling</strong><strong>00.00</strong></li>
+
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Offer
+                  Amount</strong><strong>00.00</strong></li>
+
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Coupon
+                  Disount</strong><strong  id="coupondiscount">00.00</strong></li>
+
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
                 <h5 class="font-weight-bold">RS <span id="total">{{totalValue}}.00</span></h5>
               </li>
+
             </ul><a href="/place-order" class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
           </div>
         </div>
@@ -112,29 +177,31 @@
 
     </div>
     {{else}}
-            <section class="cart-area pt-5 pb-50 text-center">
-            <img src="/images/cartemptyimage.png" alt="" style="width:50%;">
-            <div class="container mt-4 mb-3">
-              <h1 class="text-center ">No Added Items in Your Cart</h1>
-              {{#if user}}
-              <a href="/homepage" class="btn btn-dark mx-auto mt-3">Go shopping</a>
-              {{else}}
-              <a href="/" class="btn btn-dark mx-auto">Go shopping</a>
-              {{/if}}
-            </div>
-          </section>
-          {{/if}}
+    <section class="cart-area pt-5 pb-50 text-center">
+      <img src="/images/cartemptyimage.png" alt="" style="width:50%;">
+      <div class="container mt-4 mb-3">
+        <h1 class="text-center ">No Added Items in Your Cart</h1>
+        {{#if user}}
+        <a href="/homepage" class="btn btn-dark mx-auto mt-3">Go shopping</a>
+        {{else}}
+        <a href="/" class="btn btn-dark mx-auto">Go shopping</a>
+        {{/if}}
+      </div>
+    </section>
+    {{/if}}
   </div>
 </div>
 
+
+{{!-- ajax functions --}}
 <script>
-  function changeQuantity(cartId, proId,userId, count ) {
+  function changeQuantity(cartId, proId, userId, count) {
     let quantity = parseInt(document.getElementById(proId).value)
     count = parseInt(count)
     $.ajax({
       url: '/change-product-quantity',
       data: {
-        user:userId,
+        user: userId,
         cart: cartId,
         product: proId,
         count: count,
@@ -142,10 +209,10 @@
       },
       method: 'post',
       success: (response) => {
-        if (response.removeProduct ) {
-          Swal.fire('Item Deleted').then(()=>{
+        if (response.removeProduct) {
+          Swal.fire('Item Deleted').then(() => {
             location.reload()
-          })
+          }) 
         } else {
           document.getElementById(proId).value = quantity + count
           document.getElementById('total').innerHTML = response.total
@@ -156,28 +223,51 @@
     })
   }
 
-  function removeProducts(cartID, ProID){
-$.ajax({
-    url:'/removeCartProduct',
-    method:'post',
-    data:{
-        cartID:cartID,
-        ProID:ProID
-    },
-    success:(response)=>{
-      if(response.ProRemove){
-        Swal.fire({
+  function removeProducts(cartID, ProID) {
+    $.ajax({
+      url: '/removeCartProduct',
+      method: 'post',
+      data: {
+        cartID: cartID,
+        ProID: ProID
+      },
+      success: (response) => {
+        if (response.ProRemove) {
+          Swal.fire({
             icon: "success",
             title: "Item Removed from Cart",
             showConfirmButton: false,
             timer: 1000,
-          }).then(()=>{
-            location.reload(); 
+          }).then(() => {
+            location.reload();
           });
-          
+
+        }
+
       }
-        
-    }
-})
+    })
+  }
+</script>
+<script>
+  function myFunction() {
+    // Get the text field
+    var copyText = document.getElementById("myInput");
+
+    // Select the text field
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value);
+
+    // Alert the copied text
+    Swal.fire('Copied to Clipboard')
+  }
+</script>
+
+<script>
+function buttonclick(){
+
+  document.getElementById("coupondiscount").innerHTML=
 }
 </script>

@@ -1,45 +1,60 @@
-</style>
-<section>
+<section style="width: 100%;">
    <center>
       <h3 class="mt-5">
          LIST OF PRODUCTS
       </h3>
    </center>
-   <div class="container ml-5">
+   <div class="p-5">
       <div>
-         <a href="/admin/addproducts" class="btn float-right mb-3" style="background-color: #FB641B; color: white;">ADD
+         <a href="/admin/addproducts" class="btn float-right mb-5" style="background-color: #FB641B; color: white;">ADD
             PRODUCT</a>
       </div>
-      
-      <table class="table mt-5" id="mytbl">
+
+      <table class="table  table-bordered mt-5" id="mytbl">
          <thead>
             <tr>
-               <th scope="col">Sl.no</th>
-               <th scope="col">Name</th>
-               <th scope="col">Price</th>
-               <th scope="col">Category</th>
-               <th scope="col">Stock</th>
-               <th scope="col">Image</th>
-               <th scope="col">Status</th>
+               <th class="text-center">Sl.no</th>
+               <th class="text-center">Name</th>
+               <th class="text-center">Price</th>
+               <th class="text-center">Category</th>
+               <th class="text-center">Stock</th>
+               <th class="text-center">Image</th>
+               <th class="text-center">Status</th>
+               <th class="text-center">Active Status</th>
             </tr>
          </thead>
          <tbody>
             {{#each products}}
-            <tr>
+            <tr class="text-center">
                <th scope="row">{{inc @index}}</th>
                <td style="width: 32rem; word-wrap:break-word;">{{this.name}}</td>
                <td>{{this.price}}</td>
-               <td>{{this.type}}</td>
+               <td>{{this.category}}</td>
                <td>{{this.stock}}</td>
                <td><img style="width:60px; height:100px;" src="/product-images/{{this._id}}.png" alt=""></td>
                <td>
                   <button onclick="deleteproduct('{{this._id}}')"
-                     style="width:80px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
-                  <a href="/admin/editproducts/{{this._id}}" style="width:60px; background-color: #FB641B;color: white;"
+                     style="width:90px; background-color: #FB641B;color: white;" class="btn">DELETE</button>
+                  <a href="/admin/editproducts/{{this._id}}" style="width:70px; background-color: #FB641B;color: white;"
                      class="btn">EDIT</a>
-                  <a href="/admin/moredetails/{{this._id}}" style="width:145px; background-color: #FB641B;color: white;"
-                     class="btn mt-2">MORE DETAILS</a>
+                  <a href="/admin/moredetails/{{this._id}}" style="width:155px; background-color: #FB641B;color: white;"
+                     class="btn">MORE DETAILS</a>
                </td>
+               {{#if this.isActive}}
+               <td scope="row" style="width:5rem ;">
+                  <div class="form-check form-switch">
+                     <input type="checkbox" class="form-check-input" r id="{{this._id}}"
+                        onclick="activeStatus('{{this._id}}')" checked>
+                  </div>
+               </td>
+               {{else}}
+               <td scope="row" style="width:5rem ;">
+                  <div class="form-check form-switch">
+                     <input type="checkbox" class="form-check-input" id="{{this._id}}"
+                        onclick="activeStatus('{{this._id}}')">
+                  </div>
+               </td>
+               {{/if}}
             </tr>
             {{/each}}
          </tbody>
@@ -54,16 +69,7 @@
          method: "get",
          success: (response) => {
             if (response) {
-               Swal.fire({
-                  title: "DELETED PRODUCT",
-                  text: "CONFORM!",
-                  icon: "success",
-                  buttonsStyling: false,
-                  confirmButtonText: "Yes Conform",
-                  customClass: {
-                     confirmButton: "btn btn-primary"
-                  }
-               }).then(() => {
+               Swal.fire('Product Deleted').then(() => {
                   location.reload()
                });
             }
@@ -72,16 +78,36 @@
    }
 
 
-   {{!-- $(document).ready(function () {
-      $('#mytbl').DataTable();
-   }); --}}
+   function activeStatus(id) {
+      let activeStatus = document.getElementById(id)
+      if (activeStatus.checked == true) {
+         $.ajax({
+            url: `/admin/activeTrue/${id}`,
+            method: 'get',
+            success: (response) => {
+               Swal.fire('Product InActive')
+            }
 
-  $(document).ready(function() {
-    $('#mytbl').DataTable( {
-        dom: 'Bfrtip',
+         })
+      } else if (activeStatus.checked == false) {
+         $.ajax({
+            url: `/admin/activeFalse/${id}`,
+            method: 'get',
+            success: (response) => {
+               Swal.fire('Product Active')
+            }
+         })
+      }
+   }
+
+
+
+   $(document).ready(function () {
+      $('#mytbl').DataTable({
+         dom: 'Bfrtip',
          buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-} );
+         ]
+      });
+   });
 </script>

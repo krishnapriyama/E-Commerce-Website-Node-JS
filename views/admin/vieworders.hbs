@@ -1,53 +1,207 @@
-<section style="align-items: center; ">
-   <div class="container mt-5 mb-5" style="margin-left: 100px;"> 
-   <h1 class="text-center text-dark mb-5">
-      VIEW ORDERS
-   </h1>
-   <table class="table table">
-      <thead>
-         <tr>
-            <th>Payment Method</th>
-            <th>Date & Time</th>
-            <th>Product Details</th>
-            <th>Status</th>
-            <th>Cancel</th>
-         </tr>
-      </thead>
-      <tbody>
-         {{#each orders}}
-         <tr>
-            <td style="text-transform: uppercase;">{{this.paymentMethod}}</td>
-            <td>{{this.Date}}</td>
-            <td><a href="/admin/orderdetail/{{this._id}}" class="btn btn-dark">View Details</a></td>
-            <td style="text-transform: uppercase;">{{this.status}}</td>
-            {{#if orderCancel}}
-            <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1" disabled>
-                  Canceled
-               </button> </td>
-            {{else}}
-            <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1">
-                  Cancel
-               </button> </td>
-            {{/if}}
+<section style="width: 100%;">
+   <div class="p-5">
+      <h1 class="text-center text-dark mb-5">
+         COD ORDERS
+      </h1>
+      <table class="table table-bordered" id="mytbl">
+         <thead>
+            <tr>
+               <th>Payment Method</th>
+               <th>Date & Time</th>
+               <th>Product Details</th>
+               <th>Status</th>
+               <th>Action Change</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each codOrders}}
+            <tr>
+               <td style="text-transform: uppercase;">{{this.paymentMethod}}</td>
+               <td>{{this.Date}}</td>
+               <td><a href="/admin/orderdetail/{{this._id}}" class="btn btn-dark">View Details</a></td>
+               <td style="text-transform: uppercase;">{{this.status}}</td>
+               
+               <td>
+                  <form action="/admin/change-status/{{this._id}}" method="post">
+                     <select class=" form-select mb-1" name="status">
+                        <option name="" value="0" selected>Select
+                        </option>
+                        <option value="Shipped">
+                           Shipped</option>
+                        <option value="Cancel">
+                           Cancel</option>
+                        <option value="delivered">
+                           delivered</option>
+                     </select>
+                     <br>
+                     <button class="btn btn-dark float-left second ms-3">
+                        SAVE </button>
+                  </form>
+               </td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
 
-         </tr>
-         {{/each}}
-      </tbody>
-   </table>
-</div>
-
-<script>
-   function cancel_order(orderId) {
-      $.ajax({
-         url: `/cancel-order/${orderId}`,
-         method: 'get',
-         success: (response) => {
-            if (response) {
-               location.reload()
+   <script>
+      function cancel_order(orderId) {
+         $.ajax({
+            url: `/cancel-order/${orderId}`,
+            method: 'get',
+            success: (response) => {
+               if (response) {
+                  location.reload()
+               }
             }
-         }
-      })
+         })
+      }
 
-   } 
-</script>
+      $(document).ready(function () {
+         $('#mytbl').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+               'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+         });
+      });
+   </script>
+
+   <div class="p-5">
+      <h1 class="text-center  text-dark mb-5">
+         RAZORPAY ORDERS
+      </h1>
+      <table class="table table-bordered" id="mytbl1">
+         <thead>
+            <tr>
+               <th>Payment Method</th>
+               <th>Date & Time</th>
+               <th>Product Details</th>
+               <th>Status</th>
+               <th>Action Change</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each razorpayorder}}
+            <tr>
+               <td style="text-transform: uppercase;">{{this.paymentMethod}}</td>
+               <td>{{this.Date}}</td>
+               <td><a href="/admin/orderdetail/{{this._id}}" class="btn btn-dark">View Details</a></td>
+               <td style="text-transform: uppercase;">{{this.status}}</td>
+               
+               <td>
+                  <form action="/admin/change-status/{{this._id}}" method="post">
+                     <select class=" form-select mb-1" name="status">
+                        <option name="" value="0" selected>Select
+                        </option>
+                        <option value="Shipped">
+                           Shipped</option>
+                        <option value="Cancel">
+                           Cancel</option>
+                        <option value="delivered">
+                           delivered</option>
+                     </select>
+                     <br>
+                     <button class="btn btn-dark float-left second ms-3">
+                        SAVE </button>
+                  </form>
+               </td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+   <script>
+      function cancel_order(orderId) {
+         $.ajax({
+            url: `/cancel-order/${orderId}`,
+            method: 'get',
+            success: (response) => {
+               if (response) {
+                  location.reload()
+               }
+            }
+         })
+      }
+
+      $(document).ready(function () {
+         $('#mytbl1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+               'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+         });
+      });
+   </script>
+
+
+
+   <div class="p-5">
+      <h1 class="text-center text-dark mb-5">
+         PAYPAL ORDERS
+      </h1>
+      <table class="table table-bordered" id="mytbl2">
+         <thead>
+            <tr>
+               <th>Payment Method</th>
+               <th>Date & Time</th>
+               <th>Product Details</th>
+               <th>Status</th>
+               <th>Action Change</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each paypalOrders}}
+            <tr>
+               <td style="text-transform: uppercase;">{{this.paymentMethod}}</td>
+               <td>{{this.Date}}</td>
+               <td><a href="/admin/orderdetail/{{this._id}}" class="btn btn-dark">View Details</a></td>
+               <td style="text-transform: uppercase;">{{this.status}}</td>
+               
+               <td>
+                  <form action="/admin/change-status/{{this._id}}" method="post">
+                     <select class=" form-select mb-1" name="status">
+                        <option name="" value="0" selected>Select
+                        </option>
+                        <option value="Shipped">
+                           Shipped</option>
+                        <option value="Cancel">
+                           Cancel</option>
+                        <option value="delivered">
+                           delivered</option>
+                     </select>
+                     <br>
+                     <button class="btn btn-dark float-left second ms-3">
+                        SAVE </button>
+                  </form>
+               </td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+   <script>
+      function cancel_order(orderId) {
+         $.ajax({
+            url: `/cancel-order/${orderId}`,
+            method: 'get',
+            success: (response) => {
+               if (response) {
+                  location.reload()
+               }
+            }
+         })
+      }
+
+      $(document).ready(function () {
+         $('#mytbl2').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+               'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+         });
+      });
+   </script>
 </section>

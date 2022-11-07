@@ -7,11 +7,14 @@ const { ChallengeList } = require('twilio/lib/rest/verify/v2/service/entity/chal
 const Razorpay = require('razorpay');
 const paypal = require('paypal-rest-sdk');
 const e = require('express')
+const shortid = require('shortid');
 
 var instance = new Razorpay({
    key_id: 'rzp_test_JqPjDeZbLpvY3e',
    key_secret: 'J5OUnWR9Bzigj9ausIn7TC6B',
 });
+
+
 paypal.configure({
    'mode': 'sandbox', //sandbox or live
    'client_id': 'AbpKrkJjwekFEpH75Waps6LWMFSPw9B8zc7Txi5b9_y-p1DudBcS_-nynqqtwi1tFHcMJ6fN3uIVOLJY',
@@ -27,6 +30,9 @@ module.exports = {
    },
    doSignup: (userData) => {
       userData.blocked = false
+      userData.wallet = parseInt(0)
+      userData.autoReferal = shortid.generate()
+      console.log(userData);
       return new Promise(async (resolve, reject) => {
          userData.password = await bcrypt.hash(userData.password, 10)
          db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
@@ -34,7 +40,19 @@ module.exports = {
          })
       })
    },
+   validReferal: (referal) => {
+      return new Promise((resolve, reject) => {
+         db.get().collection(collection.USER_COLLECTION).updateOne({ autoReferal: referal },{
+            $inc: {
+               wallet: Number(50)
+            }
+         }).then((response) => {
+               resolve(response)
+            })
+      })
+   },
    doLogin: (userData) => {
+      console.log(shortid.generate());
       return new Promise(async (resolve, reject) => {
          let loginStatus = false
          let response = {}
@@ -101,7 +119,6 @@ module.exports = {
          item: ObjectId(productid),
          quantity: 1
       }
-      console.log(userid);
       return new Promise(async (resolve, reject) => {
          let Usercart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectId(userid) })
          if (Usercart) {
@@ -135,6 +152,21 @@ module.exports = {
          }
       })
    },
+
+   addtowishlist: (productid, userid) => {
+      return new Promise(async (resolve, reject) => {
+         db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userid) },
+            {
+               $push: { wishlist: { item: ObjectId(productid) } },
+            }
+         ).then((response) => {
+            resolve(response)
+         }).catch((err) => {
+            reject(err)
+         })
+      })
+   },
+
    getcartproducts: (userId) => {
       return new Promise(async (resolve, reject) => {
          let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
@@ -142,30 +174,79 @@ module.exports = {
                $match: { user: ObjectId(userId) }
             },
             {
-               $unwind: '$products'
-            },
-            {
+               $unwind: {
+                  path: '$products'
+               }
+            }, {
                $project: {
                   item: '$products.item',
                   quantity: '$products.quantity'
                }
-            },
-            {
+            }, {
                $lookup: {
-                  from: collection.PRODUCT_COLLECTION,
+                  from: 'product',
                   localField: 'item',
                   foreignField: '_id',
                   as: 'product'
                }
-            },
-            {
+            }, {
+               $lookup: {
+                  from: 'category',
+                  localField: 'product.category',
+                  foreignField: 'category',
+                  as: 'discount'
+               }
+            }, {
                $project: {
                   item: 1,
                   quantity: 1,
-                  product: { $arrayElemAt: ['$product', 0] }
+                  product: {
+                     $arrayElemAt: [
+                        '$product',
+                        0
+                     ]
+                  },
+                  discount: {
+                     $arrayElemAt: [
+                        '$discount',
+                        0
+                     ]
+                  },
+                  offer_Amount: {
+                     $subtract: [
+                        {
+                           $arrayElemAt: [
+                              '$product.price',
+                              0
+                           ]
+                        },
+                        {
+                           $divide: [
+                              {
+                                 $multiply: [
+                                    {
+                                       $arrayElemAt: [
+                                          '$product.price',
+                                          0
+                                       ]
+                                    },
+                                    {
+                                       $arrayElemAt: [
+                                          '$discount.offer',
+                                          0
+                                       ]
+                                    }
+                                 ]
+                              },
+                              100
+                           ]
+                        }
+                     ]
+                  }
                }
             }
          ]).toArray()
+         console.log(cartItems, "-----------------------------------");
          resolve(cartItems)
       })
    },
@@ -284,7 +365,7 @@ module.exports = {
    placeOrder: (order, products, totalPrice) => {
       return new Promise(async (resolve, reject) => {
          //console.log(order, products, totalPrice);
-         let status = order['paymentMethod'] === 'cod' ? 'placed' : 'pending'
+         let status = (order['paymentMethod'] === 'cod' || order['paymentMethod'] === 'PayPal') ? 'placed' : 'pending'
          let orderObj = {
             delivaryDetails: {
                mobile: order.mobile,
@@ -354,7 +435,7 @@ module.exports = {
          db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) }, {
             $set: {
                orderCancel: true,
-               status: "ordered_cancelled"
+               status: "Cancel"
             }
          }).then((response) => {
             resolve(response)
@@ -450,7 +531,6 @@ module.exports = {
       })
    },
    changePayemntStatus: (orderID) => {
-
       return new Promise((resolve, reject) => {
          db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderID) }, {
             $set: {
@@ -502,12 +582,7 @@ module.exports = {
             }
          })
       })
-
-
    }
-
-
-
 }
 
 

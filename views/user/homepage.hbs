@@ -14,76 +14,68 @@
    </div>
 </div>
 
-<div class="site-section site-section-sm site-blocks-1">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="">
-            <div class="icon mr-4 align-self-start">
-               <span class="fa fa-truck"></span>
-            </div>
-            <div class="text">
-               <h2 class="text-uppercase">Free Shipping</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
-                  accumsan tincidunt fringilla.</p>
-            </div>
-         </div>
-         <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon mr-4 align-self-start">
-               <span class="fa fa-rotate-left"></span>
-            </div>
-            <div class="text">
-               <h2 class="text-uppercase">Free Returns</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
-                  accumsan tincidunt fringilla.</p>
-            </div>
-         </div>
-         <div class="col-md-6 col-lg-4 d-lg-flex mb-4 mb-lg-0 pl-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon mr-4 align-self-start">
-               <span class="fa fa-circle-info"></span>
-            </div>
-            <div class="text">
-               <h2 class="text-uppercase">Customer Support</h2>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer
-                  accumsan tincidunt fringilla.</p>
-            </div>
-         </div>
+
+
+<!-- Start Categories  -->
+<section class="container py-5 mt-4">
+   <div class="row text-center pt-3">
+      <div class="col-lg-6 m-auto">
+         <h1 class="h1">SHOP BY CATEGORY</h1>
+         <p>
+            find your style in our categories !!
+            Choose your Perfect &nbsp;  <span class="fa fa-phone"></span> &nbsp; Partner
+         </p>
       </div>
    </div>
-</div>
+   <div class="row ">
+      {{#each category}}
+      <div class="col-12 col-md-4 mb-2 col-lg-4 col-xl-3 p-5">
+         <div class="card h-10  rounded hov">
+            <a href="/listAllProducts/{{this.category}}">
+               <img src="/category-images/{{this._id}}.png" class="card-img-top  pb-0" style="height: 15em;">
+            </a>
+         </div>
+         <h5 class="text-center mt-3 mb-3">{{this.category}}</h5>
+         <p class="text-center"><a class="btn btn-dark" href="/listAllProducts/{{this.category}}">Go Shop</a></p>
+      </div>
+      {{/each}}
+   </div>
+</section>
+
 
 <div class="site-section site-blocks-2">
    <div class="container">
       <div class="row">
          <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
             <a class="block-2-item" href="#">
-               <figure class="image">
-                  <img src="/images/ph1.png" style="width: 415px; height: 565px;" alt="" class="img-fluid">
+               <figure class="image" style="">
+                  <img src="/images/phone.jpg" style="width: 415px; height: 590px;" alt="" class="img-fluid">
                </figure>
                <div class="text">
                   <span class="text-uppercase">Collections</span>
-                  <h3>Women</h3>
+                  <h3> PHONES </h3>
                </div>
             </a>
          </div>
          <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
             <a class="block-2-item" href="#">
                <figure class="image">
-                  <img src="/images/ph2.png" style="width: 415px; height: 565px;" alt="" class="img-fluid">
+                  <img src="/images/laptop.jpg" style="width: 415px; height: 590px;" alt="" class="img-fluid">
                </figure>
                <div class="text">
                   <span class="text-uppercase">Collections</span>
-                  <h3>Children</h3>
+                  <h3>LAPTOPS</h3>
                </div>
             </a>
          </div>
          <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
             <a class="block-2-item" href="#">
                <figure class="image">
-                  <img src="/images/ph3.png" style="width: 415px; height: 565px;" alt="" class="img-fluid">
+                  <img src="/images/tv.jpg" style="width: 415px; height: 590px;" alt="" class="img-fluid">
                </figure>
                <div class="text">
                   <span class="text-uppercase">Collections</span>
-                  <h3>Men</h3>
+                  <h3>TELEVISIONS</h3>
                </div>
             </a>
          </div>
@@ -113,54 +105,6 @@
                      </div>
                   </div>
                </div>
-               <div class="item">
-                  <div class="block-4 text-center">
-                     <figure class="block-4-image">
-                        <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                     </figure>
-                     <div class="block-4-text p-4">
-                        <h3><a href="#">Corater</a></h3>
-                        <p class="mb-0">Finding perfect products</p>
-                        <p class="text-primary font-weight-bold">$50</p>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="block-4 text-center">
-                     <figure class="block-4-image">
-                        <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                     </figure>
-                     <div class="block-4-text p-4">
-                        <h3><a href="#">Polo Shirt</a></h3>
-                        <p class="mb-0">Finding perfect products</p>
-                        <p class="text-primary font-weight-bold">$50</p>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="block-4 text-center">
-                     <figure class="block-4-image">
-                        <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                     </figure>
-                     <div class="block-4-text p-4">
-                        <h3><a href="#">T-Shirt Mockup</a></h3>
-                        <p class="mb-0">Finding perfect products</p>
-                        <p class="text-primary font-weight-bold">$50</p>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="block-4 text-center">
-                     <figure class="block-4-image">
-                        <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                     </figure>
-                     <div class="block-4-text p-4">
-                        <h3><a href="#">Corater</a></h3>
-                        <p class="mb-0">Finding perfect products</p>
-                        <p class="text-primary font-weight-bold">$50</p>
-                     </div>
-                  </div>
-               </div>
             </div>
          </div>
       </div>
@@ -182,7 +126,8 @@
             <h2><a href="#" style="text-decoration: none; color: orange;">50% less in all items</a></h2>
             <p class="post-meta mb-4">By <a href="#" style="text-decoration: none; color: orange;">Jenny Jaffer</a>
                <span class="block-8-sep">&bullet;</span>
-               September 3, 2018</p>
+               September 3, 2018
+            </p>
             <p>Flagship MediaTek Dimensity 8100
                144Hz DynamicSwitch DotDisplay
                67W turbo charging

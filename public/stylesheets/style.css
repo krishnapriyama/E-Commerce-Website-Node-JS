@@ -4,7 +4,7 @@ body {
   color: #8c92a0;
   font-weight: 300;
   font-size: 16px; 
-  font-family: 'Kanit', sans-serif !important;
+  font-family: 'Architects Daughter', cursive !important;
 background-color: white;}
 
 ::-moz-selection {
@@ -137,7 +137,7 @@ a {
 .site-navbar {
   background: #fff;
   margin-bottom: 0px;
-  z-index: 1999;
+  z-index: -1000;
   position: relative; }
   .site-navbar.transparent {
     background: transparent; }

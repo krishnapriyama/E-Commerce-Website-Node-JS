@@ -1,77 +1,247 @@
 <style>
-   @media (max-width: 767.98px) {
-      .border-sm-start-none {
-         border-left: none !important;
-      }
+   @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+   body {
+      background-color: white;
+      font-family: 'Open Sans', serif
    }
 
-    body{
-      color: black;
-    }
+   .container {
+      margin-top: 90px;
+      margin-bottom: 30px
+   }
+
+   .card {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0.10rem
+   }
+
+   .card-header:first-child {
+      border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+   }
+
+   .card-header {
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 0;
+      background-color: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+   }
+
+   .track {
+      position: relative;
+      background-color: #ddd;
+      height: 7px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      margin-bottom: 60px;
+      margin-top: 50px
+   }
+
+   .track .step {
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      width: 25%;
+      margin-top: -18px;
+      text-align: center;
+      position: relative
+   }
+
+   .track .step.active:before {
+      background: #FF5722
+   }
+
+   .track .step::before {
+      height: 7px;
+      position: absolute;
+      content: "";
+      width: 100%;
+      left: 0;
+      top: 18px
+   }
+
+   .track .step.active .icon {
+      background: #ee5435;
+      color: #fff
+   }
+
+   .track .icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      position: relative;
+      border-radius: 100%;
+      background: #ddd
+   }
+
+   .track .step.active .text {
+      font-weight: 400;
+      color: #000
+   }
+
+   .track .text {
+      display: block;
+      margin-top: 7px
+   }
+
+   .itemside {
+      position: relative;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: 100%
+   }
+
+   .itemside .aside {
+      position: relative;
+      -ms-flex-negative: 0;
+      flex-shrink: 0
+   }
+
+   .img-sm {
+      width: 80px;
+      height: 80px;
+      padding: 7px
+   }
+
+   ul.row,
+   ul.row-sm {
+      list-style: none;
+      padding: 0
+   }
+
+   .itemside .info {
+      padding-left: 15px;
+      padding-right: 7px
+   }
+
+   .itemside .title {
+      display: block;
+      margin-bottom: 5px;
+      color: #212529
+   }
+
+   p {
+      margin-top: 0;
+      margin-bottom: 1rem
+   }
+
+   .btn-warning {
+      color: #ffffff;
+      background-color: #ee5435;
+      border-color: #ee5435;
+      border-radius: 1px
+   }
+
+   .btn-warning:hover {
+      color: #ffffff;
+      background-color: #ff2b00;
+      border-color: #ff2b00;
+      border-radius: 1px
+   }
 </style>
 
-<section style="background-color: rgb(255, 255, 255); margin-left: 88px;">
-   <div class="container py-5 mt-5">
 
 
-      {{#each products}}
-      <div class="row justify-content-center mb-3">
-         <div class="col-md-12 col-xl-10">
-            <div class="card shadow-0 border rounded-3">
-               <div class="card-body">
-                  <div class="row">
-                     <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                        <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                           <img src="/product-images/{{this.items._id}}.png" style=" height: 352px;" class="w-100" />
-                           <a href="#!">
-                              <div class="hover-overlay">
-                                 <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                              </div>
-                           </a>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-6 col-xl-6">
-                        <h5>{{this.items.name}}</h5>
-                        <div class="d-flex flex-row">
-                           <div class="text-dark mb-1 me-2">
-                              Category -
-                           </div>
-                           <span>{{this.items.type}}</span>
-                        </div>
-                        <p class="text mb-4 mb-md-0">
-                           {{this.items.description}}
-                        </p>
-
-
-                     </div>
-                     <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                        <div class="d-flex flex-row align-items-center mb-1">
-                           <h4 class="mb-1 me-1">₹{{this.items.price}}</h4>
-                           <span class="text-danger"><s>₹21.99</s></span>
-                        </div>
-                        <h6 class="text-success" style="text-transform: uppercase;">{{this.paymentMethod}}</h6>
-                        <div class="d-flex flex-column mt-4">
-                           <div
-                              style="width: 206px;height: 197px;margin-top: -15px;margin-left: -4px;">
-                              <p>
-                                 <u>ADDRESS</u>   <br>
-                                 Name - {{this.delivaryDetails.name}}{{this.delivaryDetails.lastname}} <br>
-                                 Mobile - {{this.delivaryDetails.mobile}} <br>
-                                 Address - {{this.delivaryDetails.address}} <br>
-                                 Pincode - {{this.delivaryDetails.pincode}} <br>
-                                 Email - {{this.delivaryDetails.email}} <br>
-                                 Country - {{this.delivaryDetails.country}} <br>
-                                 State - {{this.delivaryDetails.state}} <br>
-                              </p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+<div class="container">
+   {{#each products}}
+   <article class="card rounded mb-5">
+      <header class="card-header"> My Orders / Tracking </header>
+      <div class="card-body">
+         <h6>Order ID: {{this.items._id}}</h6>
+         <article class="card">
+            <div class="card-body row">
+               <div class="col"> <strong>Estimated Delivery time:</strong> <br>After One Week</div>
+               <div class="col"> <strong>Shipping BY:</strong> <br> Phono - Mart ukz-1, | <i class="fa fa-phone"></i>
+                  +1598675986
                </div>
+               <div class="col"> <strong>OrderPlace Date:</strong> <br>{{this.Date}} </div>
+               <div class="col"> <strong>Address #:</strong> <br> Name -
+                  {{this.delivaryDetails.name}}{{this.delivaryDetails.lastname}} <br>
+                  Mobile - {{this.delivaryDetails.mobile}} <br>
+                  Address - {{this.delivaryDetails.address}} <br>
+                  Pincode - {{this.delivaryDetails.pincode}} <br>
+                  Email - {{this.delivaryDetails.email}} <br>
+                  Country - {{this.delivaryDetails.country}} <br>
+                  State - {{this.delivaryDetails.state}} <br> </div>
             </div>
-         </div>
-      </div>
-      {{/each}}
+         </article>
+         <div class="track">
 
-   </div>
-</section>
+            {{#if (stringCompare this.status 'placed')}}
+
+
+            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
+                  confirmed</span> </div>
+            <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by
+                  courier</span> </div>
+            <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
+               </span></div>
+
+            {{else}}
+            {{#if (stringCompare this.status 'Shipped')}}
+
+
+            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
+                  confirmed</span> </div>
+            <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked
+                  by courier</span> </div>
+            <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
+               </span></div>
+
+            {{else}}
+            {{#if (stringCompare this.status 'Delivered')}}
+            
+            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
+                  confirmed</span> </div>
+            <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked
+                  by courier</span> </div>
+            <div class="step active "> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
+                  the way
+               </span></div>
+
+            {{else}}
+            {{#if (stringCompare this.status 'Cancel')}}
+            <div class="step active "></div>
+            <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Cancelled </span> </div>
+            <div class="step active "></div>
+
+            {{/if}}
+            {{/if}}
+            {{/if}}
+            {{/if}}
+
+         </div>
+         <hr>
+         <ul class="row">
+            <li class="col-md-4">
+               <figure class="itemside mb-3">
+                  <div class="aside"><img src="/product-images/{{this.items._id}}.png" class="img-sm border"></div>
+                  <figcaption class="info align-self-center">
+                     <p class="title">{{this.items.name}} <br>{{this.items.type}}</p> <span
+                        class="text-muted">₹{{this.items.price}}</span>
+                  </figcaption>
+               </figure>
+            </li>
+         </ul>
+         <hr>
+         <a href="/admin/vieworders" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to
+            orders</a>
+      </div>
+   </article>
+   {{/each}}
+</div>

@@ -1,0 +1,30 @@
+<section class="container" style="width: 100%;">
+   <center>
+      <h3 class="mt-5">
+         LIST OF COUPONS
+      </h3>
+   </center>
+   <div class="p-5">
+      <table class="table table-bordered mt-5" id="mytbl">
+         <thead>
+            <tr>
+               <th class="text-center">Sl.No</th>
+               <th class="text-center">Coupon Name</th>
+               <th class="text-center">Discount Amount in Rs/-</th>
+               <th class="text-center">Date </th>
+
+            </tr>
+         </thead>
+         <tbody>
+            {{#each coupons}}
+            <tr class="text-center">
+               <th scope="row">{{inc @index}}</th>
+               <td>{{this.coupon}}</td>
+               <td>{{this.offeramount}}</td>
+               <td>{{this.data}}</td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+</section>
