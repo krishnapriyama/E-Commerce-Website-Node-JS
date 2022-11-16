@@ -14,6 +14,8 @@
                         <div class="form-group row">
                            <input type="text" class="form-control form-control-user text-center" id="cat"
                               placeholder="Category" name="category" value="{{category.category}}">
+                              <input type="text" class="form-control mt-3 form-control-user text-center" id="catoffer"
+                              placeholder="Category" name="category" value="{{category.offer}}">
                         </div>
                         {{!-- <input type="submit"> --}}
 
@@ -31,19 +33,23 @@
    <script>
       function editcategory(catId) {
          var category = document.getElementById('cat').value
+         var offer = document.getElementById('catoffer').value
          $.ajax({
             url: `/admin/editcategory/${catId}`,
             method: "post",
             data: {
-               category: category
+               category: category,
+               offer: offer
             },
             success: (response) => {
                if (response.status) {
-                  Swal.fire(
-                     'Updation Done',
-                     'You updated the details of categories',
-                     'success'
-                  ).then((state) => {
+                  Swal.fire({
+                     position: 'center',
+                     icon: 'success',
+                     title: 'Details Updated',
+                     showConfirmButton: false,
+                     timer: 1500
+                  }).then((state) => {
                      if (state) {
                         location.href = "/admin/viewcategories"
                      }

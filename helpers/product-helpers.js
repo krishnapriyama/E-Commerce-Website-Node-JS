@@ -75,7 +75,7 @@ module.exports = {
                batterybackup: productDetails.batterybackup,
                suitablefor: productDetails.suitablefor,
                powersupply: productDetails.powersupply,
-               price: Number(product.price),
+               price: Number(productDetails.price),
                description: productDetails.description
             }
          }).then((response) => {

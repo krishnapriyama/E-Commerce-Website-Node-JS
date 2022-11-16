@@ -55,24 +55,20 @@
 
 <script>
    function deleteuser(UserId) {
-      $.ajax({
-         url: `/admin/delete/${UserId}`,
-         method: "get",
-         success: (response) => {
-            if (response) {
-               Swal.fire({
-                  title: "DELETE USER",
-                  text: "CONFORM!",
-                  icon: "success",
-                  buttonsStyling: false,
-                  confirmButtonText: "Yes Conform",
-                  customClass: {
-                     confirmButton: "btn btn-primary"
-                  }
-               }).then(() => {
-                  location.reload()
-               });
-            }
+      Swal.fire({
+         title: 'Do you want to Delete ?',
+         showCancelButton: true,
+         confirmButtonText: 'Delete',
+      }).then((result) => {
+         if (result.isConfirmed) {
+            $.ajax({
+               url: `/admin/delete/${UserId}`,
+               method: "get",
+               success: (result) => {
+                  location.reload();
+               }
+            })
+         } else {
          }
       })
    }
@@ -120,12 +116,12 @@
 
 
 
-  $(document).ready(function() {
-    $('#mytbl').DataTable( {
-        dom: 'Bfrtip',
+   $(document).ready(function () {
+      $('#mytbl').DataTable({
+         dom: 'Bfrtip',
          buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-} );
+         ]
+      });
+   });
 </script>

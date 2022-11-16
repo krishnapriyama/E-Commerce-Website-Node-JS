@@ -1,23 +1,22 @@
+{{#if adminheader}}
+{{else}}
+{{#if admin}}
+{{>admin-header}}
+{{else}}
+{{#if errorstatus}}
+{{else}}
+{{>user-header}}
+{{/if}}
+{{/if}}
+{{/if}}
 
+{{{body}}}
 
-  {{#if admin}}
-  {{>admin-header}}
-  {{else}}{{#if errorstatus}}
-  {{else}}
-  {{>user-header}}
-  {{/if}}
-  {{/if}}
-
-  {{{body}}}
-
-  {{#if admin}}
-  {{>admin-footer}}
-  {{else}}{{#if errorstatus}}
-  {{else}}
-  {{>user-footer}}
-  {{/if}}
-  {{/if}}
-
-
-
- 
+{{#if admin}}
+{{>admin-footer}}
+{{else}}
+{{#if errorstatus}}
+{{else}}
+{{>user-footer}}
+{{/if}}
+{{/if}}

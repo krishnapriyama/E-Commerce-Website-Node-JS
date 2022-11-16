@@ -32,7 +32,7 @@ a {
   background: rgba(0, 0, 0, 0.6);
   content: "";
   position: absolute;
-  z-index: 2000;
+  z-index: 0000;
   top: 0;
   left: 0;
   right: 0;
@@ -137,7 +137,7 @@ a {
 .site-navbar {
   background: #fff;
   margin-bottom: 0px;
-  z-index: -1000;
+  /* z-index: -1000; */
   position: relative; }
   .site-navbar.transparent {
     background: transparent; }

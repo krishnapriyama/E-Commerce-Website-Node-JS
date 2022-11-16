@@ -1,44 +1,132 @@
 <style>
-    .bg-color{
-          background-color:white;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-      .btn-rounded{
-          border-radius: 30px;
-      }
-</style>
-<body class="bg-color">
-    <section class="container mt-5">
-        <div class="row justify-content-md-center" style="margin-top: 6rem;">
-            <form class="col-md-6 col-sm-12 bg-white p-5 rounded shadow" action="/admin/addusers" method="post">
-                <div class="col-12 text-center">
-                    <h3 class="text-dark"><strong>ADD A NEW USER</strong></h3>
-                </div>
+    .bg-color {
+        background-color: white;
+    }
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">First Name</label>
-                    <input type="text" name="fname" class="form-control" id="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="text" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="username" required>
-                </div>
-                <div class="mb-3">
-                    <label for="text" class="form-label">Place</label>
-                    <input type="text" name="place" class="form-control" id="address" required>
-                </div>
-                <div class="mb-3">
-                    <label for="text" class="form-label">Mobile</label>
-                    <input type="text" name="mobile" class="form-control" id="mobile" required>
-                </div>
-                <div class="mb-3">
-                    <label for="text" class="form-label">Password</label>
-                    <input type="text" name="password" class="form-control" id="age" required>
-                </div>
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-rounded w-75" style="background-color: #FB641B; color: white;">Create New</button>
-                </div> 
-            </form>
-        </div>
-    </section>
-</body>
+    .btn-rounded {
+        border-radius: 30px;
+    }
+</style>
+<section class="container mt-5 bg-color">
+    <div class="row justify-content-md-center" style="margin-top: 6rem;">
+
+        <form class="col-md-6 col-sm-12 bg-white p-5 rounded shadow" action="/admin/addusers" method="post">
+
+            <div class="col-12 text-center">
+                <h3 class="text-dark"><strong>ADD A NEW USER</strong></h3>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">First Name</label>
+                <input type="text" name="fname" class="form-control" id="name" onkeyup="validname()">
+                <span id="name-error" style="color: red;"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="text" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" id="email" onkeyup="validemail()">
+                <span id="email-error" style="color: red;"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="text" class="form-label">Place</label>
+                <input type="text" name="place" class="form-control" id="place" onkeyup="validplace()">
+                <span id="place-error" style="color: red;"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="text" class="form-label">Mobile</label>
+                <input type="number" name="mobile" class="form-control" id="mobile" onkeyup="validmobile()">
+                <span id="mobile-error" style="color: red;"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="text" class="form-label">Password</label>
+                <input type="text" name="password" class="form-control" id="password" onkeyup="validpassword()">
+                <span id="password-error" style="color: red;"></span>
+            </div>
+            <button type="submit" onclick="return validateForm()" class="btn btn-block"
+                style="background-color: #FB641B;color:white ;">Submit</button>
+            <div class="container p-3" style="width: 100%; height: 5rem; text-align: center;">
+                <span id="errorMessage" style="color: red;" class="text-center"></span>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+
+
+{{!-- validateForm --}}
+<script>
+    var nameError = document.getElementById('name-error')
+    var emailError = document.getElementById('email-error')
+    var placeError = document.getElementById('place-error')
+    var mobileError = document.getElementById('mobile-error')
+    var passwordError = document.getElementById('password-error')
+    var errorMessage = document.getElementById('errorMessage')
+
+
+    function validname() {
+        var name = document.getElementById('name').value;
+        if (name.length >= 10 || name == '') {
+            nameError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            nameError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validemail() {
+        var email = document.getElementById('email').value;
+        if (email.length == 10 || email == '') {
+            emailError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            emailError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validplace() {
+        var place = document.getElementById('place').value;
+        if (place.length >= 10 || place == '') {
+            placeError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            placeError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validmobile() {
+        var mobile = document.getElementById('mobile').value;
+        if (mobile.length > 10 || mobile == '' || mobile.length < 10) {
+            mobileError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            mobileError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validpassword() {
+        var password = document.getElementById('password').value;
+        if (password.length <= 3 || password == '') {
+            passwordError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            passwordError.innerHTML = ""
+            return true
+        }
+    }
+    function validateForm() {
+        if (!validname() || !validemail() || !validplace()|| !validmobile() ||  || !validpassword())
+            errorMessage.style.display = 'block';
+        errorMessage.innerHTML = "Enter All Details Properly";
+        setTimeout(function () { errorMessage.style.display = 'none'; }, 3000);
+        return false;
+    }
+</script>
+{{!-- End --}}

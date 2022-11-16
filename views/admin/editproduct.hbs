@@ -11,37 +11,37 @@
                      <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">EDIT PRODUCTS</h1>
                      </div>
-                     <form class="user" >
+                     <form class="user">
                         <div class="form-group row">
                            <div class="col-sm-6 mb-3 mb-sm-3">
-                              <input type="text" class="form-control form-control-user" id="name"
-                                 placeholder="Name" name="name" value="{{product.name}}">
+                              <input type="text" class="form-control form-control-user" id="name" placeholder="Name"
+                                 name="name" value="{{product.name}}">
                            </div>
                            <div class="col-sm-6">
                               <input type="text" class="form-control form-control-user" id="modelnumber"
                                  placeholder="Model Number" name="modelnumber" value="{{product.modelnumber}}">
                            </div>
                            <div class="col-sm-6 mb-3 mb-sm-3">
-                              <input type="text" class="form-control form-control-user" id="stock"
-                                 placeholder="Stock" name="stock" value="{{product.stock}}">
+                              <input type="text" class="form-control form-control-user" id="stock" placeholder="Stock"
+                                 name="stock" value="{{product.stock}}">
                            </div>
                            <div class="col-sm-6">
                               <input type="text" class="form-control form-control-user" id="modelname"
                                  placeholder="Model Name" name="modelname" value="{{product.modelname}}">
                            </div>
                            <div class="col-sm-6 mb-3 mb-sm-0">
-                              <input type="text" class="form-control form-control-user" id="series"
-                                 placeholder="Series" name="series" value="{{product.series}}">
+                              <input type="text" class="form-control form-control-user" id="series" placeholder="Series"
+                                 name="series" value="{{product.series}}">
                            </div>
                            <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-user" id="color"
-                                 placeholder="Color" name="color" value="{{product.color}}">
+                              <input type="text" class="form-control form-control-user" id="color" placeholder="Color"
+                                 name="color" value="{{product.color}}">
                            </div>
                         </div>
                         <div class="form-group row">
                            <div class="col-sm-6 mb-3 mb-sm-3">
-                              <input type="text" class="form-control form-control-user" id="type"
-                                 placeholder="Type" name="type" value="{{product.type}}">
+                              <input type="text" class="form-control form-control-user" id="type" placeholder="Type"
+                                 name="type" value="{{product.type}}">
                            </div>
                            <div class="col-sm-6">
                               <input type="text" class="form-control form-control-user" id="batterybackup"
@@ -56,8 +56,8 @@
                                  placeholder="Power Supply" name="powersupply" value="{{product.powersupply}}">
                            </div>
                            <div class="col-sm-6">
-                              <input type="text" class="form-control form-control-user" id="price"
-                                 placeholder="Price" name="price" value="{{product.price}}">
+                              <input type="text" class="form-control form-control-user" id="price" placeholder="Price"
+                                 name="price" value="{{product.price}}">
                            </div>
                            <div class="col-sm-6">
                               <input type="text" class="form-control form-control-user" id="description"
@@ -65,9 +65,9 @@
                            </div>
                         </div>
                      </form>
-                     <a  onclick="editproduct('{{product._id}}')"class="btn btn-user btn-block"
-                           style="background-color: #FB641B;color:white ;"> EDIT NOW
-                        </a>
+                     <a onclick="editproduct('{{product._id}}')" class="btn btn-user btn-block"
+                        style="background-color: #FB641B;color:white ;"> EDIT NOW
+                     </a>
                   </div>
                </div>
             </div>
@@ -76,49 +76,50 @@
    </div>
 
    <script>
-    function editproduct(proId) {
-        var name = document.getElementById('name').value
-        var modelnumber = document.getElementById('modelnumber').value
-        var stock = document.getElementById('stock').value
-        var modelname = document.getElementById('modelname').value
-        var series = document.getElementById('series').value
-        var color = document.getElementById('color').value
-        var type = document.getElementById('type').value
-        var batterybackup = document.getElementById('batterybackup').value
-        var suitablefor = document.getElementById('suitablefor').value
-        var powersupply = document.getElementById('powersupply').value
-        var price = document.getElementById('price').value
-        var description = document.getElementById('description').value
-        $.ajax({
+      function editproduct(proId) {
+         var name = document.getElementById('name').value
+         var modelnumber = document.getElementById('modelnumber').value
+         var stock = document.getElementById('stock').value
+         var modelname = document.getElementById('modelname').value
+         var series = document.getElementById('series').value
+         var color = document.getElementById('color').value
+         var type = document.getElementById('type').value
+         var batterybackup = document.getElementById('batterybackup').value
+         var suitablefor = document.getElementById('suitablefor').value
+         var powersupply = document.getElementById('powersupply').value
+         var price = document.getElementById('price').value
+         var description = document.getElementById('description').value
+         $.ajax({
             url: `/admin/editproducts/${proId}`,
             method: "post",
             data: {
-                name: name,
-                modelnumber: modelnumber,
-                stock: stock,
-                modelname: modelname,
-                series: series,
-                color: color,
-                type: type,
-                batterybackup: batterybackup,
-                suitablefor: suitablefor,
-                price: price,
-                description: description
+               name: name,
+               modelnumber: modelnumber,
+               stock: stock,
+               modelname: modelname,
+               series: series,
+               color: color,
+               type: type,
+               batterybackup: batterybackup,
+               suitablefor: suitablefor,
+               price: price,
+               description: description
             },
             success: (response) => {
-                if (response.status) {
-                    Swal.fire(
-                        'Updation Done',
-                        'You updated the details of user',
-                        'success'
-                    ).then((state) => {
-                        if (state) {
-                            location.href = "/admin/viewproducts"
-                        }
-                    })
-                }
+               if (response.status) {
+                  Swal.fire({
+                     position: 'center',
+                     icon: 'success',
+                     title: 'Details Updated',
+                     showConfirmButton: false,
+                     timer: 1500
+                  }).then((state) => {
+                     if (state) {
+                        location.href = "/admin/viewproducts"
+                     }
+                  })
+               }
             }
-        })
-    }
-</script>
-
+         })
+      }
+   </script>

@@ -23,10 +23,20 @@
             <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1" disabled>
                   Canceled
                </button> </td>
-            {{else}}
+            {{else}}{{#if Shipped}}
+            <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1" disabled>
+                  Canceled
+               </button> </td>
+               {{else}}{{#if delivered}}
+               <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1" disabled>
+                  Canceled
+               </button> </td>
+               {{else}}
             <td><button onclick="cancel_order('{{this._id}}')" class="btn btn-dark  mt-1">
                   Cancel
                </button> </td>
+            {{/if}}
+            {{/if}}
             {{/if}}
 
          </tr>

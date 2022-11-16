@@ -62,11 +62,13 @@
             },
             success: (response) => {
                 if (response.status) {
-                    Swal.fire(
-                        'Updation Done',
-                        'You updated the details of user',
-                        'success'
-                    ).then((state) => {
+                    Swal.fire({
+                     position: 'center',
+                     icon: 'success',
+                     title: 'Details Updated',
+                     showConfirmButton: false,
+                     timer: 1500
+                  }).then((state) => {
                         if (state) {
                             location.href = "/admin/viewusers"
                         }

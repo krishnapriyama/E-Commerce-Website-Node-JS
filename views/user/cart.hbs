@@ -35,7 +35,7 @@
                         <h5 class="mb-0" style="width: 450px;"> <a href="#"
                             class="text-dark d-inline-block text-decoration-none align-middle">{{this.product.name}}</a>
                         </h5><span class="text-muted font-weight-normal font-italic d-block">Category:
-                          {{this.product.type}}</span>
+                          {{this.product.category}}</span>
                       </div>
                     </div>
                   </th>
@@ -80,11 +80,11 @@
           <div class="p-4">
             <p class="font-italic mb-4">If you have a coupon code, please enter it in the box below</p>
             <div class="input-group mb-4 border rounded-pill p-2">
-              <input type="text" placeholder="Apply coupon" aria-describedby="button-addon3"
+              <input type="text" placeholder="Apply coupon" id="couponcode" aria-describedby="button-addon3"
                 class="form-control border-0">
               <div class="input-group-append border-0">
-                <button id="buttonclick" type="button" class="btn btn-dark px-4 rounded-pill "  onclick="buttonclick()"><i
-                    class="fa fa-gift mr-2"></i>Apply coupon</button>
+                <button id="buttonclick" type="button" class="btn btn-dark px-4 rounded-pill "
+                  onclick="buttoncouponclick()"><i class="fa fa-gift mr-2"></i>Apply coupon</button>
               </div>
             </div>
 
@@ -108,7 +108,9 @@
                   </div>
                   <div class="modal-body">
 
-
+                    <center>
+                      <span class="text-success" id="success_1"></span>
+                    </center>
 
                     <table class="table table-borderless">
                       <thead>
@@ -123,8 +125,14 @@
                         {{#each coupons}}
                         <tr class="text-center">
                           <th scope="row">{{inc @index}}</th>
-                          <td><input type="text" value="{{this.coupon}}" id="myInput">
-                            <button onclick="myFunction()" class="btn">Copy text</button>
+                          <td>
+                            <input type="text" value="{{this.coupon}}" id="{{@index}}">
+
+                            <span onclick="myFunction({{@index}})" class="btn"><i
+                                class="fa-solid fa-clipboard"></i></span><br>
+
+
+
                           </td>
                           <td>Rs - {{this.offeramount}}/-</td>
                         </tr>
@@ -158,19 +166,25 @@
             </p>
             <ul class="list-unstyled mb-4">
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Order Subtotal
-                </strong><strong> <span id="total1">{{totalValue}}.00</strong></li>
+                </strong><strong> <span id="total1">{{totalcost}}</strong></li>
+
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">
+                  Disount Amount</strong><strong id="discountamount">{{math totalcost "-"categoryValue.categorydiscount
+                  }}</strong></li>
 
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Offer
-                  Amount</strong><strong>00.00</strong></li>
+                  Amount</strong><strong id="offerdiscount">{{categoryValue.categorydiscount}}</strong></li>
 
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Coupon
-                  Disount</strong><strong  id="coupondiscount">00.00</strong></li>
+                  Disount </strong><strong id="coupondiscount">0</strong><a href="/cart">Coupon Remove</a></li>
+                  
 
-              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total</strong>
-                <h5 class="font-weight-bold">RS <span id="total">{{totalValue}}.00</span></h5>
+              <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total
+                  Amount</strong>
+                <h5 class="font-weight-bold">RS <span id="amounttobepay">{{categoryValue.categorydiscount}}</span></h5>
               </li>
 
-            </ul><a href="/place-order" class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
+            </ul><a href="/place-order"   class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
           </div>
         </div>
       </div>
@@ -209,49 +223,62 @@
       },
       method: 'post',
       success: (response) => {
+        console.log(response,"---------response")
         if (response.removeProduct) {
           Swal.fire('Item Deleted').then(() => {
             location.reload()
-          }) 
+          })
         } else {
           document.getElementById(proId).value = quantity + count
-          document.getElementById('total').innerHTML = response.total
-          document.getElementById('total1').innerHTML = response.total
-          document.getElementById('total2').innerHTML = response.total
+          document.getElementById('total1').innerHTML = response.totalamt
+        
+          document.getElementById('offerdiscount').innerHTML = response.categorydiscountAmount.categorydiscount
+
+          document.getElementById('coupondiscount').innerHTML ="Add your Coupon"
+
+          document.getElementById('discountamount').innerHTML = response.totalamt - response.categorydiscountAmount.categorydiscount
+
+            document.getElementById('amounttobepay').innerHTML = response.categorydiscountAmount.categorydiscount
+          
         }
       }
     })
   }
 
-  function removeProducts(cartID, ProID) {
+  function buttoncouponclick() {
+    let coupon = document.getElementById('couponcode').value
     $.ajax({
-      url: '/removeCartProduct',
+      url: `/applycoupon/${coupon}`,
+      method: 'get',
+      success: (response) => {
+        if (response.coupon == coupon) {
+          document.getElementById('coupondiscount').innerHTML = response.offeramount
+          
+           document.getElementById('amounttobepay').innerHTML =document.getElementById('offerdiscount').innerHTML - document.getElementById('coupondiscount').innerHTML
+        } else {
+          document.getElementById('coupondiscount').innerHTML = 00
+        }
+      }
+    })
+  }
+
+   {{!-- function placeorder(total){
+$.ajax({
+      url: `/place-order`,
       method: 'post',
-      data: {
-        cartID: cartID,
-        ProID: ProID
+      data{
+        Total:total;
       },
       success: (response) => {
-        if (response.ProRemove) {
-          Swal.fire({
-            icon: "success",
-            title: "Item Removed from Cart",
-            showConfirmButton: false,
-            timer: 1000,
-          }).then(() => {
-            location.reload();
-          });
-
-        }
-
       }
     })
-  }
+  } --}}
+
 </script>
 <script>
-  function myFunction() {
+  function myFunction(index) {
     // Get the text field
-    var copyText = document.getElementById("myInput");
+    var copyText = document.getElementById(index);
 
     // Select the text field
     copyText.select();
@@ -261,13 +288,9 @@
     navigator.clipboard.writeText(copyText.value);
 
     // Alert the copied text
-    Swal.fire('Copied to Clipboard')
+    document.getElementById('success_1').innerHTML = 'Copied'
+    setTimeout(() => {
+      document.getElementById('success_1').innerHTML = ''
+    }, 1000)
   }
-</script>
-
-<script>
-function buttonclick(){
-
-  document.getElementById("coupondiscount").innerHTML=
-}
 </script>

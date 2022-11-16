@@ -1,114 +1,139 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 
-<div class="container mt-3">
 
+<div class="container mt-3">
    <div class="card o-hidden border-5 shadow-lg my-5">
       <div class="card-body p-0">
-         <!-- Nested Row within Card Body -->
          <div class="row">
             <div class="col-lg">
                <div class="p-5">
                   <div class="text-center">
                      <h1 class="h4 text-gray-900 mb-4">ADD PRODUCTS</h1>
                   </div>
+
                   <form class="user" action="/admin/addproducts" method="post" enctype="multipart/form-data">
+
                      <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-3">
-                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                              placeholder="Name" name="name">
+                           <input type="text" class="form-control " id="name" onkeyup="validatename()"
+                              placeholder="Product Name" name="name">
+                           <span id="name-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleLastName"
+                           <input type="text" class="form-control " id="modelnumber" onkeyup="validatemodelnumber()"
                               placeholder="Model Number" name="modelnumber">
+                           <span id="modelnumber-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-3">
-                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                              placeholder="Stock" name="stock">
+                           <input type="number" class="form-control" id="stock"
+                              onkeyup="validatestock()" placeholder="Stock" name="stock">
+                           <span id="stock-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleLastName"
-                              placeholder="Model Name" name="modelname">
+                           <input type="text" class="form-control  " id="modelname"
+                              onkeyup="validatemodelname()" placeholder="Model Name" name="modelname">
+                           <span id="modelname-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                           <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                              placeholder="Series" name="series">
+                           <input type="text" class="form-control  " id="series"
+                              onkeyup="validateseries()" placeholder="Series" name="series">
+                           <span id="series-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleLastName"
-                              placeholder="Color" name="color">
+                           <input type="text" class="form-control  " id="color"
+                              onkeyup="validatecolor()" placeholder="Color" name="color">
+                           <span id="color-error" style="color: red;"></span>
                         </div>
                      </div>
+
                      <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-3">
                            <div class="d-flex">
                               <ul>{{#each categories}}
                                  <li>
                                     <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio"  name="category"
-                                       id="inlineRadio2" value="{{this.category}}" />
-                                    <label class="form-check-label" name="type" for="inlineRadio2">{{this.category}}</label>
+                                       <input class="form-check-input" type="radio" name="category" id="inlineRadio2"
+                                          value="{{this.category}}" required />
+                                       <label class="form-check-label" name="type"
+                                          for="inlineRadio2">{{this.category}}</label>
                                     </div>
                                  </li>
                                  {{/each}}
                               </ul>
                            </div>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
-                              placeholder="Battery Backup" name="batterybackup">
+                           <input type="text" class="form-control  " id="batterybackup"
+                              onkeyup="validatebatterybackup()" placeholder="Battery Backup" name="batterybackup">
+                           <span id="batterybackup-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-3">
-                           <input type="text" class="form-control form-control-user" id="exampleInputPassword"
-                              placeholder="Suitable for" name="suitablefor">
+                           <input type="text" class="form-control  " id="suitablefor"
+                              onkeyup="validatesuitablefor()" placeholder="Suitable for" name="suitablefor">
+                           <span id="suitablefor-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
-                              placeholder="Power Supply" name="powersupply">
+                           <input type="text" class="form-control  " id="powersupply"
+                              onkeyup="validatepowersupply()" placeholder="Power Supply" name="powersupply">
+                           <span id="powersupply-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
-                              name="Image">
+                           <input type="file" class=" form-control-user " id="exampleInputPassword" placeholder="Image"
+                              name="Image" required>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
-                              name="Image1">
+                           <input type="file" class="form-control-user  " id="exampleInputPassword" placeholder="Image"
+                              name="Image1" required>
                         </div>
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                           <input type="file" class=" form-control-user" id="exampleInputPassword" placeholder="Image"
-                              name="Image2">
+                           <input type="file" class=" form-control-user " id="exampleInputPassword" placeholder="Image"
+                              name="Image2" required>
                         </div>
-                        
+
                         <div class="col-sm-6 mb-3 mb-sm-0">
                            <input type="file" id="id_image1" name="Image3" accept="image/*" onchange="viewImage1(event)"
-                              class="form-control-user" placeholder="Image">
-
+                              class="form-control-user " placeholder="Image" required>
                            <img src="" id="imgView1" alt="" style="height:100px">
                            <div class="vald-info mb-3" id="info"></div>
                            <h5 class="error_form text-danger" id="image1_error_message"></h5>
                            <div style="display:flex">
                               <div id="image-box1" class="image-container"></div>
-
                            </div>
-
                            <button type="button" class="btn btn-outline-dark  ms-3" id="crop-btn1"
                               style="display: none; margin: 1rem 1rem 1rem;">Crop</button>
                         </div>
 
 
                         <div class="col-sm-6">
-                           <input type="number" class="form-control form-control-user" id="exampleRepeatPassword"
-                              placeholder="Price" name="price">
+                           <input type="number" class="form-control  " id="price"
+                              onkeyup="validateprice()" placeholder="Price" name="price">
+                           <span id="price-error" style="color: red;"></span>
                         </div>
+
                         <div class="col-sm-6">
-                           <input type="text" class="form-control form-control-user" id="exampleRepeatPassword"
-                              placeholder="Description" name="description">
+                           <input type="text" class="form-control " id="description"
+                              onkeyup="validatedescription()" placeholder="Description" name="description">
+                           <span id="description-error" style="color: red;"></span>
                         </div>
                      </div>
-                     {{!-- <input type="submit"> --}}
-                     <input type="submit" class="btn btn-user btn-block"
-                        style="background-color: #FB641B;color:white ;">
-                     </a>
+
+                     <button type="submit" onclick="return validateForm()" class="btn btn-block"
+                        style="background-color: #FB641B;color:white ;">Submit</button>
+                     <div class="container p-3" style="width: 100%; height: 5rem; text-align: center;">
+                        <span id="errorMessage" style="color: red;" class="text-center"></span>
+                     </div>
                   </form>
                </div>
             </div>
@@ -119,9 +144,8 @@
 </div>
 
 
+{{!-- Cropper --}}
 <script>
-
-   /* --------------------------------- image 1 -------------------------------- */
    const imagebox1 = document.getElementById('image-box1')
    const crop_btn1 = document.getElementById('crop-btn1')
    const input1 = document.getElementById('id_image1')
@@ -185,3 +209,155 @@
       })
    })
 </script>
+{{!-- End --}}
+
+
+{{!-- validateForm --}}
+<script>
+
+
+   var nameError = document.getElementById('name-error')
+   var modelnumberError = document.getElementById('modelnumber-error')
+   var stockError = document.getElementById('stock-error')
+   var modelnameError = document.getElementById('modelname-error')
+   var seriesError = document.getElementById('series-error')
+   var colorError = document.getElementById('color-error')
+   var batterybackupError = document.getElementById('batterybackup-error')
+   var suitableforError = document.getElementById('suitablefor-error')
+   var powersupplyError = document.getElementById('powersupply-error')
+   var priceError = document.getElementById('price-error')
+   var descriptionError = document.getElementById('description-error')
+   var errorMessage = document.getElementById('errorMessage')
+
+
+   function validatename() {
+      var proname = document.getElementById('name').value;
+      if (proname.length >= 100 || proname == '') {
+         nameError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         nameError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatemodelnumber() {
+      var modelnumber = document.getElementById('modelnumber').value;
+      if (modelnumber.length >= 8 || modelnumber == '') {
+         modelnumberError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         modelnumberError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatestock() {
+      var stock = document.getElementById('stock').value;
+      if (stock == '') {
+         stockError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         stockError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatemodelname() {
+      var modelname = document.getElementById('modelname').value;
+      if (modelname == '' || modelname.length >= 8) {
+         modelnameError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         modelnameError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validateseries() {
+      var series = document.getElementById('series').value;
+      if (series == '' || series.length >= 8) {
+         seriesError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         seriesError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatecolor() {
+      var modelname = document.getElementById('modelname').value;
+      if (modelname == '' || modelname.length >= 8) {
+         modelnameError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         modelnameError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatebatterybackup() {
+      var batterybackup = document.getElementById('batterybackup').value;
+      if (batterybackup == '' || batterybackup.length >= 8) {
+         batterybackupError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         batterybackupError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatesuitablefor() {
+      var suitablefor = document.getElementById('suitablefor').value;
+      if (suitablefor == '' || suitablefor.length >= 50) {
+         suitableforError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         suitableforError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatepowersupply() {
+      var powersupply = document.getElementById('powersupply').value;
+      if (powersupply == '') {
+         powersupplyError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         powersupplyError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validateprice() {
+      var price = document.getElementById('modepricelname').value;
+      if (price == '') {
+         priceError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         priceError.innerHTML = ""
+         return true
+      }
+   }
+
+   function validatedescription() {
+      var description = document.getElementById('description').value;
+      if (description == '') {
+         descriptionError.innerHTML = "Invalid Details"
+         return false
+      } else {
+         descriptionError.innerHTML = ""
+         return true
+      }
+   }
+
+
+   function validateForm() {
+      if (!validatename() || !validatemodelnumber() || !validatestock() || !validatemodelname() || !validateseries() || !validatecolor() || !validatebatterybackup() || !validatesuitablefor() || !validatepowersupply() || !validateprice() || !validatedescription())
+         errorMessage.style.display = 'block';
+      errorMessage.innerHTML = "Enter All Details Properly";
+      setTimeout(function () { errorMessage.style.display = 'none'; }, 3000);
+      return false;
+   }
+</script>
+{{!-- End --}}

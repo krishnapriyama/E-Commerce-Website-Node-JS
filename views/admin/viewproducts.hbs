@@ -16,6 +16,7 @@
                <th class="text-center">Sl.no</th>
                <th class="text-center">Name</th>
                <th class="text-center">Price</th>
+               <th class="text-center">Category OfferAmount</th>
                <th class="text-center">Category</th>
                <th class="text-center">Stock</th>
                <th class="text-center">Image</th>
@@ -29,7 +30,10 @@
                <th scope="row">{{inc @index}}</th>
                <td style="width: 32rem; word-wrap:break-word;">{{this.name}}</td>
                <td>{{this.price}}</td>
-               <td>{{this.category}}</td>
+               <td>{{this.offerAmount}}</td>
+               <td>{{this.category}}<br>
+                  {{this.offer}}% off
+               </td>
                <td>{{this.stock}}</td>
                <td><img style="width:60px; height:100px;" src="/product-images/{{this._id}}.png" alt=""></td>
                <td>
@@ -38,7 +42,7 @@
                   <a href="/admin/editproducts/{{this._id}}" style="width:70px; background-color: #FB641B;color: white;"
                      class="btn">EDIT</a>
                   <a href="/admin/moredetails/{{this._id}}" style="width:155px; background-color: #FB641B;color: white;"
-                     class="btn">MORE DETAILS</a>
+                     class="btn mt-2">MORE DETAILS</a>
                </td>
                {{#if this.isActive}}
                <td scope="row" style="width:5rem ;">
@@ -62,17 +66,23 @@
    </div>
 </section>
 
+
 <script>
    function deleteproduct(prodId) {
-      $.ajax({
-         url: `/admin/deleteproduct/${prodId}`,
-         method: "get",
-         success: (response) => {
-            if (response) {
-               Swal.fire('Product Deleted').then(() => {
-                  location.reload()
-               });
-            }
+      Swal.fire({
+         title: 'Do you want to Delete ?',
+         showCancelButton: true,
+         confirmButtonText: 'Delete',
+      }).then((result) => {
+         if (result.isConfirmed) {
+            $.ajax({
+               url: `/admin/deleteproduct/${prodId}`,
+               method: "get",
+               success: (result) => {
+                  location.reload();
+               }
+            })
+         } else {
          }
       })
    }

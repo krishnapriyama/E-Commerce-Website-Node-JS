@@ -46,6 +46,7 @@
     type="text/css">
   <link rel="stylesheet" href="/stylesheets/jqZoom.css" type="text/css" />
   {{!-- end --}}
+
 </head>
 
 
@@ -77,7 +78,7 @@
                 <a href="/homepage" class="js-logo-clone" style="text-decoration: none;">PHONO-MART</a>
                 {{/if}}
               </div>
-            </div> 
+            </div>
             {{!-- ggh --}}
 
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
@@ -91,8 +92,11 @@
                   <li><a href="/login"><span class='fa fa-user-tag' style="text-decoration: none;"></span></a></li>
                   {{/if}}
 
+                  {{#if viewproducts}}
+                  <li><a href="/wishlist"><i class="fa-solid fa-heart"></i></a></li>
+                  {{else}}
                   <li><a href="/wishlist"><span class='fa fa-heart-o'></span></a></li>
-
+                  {{/if}}
                   <li>
                     {{#if user}}
                     <a href="/cart" class="site-cart">
@@ -127,18 +131,11 @@
               <a href="/homepage">Home</a>
               {{/if}}
             </li>
-            <li class="has-children">
-              <a>About <i class="fa fa-caret-down"></i></a>
-              <ul class="dropdown">
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/orders">Orders</a></li>
-                <li><a href="/viewcoupons">Coupons</a></li>
-              </ul>
-            </li>
+            <li><a href="/aboutus">About</a></li>
             <li><a href="/viewproducts">Shop</a></li>
-            <li><a href="#">Catalogue</a></li>
+            <li><a href="/orders">Orders</a></li>
             <li><a href="#">New Arrivals</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/contactus">Contact</a></li>
           </ul>
         </div>
       </nav>

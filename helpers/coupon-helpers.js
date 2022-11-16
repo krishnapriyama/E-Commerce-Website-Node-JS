@@ -65,6 +65,32 @@ module.exports = {
                reject(err)
             })
       })
+   },
+   checkcoupon: (coupon) => {
+      return new Promise((resolve, reject) => {
+         db.get().collection(collection.COUPON_COLLECTION).findOne({ coupon: coupon }).then((resp) => {
+            resolve(resp)
+            console.log(resp);
+         }).catch((err) => {
+            reject(err)
+         })
+      })
+   },
+   CoupentoCart:(coupen,userID)=>{
+      console.log(coupen);
+      return new Promise((resolve,reject)=>{
+         db.get().collection(collection.CART_COLLECTION).updateOne({user:ObjectId(userID)},
+         {
+            $set:{
+               coupen:coupen
+            }
+         
+         }
+         ).then((resp)=>{
+            resolve(true)
+            console.log(resp);
+         })
+      })
    }
 
 

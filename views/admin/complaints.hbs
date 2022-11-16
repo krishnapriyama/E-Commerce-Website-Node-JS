@@ -1,0 +1,72 @@
+<section style="width: 100%;">
+   <div class="p-5">
+      <h1 class="text-center text-dark mb-5">
+         Complaints
+      </h1>
+      <table class="table table-bordered" id="mytbl">
+         <thead>
+            <tr>
+               <th>Username</th>
+               <th>Name</th>
+               <th>Email</th>
+               <th>Need</th>
+               <th>Message</th>
+               <th>Action</th>
+               <th>Status</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{#each complaint}}
+            <tr>
+               <td style="text-transform: uppercase;">{{this.fname}}</td>
+               <td>{{this.Complaints.name}}</td>
+               <td>{{this.Complaints.email}}</td>
+               <td>{{this.Complaints.need}}</td>
+               <td>{{this.Complaints.message}}</td>
+               <td>
+                  <form action="/admin/complaintchange-status" method="post">
+                  <input type="text" name="date" value="{{this.Complaints.date}}" hidden>
+                  <input type="text" name="id" value="{{this._id}}" hidden>
+                     <select class=" form-select mb-1" name="status">
+                        <option name="" value="0" selected>Select
+                        </option>
+                        <option value="accept">
+                           Accept</option>
+                        <option value="reject">
+                           Reject</option>
+                     </select>
+                     <br>
+                     <button class="btn btn-dark float-left second ms-3">
+                        SAVE </button>
+                  </form>
+               </td>
+               <td style="text-transform: uppercase;">{{this.Complaints.status}}</td>
+            </tr>
+            {{/each}}
+         </tbody>
+      </table>
+   </div>
+
+   <script>
+      function cancel_order(orderId) {
+         $.ajax({
+            url: `/cancel-order/${orderId}`,
+            method: 'get',
+            success: (response) => {
+               if (response) {
+                  location.reload()
+               }
+            }
+         })
+      }
+
+      $(document).ready(function () {
+         $('#mytbl').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+               'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+         });
+      });
+   </script>
+</section>

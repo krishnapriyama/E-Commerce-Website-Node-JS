@@ -13,6 +13,7 @@ module.exports = {
          if (admin) {
             console.log(admin);
             bcrypt.compare(adminData.password, admin.password).then((status) => {
+               console.log(status,"--------------------status");
                if (status) {
                   console.log("Login Success");
                   response.admin = admin
@@ -150,6 +151,13 @@ module.exports = {
          })
       })
    },
+   getallUserOrders: () => {
+      return new Promise(async (resolve, reject) => {
+         let allorders = await db.get().collection(collection.ORDER_COLLECTION).find().toArray()
+         resolve(allorders)
+         console.log(allorders);
+      })
+   },
    getallUserCodOrders: (cod_id) => {
       return new Promise(async (resolve, reject) => {
          let codOrders = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
@@ -160,6 +168,17 @@ module.exports = {
             }
          ]).toArray()
          resolve(codOrders)
+      })
+   },
+   getComplaints: () => {
+      return new Promise(async (resolve, reject) => {
+         let complaints = await db.get().collection(collection.USER_COLLECTION).aggregate([{
+            $unwind: {
+               path: '$Complaints'
+            }
+         }]).toArray()
+         resolve(complaints)
+         console.log(complaints);
       })
    },
    getallUserRazorOrders: () => {
@@ -207,10 +226,6 @@ module.exports = {
       return new Promise(async (resolve, reject) => {
          let totalAmount = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
             {
-               $match: {
-                  status: 'placed'
-               }
-            }, {
                $group: {
                   _id: null,
                   totalAmount: {
@@ -220,7 +235,7 @@ module.exports = {
             }
          ]).toArray()
          resolve(totalAmount)
-         //console.log(totalAmount, "totalAmount");
+         console.log(totalAmount, "totalAmount");
       })
    },
    getPendingCount: () => {
@@ -313,7 +328,7 @@ module.exports = {
       return new Promise(async (resolve, reject) => {
          let paypalCount = await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
             $match: {
-               paymentMethod: 'paypal'
+               paymentMethod: 'PayPal'
             }
          }, {
             $group: {
@@ -405,59 +420,80 @@ module.exports = {
       return new Promise(async (resolve, reject) => {
          let statuswisetotal = await db.get().collection(collection.ORDER_COLLECTION).aggregate([{
             $unwind: {
-             path: '$products'
+               path: '$products'
             }
-           }, {
+         }, {
             $lookup: {
-             from: 'product',
-             localField: 'products.item',
-             foreignField: '_id',
-             as: 'result'
+               from: 'product',
+               localField: 'products.item',
+               foreignField: '_id',
+               as: 'result'
             }
-           }, {
+         }, {
             $unwind: {
-             path: '$result'
+               path: '$result'
             }
-           }, {
+         }, {
             $group: {
-             _id: {
-              status: '$status',
-              product: '$result.name'
-             },
-             count: {
-              $sum: 1
-             }
+               _id: {
+                  status: '$status',
+                  product: '$result.name'
+               },
+               count: {
+                  $sum: 1
+               }
             }
-           }]).toArray()
+         }]).toArray()
          console.log(statuswisetotal, "statuswisetotal");
          resolve(statuswisetotal)
       })
    },
    statusUpdate: (OrderID, status) => {
       return new Promise((resolve, reject) => {
-        if (status.status == 'delivered') {
-          db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
-            { $set: { status: status.status, delivered: true } }).then((response) => {
-              resolve(response)
-            }).catch((err) => {
-              reject(err)
-            })
-        } else if (status.status == 'Cancel') {
-          db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
-            { $set: { status: status.status, orderCancel: true } }).then((response) => {
-              resolve(response)
-            }).catch((err) => {
-              reject(err)
-            })
-        } else if (status.status == 'Shipped')
-          db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
-            { $set: { status: status.status, Shipped: true } }).then((response) => {
-              resolve(response)
-            }).catch((err) => {
-              reject(err)
-            })
+         if (status.status == 'delivered') {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
+               { $set: { status: status.status, delivered: true } }).then((response) => {
+                  resolve(response)
+               }).catch((err) => {
+                  reject(err)
+               })
+         } else if (status.status == 'Cancel') {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
+               { $set: { status: status.status, orderCancel: true } }).then((response) => {
+                  resolve(response)
+               }).catch((err) => {
+                  reject(err)
+               })
+         } else if (status.status == 'Shipped')
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectId(OrderID) },
+               { $set: { status: status.status, Shipped: true } }).then((response) => {
+                  resolve(response)
+               }).catch((err) => {
+                  reject(err)
+               })
       })
-    }
+   },
+   complaintstatusUpdate: (status) => {
+      userID = status.id
+      console.log(status.date);
+      return new Promise((resolve, reject) => {
+         if (status.status == "accept") {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userID),'Complaints.date':status.date},
+               { $set: { 'Complaints.$.status': "accepted" } }).then((response) => {
+                  resolve(response)
+               }).catch((err) => {
+                  reject(err)
+               })
+         } else if (status.status == 'reject') {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: ObjectId(userID),'Complaints.date': status.date },
+               { $set: { 'Complaints.$.status': "rejected" } }).then((response) => {
+                  resolve(response)
+               }).catch((err) => {
+                  reject(err)
+               })
+         }
+      })
+   }
 
 
 

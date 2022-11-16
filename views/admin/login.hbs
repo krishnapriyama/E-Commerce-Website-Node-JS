@@ -31,14 +31,21 @@
       .btn-rounded{
           border-radius: 30px;
       }
+      .vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 85vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
 </style>
 </head>
 
 
-<body class="bg-color">
+<body class="bg-colo vertical-center" style="height: 100%;">
     <section class="container mt-5">
-        <div class="row justify-content-md-center mt-5">
-            <form class="col-md-6 col-sm-12 bg-white p-5 rounded shadow" action="/admin/loginadmin" method="post">
+        <div class="row justify-content-md-center mt-5 align-middle">
+            <form class="col-md-6 col-sm-12 bg-white p-5 rounded shadow" action="/admin" method="post">
                 <div class="col-12 text-center">
                     <h3 class="text-dark"><strong>ADMIN LOGIN</strong></h3>
                 </div>

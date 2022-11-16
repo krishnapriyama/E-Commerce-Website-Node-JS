@@ -1,7 +1,7 @@
 <section style="width: 100%;">
    <center>
       <h3 class="mt-5">
-         LIST OF USERS
+         LIST OF CATEGORY
       </h3>
    </center>
    <div class="p-5">
@@ -45,19 +45,23 @@
 {{!-- ajax function --}}
 <script>
    function deletecategory(catId) {
-      $.ajax({
-         url: `/admin/deletecategory/${catId}`,
-         method: "get",
-         success: (response) => {
-            if (response) {
-               Swal.fire('Category Deleted').then(() => {
-                  location.reload()
-               });
-            }
+      Swal.fire({
+         title: 'Do you want to Delete ?',
+         showCancelButton: true,
+         confirmButtonText: 'Delete',
+      }).then((result) => {
+         if (result.isConfirmed) {
+            $.ajax({
+               url: `/admin/deletecategory/${catId}`,
+               method: "get",
+               success: (result) => {
+                  location.reload();
+               }
+            })
+         } else {
          }
       })
    }
-
 
    $(document).ready(function () {
       $('#mytbl').DataTable({

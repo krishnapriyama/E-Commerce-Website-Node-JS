@@ -45,7 +45,8 @@ module.exports = {
       return new Promise((resolve, reject) => {
          db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: ObjectId(categoryId) }, {
             $set: {
-               category: categoryDetails.category
+               category: categoryDetails.category,
+               offer:categoryDetails.offer
             }
          }).then((response) => {
             resolve()

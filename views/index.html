@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+   input[type=text],
+   select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+   }
+
+   input[type=submit] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+   }
+
+   input[type=submit]:hover {
+      background-color: #45a049;
+   }
+
+   div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+   }
+</style>
+
+<body>
+
+   <h3>Using CSS to style an HTML Form</h3>
+
+   <div>
+      <form action="/action_page.php">
+         <label for="fname">First Name</label>
+         <input type="text" id="fname" name="firstname" placeholder="Your name.." onkeyup="validateName()">
+         <span id="name-error"></span>
+
+         <label for="phno">Phone Number</label>
+         <input type="text" id="phno" name="phno" placeholder="Phone Number">
+         <span id="ph-error"></span>
+
+         <label for="email">email</label>
+         <input type="text" id="email" name="email" placeholder="email">
+         <span id="email-error"></span>
+
+         <label for="message">Messgae</label>
+         <input type="text" id="message" name="message" placeholder="message">
+         <span id="message-error"></span>
+
+         <input type="submit" value="Submit">
+      </form>
+   </div>
+
+   
+   <script>
+      var nameError = document.getElementById('name-error')
+      var phnoError = document.getElementById('ph-error')
+      var emailError = document.getElementById('email-error')
+      var messageError = document.getElementById('message-error')
+
+
+      function validateName() {
+         var name = document.getElementById('fname').value
+         if (name.length == 0) {
+            nameError.innerHTML = "Name is Required"
+            return false
+         }
+         nameError.innerHTML = 'NAME VALID';
+         return true;
+      }
+   </script>
+
+</body>
+
+</html>
