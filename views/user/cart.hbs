@@ -177,14 +177,14 @@
 
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Coupon
                   Disount </strong><strong id="coupondiscount">0</strong><a href="/cart">Coupon Remove</a></li>
-                  
+
 
               <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Total
                   Amount</strong>
                 <h5 class="font-weight-bold">RS <span id="amounttobepay">{{categoryValue.categorydiscount}}</span></h5>
               </li>
 
-            </ul><a href="/place-order"   class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
+            </ul><a href="/place-order" class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
           </div>
         </div>
       </div>
@@ -223,23 +223,29 @@
       },
       method: 'post',
       success: (response) => {
-        console.log(response,"---------response")
+        console.log(response, "---------response")
         if (response.removeProduct) {
-          Swal.fire('Item Deleted').then(() => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Item Removed from Cart",
+          showConfirmButton: false,
+          timer: 1000,
+        }).then(() => {
             location.reload()
           })
         } else {
           document.getElementById(proId).value = quantity + count
           document.getElementById('total1').innerHTML = response.totalamt
-        
+
           document.getElementById('offerdiscount').innerHTML = response.categorydiscountAmount.categorydiscount
 
-          document.getElementById('coupondiscount').innerHTML ="Add your Coupon"
+          document.getElementById('coupondiscount').innerHTML = "Add your Coupon"
 
           document.getElementById('discountamount').innerHTML = response.totalamt - response.categorydiscountAmount.categorydiscount
 
-            document.getElementById('amounttobepay').innerHTML = response.categorydiscountAmount.categorydiscount
-          
+          document.getElementById('amounttobepay').innerHTML = response.categorydiscountAmount.categorydiscount
+
         }
       }
     })
@@ -247,32 +253,58 @@
 
   function buttoncouponclick() {
     let coupon = document.getElementById('couponcode').value
+    let totalamount = document.getElementById('amounttobepay')
+
     $.ajax({
       url: `/applycoupon/${coupon}`,
       method: 'get',
       success: (response) => {
+
         if (response.coupon == coupon) {
-          document.getElementById('coupondiscount').innerHTML = response.offeramount
-          
-           document.getElementById('amounttobepay').innerHTML =document.getElementById('offerdiscount').innerHTML - document.getElementById('coupondiscount').innerHTML
-        } else {
-          document.getElementById('coupondiscount').innerHTML = 00
+
+          if (response.offeramount <= parseInt(totalamount.innerHTML)) {
+
+            if (response.coupon != null) {
+
+              document.getElementById('coupondiscount').innerHTML = response.offeramount
+
+              document.getElementById('amounttobepay').innerHTML = document.getElementById('offerdiscount').innerHTML - document.getElementById('coupondiscount').innerHTML
+            }
+            
+          } else {
+            document.getElementById('coupondiscount').innerHTML = "Coupon Not Valid"
+            document.getElementById('amounttobepay').innerHTML = document.getElementById('offerdiscount').innerHTML
+          }
+        }
+        else {
+          document.getElementById('coupondiscount').innerHTML = "0"
         }
       }
     })
   }
 
-   {{!-- function placeorder(total){
-$.ajax({
-      url: `/place-order`,
-      method: 'post',
-      data{
-        Total:total;
-      },
-      success: (response) => {
+function removeProducts(cartID, ProID) {
+  $.ajax({
+    url: '/removeCartProduct',
+    method: 'post',
+    data: {
+      cartID: cartID,
+      ProID: ProID
+    },
+    success: (response) => {
+      if (response.ProRemove) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Item Removed from Cart",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        location.reload();
       }
-    })
-  } --}}
+
+    }
+  })}
 
 </script>
 <script>

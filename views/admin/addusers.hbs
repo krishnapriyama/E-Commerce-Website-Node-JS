@@ -46,10 +46,10 @@
                 <span id="password-error" style="color: red;"></span>
             </div>
             <button type="submit" onclick="return validateForm()" class="btn btn-block"
-                style="background-color: #FB641B;color:white ;">Submit</button>
-            <div class="container p-3" style="width: 100%; height: 5rem; text-align: center;">
-                <span id="errorMessage" style="color: red;" class="text-center"></span>
-            </div>
+                        style="background-color: #FB641B;color:white ;">Submit</button>
+                     <div class="container p-3" style="width: 100%; height: 5rem; text-align: center;">
+                        <span id="errorMessage" style="color: red;" class="text-center"></span>
+                     </div>
 
         </form>
     </div>
@@ -122,7 +122,7 @@
         }
     }
     function validateForm() {
-        if (!validname() || !validemail() || !validplace()|| !validmobile() ||  || !validpassword())
+        if (!validname() || !validemail() || !validplace()|| !validmobile() ||  !validpassword())
             errorMessage.style.display = 'block';
         errorMessage.innerHTML = "Enter All Details Properly";
         setTimeout(function () { errorMessage.style.display = 'none'; }, 3000);

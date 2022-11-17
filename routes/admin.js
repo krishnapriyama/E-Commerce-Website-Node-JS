@@ -159,7 +159,8 @@ router.get('/addusers', (req, res) => {
 
 router.post("/addusers", function (req, res, next) {
   userHelpers.doSignup(req.body).then((response) => {
-    res.render("admin/addusers", { admin: true });
+    console.log("Success");
+    // res.render("admin/addusers", { admin: true });
   });
 });
 
@@ -320,6 +321,12 @@ router.get('/viewcoupons', (req, res, next) => {
 router.post('/change-status/:id', (req, res, next) => {
   adminHelpers.statusUpdate(req.params.id, req.body).then((value) => {
     res.redirect('/admin/vieworders')
+  })
+})
+
+router.post('/allchange-status/:id', (req, res, next) => {
+  adminHelpers.statusUpdate(req.params.id, req.body).then((value) => {
+    res.redirect('/admin/viewallorders')
   })
 })
 
