@@ -146,10 +146,12 @@
 
 
                   <center>
-                     <img class="card-img-top p-4 d-flex " src="/product-images/{{this.result._id}}.png"
-                        style="width: 304px; height:449px;" alt="Card image cap">
+                     <a href="/singleproduct/{{this.result._id}}">
+                        <img class=" p-4 d-flex" src="/product-images/{{this.result._id}}.png"
+                           style="width: 244px; height:364px;" alt="Card image cap">
+                     </a>
                   </center>
-                  
+
 
                   {{#if this.offer}}
                   <div
@@ -158,7 +160,7 @@
                   </div>
                   {{/if}}
 
-                  <div class="card-body" style="width: 320px;">
+                  <div class="card-body" style="width: 100%;">
                      <strong>
                         <center>
                            <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.result.name}}
@@ -178,12 +180,15 @@
 
                      <p class="card-text" style="color: #FF6700; margin-bottom: -17px;">{{this.result.price}}/-</p>
                      <br>
+                     
 
                      {{/if}}
 
-                     <a href="/singleproduct/{{this.result._id}}" class="btn text-white mr-3 btn-dark">MORE
-                        <a onclick="addtocartconfrom('{{this.result._id}}')" class="btn text-white btn-dark">ADD TO
-                           CART</a></center>
+                      <a onclick="addtowishlist('{{this.result._id}}')" class="btn text-white mr-3 btn-dark"><i
+                           class="fa-solid fa-heart"></i> </a>
+
+                     <a onclick="addtocartconfrom('{{this.result._id}}')" class="btn text-white btn-dark">
+                        CART <i class="fa-solid fa-cart-shopping"></i> </a></center>
                   </div>
                </div>
             </div>
@@ -204,20 +209,19 @@
          url: `/add-to-cart/${prodId}`,
          method: "get",
          success: (response) => {
-            if (response) {
+            if (response.status == true) {
                let count = $('#cartCount').html()
                count = parseInt(count) + 1
                $('#cartCount').html(count)
                Swal.fire({
-                  title: "ADDED TO CART",
-                  text: "CONFORM!",
-                  icon: "success",
-                  buttonsStyling: false,
-                  confirmButtonText: "Yes Conform",
-                  customClass: {
-                     confirmButton: "btn btn-primary"
-                  }
-               });
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Added to Cart',
+                  showConfirmButton: false,
+                  timer: 1500
+               })
+            } else if (response.status == false) {
+               location.href = "/login";
             }
          }
       })
@@ -228,21 +232,3 @@
       console.log(a)
    }
 </script>
-
-
-
-
-{{!--
-[{
-$lookup: {
-from: 'product',
-localField: 'category',
-foreignField: 'category',
-as: 'result'
-}
-}, {
-$project: {
-category: 1,
-result: 1
-}
-}] --}}

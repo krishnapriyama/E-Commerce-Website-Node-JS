@@ -1,18 +1,18 @@
-var mongoClient = require('mongodb').MongoClient;
+var mongoClient = require('mongodb').MongoClient
 const state = {
-   db: null
+  db: null,
 }
 module.exports.connect = function (done) {
-   var url = "mongodb://localhost:27017";
-   const dbname = 'xiaomi'
+  var url = 'mongodb://localhost:27017'
+  const dbname = 'xiaomi'
 
-   mongoClient.connect(url, (err, data) => {
-      if (err) return done(err)
-      state.db = data.db(dbname)
-      done()
-   })
+  mongoClient.connect(url, (err, data) => {
+    if (err) return done(err)
+    state.db = data.db(dbname)
+    done()
+  })
 }
 
-   module.exports.get = function () {
-      return state.db
-   }
+module.exports.get = function () {
+  return state.db
+}

@@ -14,11 +14,14 @@
             <tr>
                <th class="text-center">Sl.No</th>
                <th class="text-center">Coupon Name</th>
-               <th class="text-center">Discount Amount in Rs/-</th>
-               <th class="text-center">Date</th>
-               <th class="text-center">Status</th>
+               <th class="text-center">Max Amount</th>
+               <th class="text-center">Min Amount</th>
+               <th class="text-center">Discount</th>
+               <th class="text-center">Start Date</th>
+               <th class="text-center">End Date</th>
+               <th class="text-center">Coupon_EnteredOn</th>
+               <th class="text-center">Action</th>
                <th class="text-center">Active Status</th>
-
             </tr>
          </thead>
          <tbody>
@@ -26,8 +29,12 @@
             <tr class="text-center">
                <th scope="row">{{inc @index}}</th>
                <td>{{this.coupon}}</td>
-               <td>{{this.offeramount}}</td>
-               <td>{{this.data}}</td>
+               <td>{{this.maxamount}}</td>
+               <td>{{this.minamount}}</td>
+               <td>{{this.percentage}}</td>
+               <td>{{this.startdate}}</td>
+               <td>{{this.enddate}}</td>
+               <td>{{this.Coupon_enterdata}}</td>
                <td>
                   <button onclick="deletecoupon('{{this._id}}')"
                      style="width:90px; background-color: #FB641B; color: white;" class="btn">DELETE</button> <br>
@@ -35,7 +42,7 @@
                {{#if this.isActive}}
                <td scope="row" style="width:5rem ;">
                   <div class="form-check form-switch">
-                     <input type="checkbox" class="form-check-input"  id="{{this._id}}"
+                     <input type="checkbox" class="form-check-input" id="{{this._id}}"
                         onclick="activeStatus('{{this._id}}')" checked>
                   </div>
                </td>
@@ -78,14 +85,14 @@
       })
    }
 
-function activeStatus(id) {
+   function activeStatus(id) {
       let activeStatus = document.getElementById(id)
       if (activeStatus.checked == true) {
          $.ajax({
             url: `/admin/CouponactiveTrue/${id}`,
             method: 'get',
             success: (response) => {
-               Swal.fire('Coupon InActive')
+               Swal.fire('Coupon Disabled')
             }
 
          })
@@ -102,12 +109,12 @@ function activeStatus(id) {
 
 
 
-  $(document).ready(function() {
-    $('#mytbl').DataTable( {
-        dom: 'Bfrtip',
+   $(document).ready(function () {
+      $('#mytbl').DataTable({
+         dom: 'Bfrtip',
          buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-} );
+         ]
+      });
+   });
 </script>

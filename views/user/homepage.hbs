@@ -1,115 +1,129 @@
 <div class="site-blocks-cover" style="background-image: url(/images/bg1.jpg);" data-aos="fade">
-   <div class="container">
-      <div class="row align-items-start align-items-md-center justify-content-start">
-         <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
-            <h1 class="mb-2">Finding Your Perfect Phones</h1>
-            <div class="intro-text text-center text-md-left">
-               <p class="mb-4">SO WE CAN LEARN TO PICK OURSELVES UP </p>
-               <p>
-                  <a href="/viewproducts" class="btn btn-sm btn-dark">Shop Now</a>
-               </p>
-            </div>
-         </div>
+  <div class="container">
+    <div class="row align-items-start align-items-md-center justify-content-start">
+      <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+        <h1 class="mb-2">Finding Your Perfect Phones</h1>
+        <div class="intro-text text-center text-md-left">
+          <p class="mb-4">SO WE CAN LEARN TO PICK OURSELVES UP </p>
+          <p>
+            <a href="/viewproducts" class="btn btn-sm btn-dark">Shop Now</a>
+          </p>
+        </div>
       </div>
-   </div>
+    </div>
+  </div>
 </div>
 
 
 
 <!-- Start Categories  -->
 <section class="container py-5 mt-4">
-   <div class="row text-center pt-3">
-      <div class="col-lg-6 m-auto">
-         <h1 class="h1">SHOP BY CATEGORY</h1>
-         <p>
-            find your style in our categories !!
-            Choose your Perfect &nbsp;  <span class="fa fa-phone"></span> &nbsp; Partner
-         </p>
+  <div class="row text-center pt-3">
+    <div class="col-lg-6 m-auto">
+      <h1 class="h1 text-dark">SHOP BY CATEGORY</h1>
+      <p style="color: black;">
+        find your style in our categories !!
+        Choose your Perfect &nbsp; <span class="fa fa-phone"></span> &nbsp; Partner
+      </p>
+    </div>
+  </div>
+  <div class="row ">
+    {{#each category}}
+    <div class="col-12 col-md-4 mb-2 col-lg-4 col-xl-3 p-5 text-center">
+      <div class="">
+        <a href="/listAllProducts/{{this.category}}">
+          <img src="/category-images/{{this._id}}.png" href="/listAllProducts/{{this.category}}" class="pb-0" style="height: 19em;">
+        </a>
       </div>
-   </div>
-   <div class="row ">
-      {{#each category}}
-      <div class="col-12 col-md-4 mb-2 col-lg-4 col-xl-3 p-5">
-         <div class="">
-            <a href="/listAllProducts/{{this.category}}">
-               <img src="/category-images/{{this._id}}.png" class="pb-0" style="height: 19em;">
-            </a>
-         </div>
-         <h5 class="text-center mt-3 mb-3">{{this.category}}</h5>
-         <p class="text-center"><a class="btn btn-dark" href="/listAllProducts/{{this.category}}">Go Shop</a></p>
-      </div>
-      {{/each}}
-   </div>
+      <h5 class="text-center mt-3 mb-3 text-dark">{{this.category}}</h5>
+    </div>
+    {{/each}}
+  </div>
 </section>
 
 
+
+
 <section class="pt-5 pt-md-6">
-
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-md-5 col-lg-7 text-lg-center"><img class="img-fluid mb-5 mb-md-0" src="/images/img21.png" alt="" /></div>
-            <div class="col-md-7 col-lg-5 text-center text-md-start">
-              <h2>We Provide Many <br />Features You Can Use</h2>
-              <p> You can explore the features that we provide with fun and have their own functions each feature.</p>
-              <div class="d-flex">
-                <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
-                </svg>
-                <p class="ms-2">Powerfull online protection.</p>
-              </div>
-              <div class="d-flex">
-                <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
-                </svg>
-                <p class="ms-2">Discount Sales</p>
-              </div>
-              <div class="d-flex">
-                <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
-                </svg>
-                <p class="ms-2">Bulk Orders (Contact Us)</p>
-              </div>
-              <div class="d-flex">
-                <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73" viewBox="0 0 16 16">
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
-                </svg>
-                <p class="ms-2">Flash Sales</p>
-              </div>
-            </div>
-          </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-5 col-lg-7 text-lg-center"><img class="img-fluid mb-5 mb-md-0" src="/images/img21.png"
+          alt="" /></div>
+      <div class="col-md-7 col-lg-5 text-center text-md-start">
+        <h2>We Provide Many <br />Features You Can Use</h2>
+        <p> You can explore the features that we provide with fun and have their own functions each feature.</p>
+        <div class="d-flex">
+          <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+            </path>
+          </svg>
+          <p class="ms-2">Powerfull online protection.</p>
         </div>
-        <!-- end of .container-->
-        </section>
-
+        <div class="d-flex">
+          <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+            </path>
+          </svg>
+          <p class="ms-2">Discount Sales</p>
+        </div>
+        <div class="d-flex">
+          <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+            </path>
+          </svg>
+          <p class="ms-2">Bulk Orders (Contact Us)</p>
+        </div>
+        <div class="d-flex">
+          <svg class="bi bi-check-circle-fill" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2FAB73"
+            viewBox="0 0 16 16">
+            <path
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+            </path>
+          </svg>
+          <p class="ms-2">Flash Sales</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end of .container-->
+</section>
 
 
 
 <div class="site-section block-8">
-   <div class="container">
-      <div class="row justify-content-center  mb-5">
-         <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Big Sale!</h2>
-         </div>
+  <div class="container">
+    <div class="row justify-content-center  mb-5">
+      <div class="col-md-7 site-section-heading text-center pt-4">
+        <h2>Big Sale!</h2>
       </div>
-      <div class="row align-items-center">
-         <div class="col-md-12 col-lg-7 mb-5">
-            <a href="#"><img src="/images/img2.jpg" alt="Image placeholder" class="img-fluid rounded"></a>
-         </div>
-         <div class="col-md-12 col-lg-5 text-center pl-md-5">
-            <h2><a href="#" style="text-decoration: none; color: orange;">50% less in all items</a></h2>
-            <p class="post-meta mb-4">By <a href="#" style="text-decoration: none; color: orange;">Jenny Jaffer</a>
-               <span class="block-8-sep">&bullet;</span>
-               September 3, 2018
-            </p>
-            <p>Flagship MediaTek Dimensity 8100
-               144Hz DynamicSwitch DotDisplay
-               67W turbo charging
-               High-resolution 64MP triple camera</p>
-            <p><a href="#" class="btn btn-dark btn-sm">Shop Now</a></p>
-         </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-md-12 col-lg-7 mb-5">
+        <a href="#"><img src="/images/img2.jpg" alt="Image placeholder" class="img-fluid rounded"></a>
       </div>
-   </div>
+      <div class="col-md-12 col-lg-5 text-center pl-md-5">
+        <h2><a href="#" style="text-decoration: none; color: orange;">50% less in all items</a></h2>
+        <p class="post-meta mb-4">By <a href="#" style="text-decoration: none; color: orange;">Jenny Jaffer</a>
+          <span class="block-8-sep">&bullet;</span>
+          September 3, 2018
+        </p>
+        <p>Flagship MediaTek Dimensity 8100
+          144Hz DynamicSwitch DotDisplay
+          67W turbo charging
+          High-resolution 64MP triple camera</p>
+        <p><a href="#" class="btn btn-dark btn-sm">Shop Now</a></p>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 <div class="bg-light py-5">
   <div class="container py-5">
     <div class="row mb-4">
@@ -122,7 +136,9 @@
     <div class="row text-center">
       <!-- Team item-->
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-4.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img
+            src="https://bootstrapious.com/i/snippets/sn-about/avatar-4.png" alt="" width="100"
+            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
           <h5 class="mb-0">Manuella Nevoresky</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -136,7 +152,9 @@
 
       <!-- Team item-->
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-3.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img
+            src="https://bootstrapious.com/i/snippets/sn-about/avatar-3.png" alt="" width="100"
+            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
           <h5 class="mb-0">Samuel Hardy</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -150,7 +168,9 @@
 
       <!-- Team item-->
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-2.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img
+            src="https://bootstrapious.com/i/snippets/sn-about/avatar-2.png" alt="" width="100"
+            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
           <h5 class="mb-0">Tom Sunderland</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -164,7 +184,9 @@
 
       <!-- Team item-->
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-about/avatar-1.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+        <div class="bg-white rounded shadow-sm py-5 px-4"><img
+            src="https://bootstrapious.com/i/snippets/sn-about/avatar-1.png" alt="" width="100"
+            class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
           <h5 class="mb-0">John Tarly</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -174,3 +196,7 @@
           </ul>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+

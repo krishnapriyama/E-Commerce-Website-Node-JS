@@ -32,7 +32,7 @@ app.engine(
           "-": lvalue - rvalue,
           "*": lvalue * rvalue,
           "/": lvalue / rvalue,
-          "%": lvalue % rvalue
+          "%": lvalue % rvalue,
         }[operator];
       },
       stringCompare: function (value1, value2) {
@@ -41,6 +41,24 @@ app.engine(
         }
         else {
           return false
+        }
+      },
+      stringnotEquallCompare: function (value1, value2) {
+        if (value1 != value2) {
+          return true
+        }
+        else {
+          return false
+        }
+      },
+      logical: function (left, opertor, right) {
+        if (opertor == "<") {
+          console.log("----------", left, opertor, right);
+          if (left < right) {
+            return true;
+          } else {
+            return false;
+          }
         }
       }
     }

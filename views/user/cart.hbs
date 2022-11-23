@@ -36,6 +36,9 @@
                             class="text-dark d-inline-block text-decoration-none align-middle">{{this.product.name}}</a>
                         </h5><span class="text-muted font-weight-normal font-italic d-block">Category:
                           {{this.product.category}}</span>
+                        <span id="stock" class="text-muted font-weight-normal font-italic d-block" hidden>Category:
+                          {{this.product.stock}}</span>
+
                       </div>
                     </div>
                   </th>
@@ -47,16 +50,16 @@
                           <button class="btn btn-outline-dark js-btn-minus" type="button"
                             onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">&minus;</button>
                         </div>
-                        {{!-- <span id="{{this.product._id}}" class="form-control text-center">
-                          {{this.quantity}}
-                        </span> --}}
+
                         <input type="number" readonly="true" class="form-control text-center" value="{{this.quantity}}"
                           placeholder="" id="{{this.product._id}}" aria-label="Example text with button addon"
                           aria-describedby="button-addon1">
+
                         <div class="input-group-append">
                           <button class="btn btn-outline-dark js-btn-plus" type="button"
                             onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">&plus;</button>
                         </div>
+
                       </div>
                     </center>
 
@@ -117,7 +120,7 @@
                         <tr>
                           <th class="text-center">Sl.No</th>
                           <th class="text-center">Coupon Name</th>
-                          <th class="text-center">Amount in Rs/-</th>
+                          <th class="text-center">Discount Percentage</th>
 
                         </tr>
                       </thead>
@@ -130,18 +133,12 @@
 
                             <span onclick="myFunction({{@index}})" class="btn"><i
                                 class="fa-solid fa-clipboard"></i></span><br>
-
-
-
                           </td>
-                          <td>Rs - {{this.offeramount}}/-</td>
+                          <td> {{this.percentage}}%</td>
                         </tr>
                         {{/each}}
                       </tbody>
                     </table>
-
-
-
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -184,7 +181,8 @@
                 <h5 class="font-weight-bold">RS <span id="amounttobepay">{{categoryValue.categorydiscount}}</span></h5>
               </li>
 
-            </ul><a href="/place-order" class="btn btn-dark rounded-pill py-2 btn-block">Place Order</a>
+            </ul><button onclick="checkout()" class="btn btn-dark rounded-pill py-2 btn-block">Place
+              Order</button>
           </div>
         </div>
       </div>
@@ -209,6 +207,42 @@
 
 {{!-- ajax functions --}}
 <script>
+
+  function checkout() {
+    let offer = document.getElementById('offerdiscount').innerHTML
+    let code = document.getElementById('couponcode').value
+    let pay = document.getElementById('amounttobepay').innerHTML
+    let coupon = document.getElementById('coupondiscount').innerHTML
+    if (coupon == 0) {
+      $.ajax({
+        url: "/checkout",
+        method: "post",
+        data: {
+          couponAmount: null,
+          offerAmount: offer,
+          amounttopay: pay,
+        },
+        success: (response) => {
+          location.href = "/place-order"
+        },
+      })
+    } else {
+      $.ajax({
+        url: "/checkout",
+        method: "post",
+        data: {
+          couponcode: code,
+          couponAmount: coupon,
+          offerAmount: offer,
+          amounttopay: pay,
+        },
+        success: (response) => {
+          location.href = "/place-order"
+        },
+      })
+    }
+  }
+
   function changeQuantity(cartId, proId, userId, count) {
     let quantity = parseInt(document.getElementById(proId).value)
     count = parseInt(count)
@@ -223,29 +257,46 @@
       },
       method: 'post',
       success: (response) => {
-        console.log(response, "---------response")
-        if (response.removeProduct) {
-          Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Item Removed from Cart",
-          showConfirmButton: false,
-          timer: 1000,
-        }).then(() => {
-            location.reload()
-          })
+        if (response.stock) {
+          if (response.removeProduct) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Item Removed from Cart",
+              showConfirmButton: false,
+              timer: 1000,
+            }).then(() => {
+              location.reload()
+            })
+          } else {
+            document.getElementById(proId).value = quantity + count
+            document.getElementById('total1').innerHTML = response.totalamt
+
+            document.getElementById('offerdiscount').innerHTML = response.categorydiscountAmount.categorydiscount
+
+            document.getElementById('coupondiscount').innerHTML = "Add your Coupon"
+
+            document.getElementById('discountamount').innerHTML = response.totalamt - response.categorydiscountAmount.categorydiscount
+
+            document.getElementById('amounttobepay').innerHTML = response.categorydiscountAmount.categorydiscount
+          }
         } else {
-          document.getElementById(proId).value = quantity + count
-          document.getElementById('total1').innerHTML = response.totalamt
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'bottom',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
-          document.getElementById('offerdiscount').innerHTML = response.categorydiscountAmount.categorydiscount
-
-          document.getElementById('coupondiscount').innerHTML = "Add your Coupon"
-
-          document.getElementById('discountamount').innerHTML = response.totalamt - response.categorydiscountAmount.categorydiscount
-
-          document.getElementById('amounttobepay').innerHTML = response.categorydiscountAmount.categorydiscount
-
+          Toast.fire({
+            icon: 'warning',
+            title: 'Oops !! it out of stock'
+          })
         }
       }
     })
@@ -253,60 +304,60 @@
 
   function buttoncouponclick() {
     let coupon = document.getElementById('couponcode').value
-    let totalamount = document.getElementById('amounttobepay')
+    let totalamount = document.getElementById('amounttobepay').innerHTML
+    let offeramount = document.getElementById('offerdiscount').innerHTML
+    let coupondiscount = document.getElementById('coupondiscount').innerHTML
+    let date = new Date()
+    let thisDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate()
 
     $.ajax({
       url: `/applycoupon/${coupon}`,
       method: 'get',
       success: (response) => {
-
         if (response.coupon == coupon) {
+          if (parseInt(response.minamount) <= offeramount && response.isActive == false && response.coupon != null && thisDate < response.enddate && parseInt((response.percentage * offeramount) / 100) <= offeramount) {
 
-          if (response.offeramount <= parseInt(totalamount.innerHTML)) {
+            document.getElementById('coupondiscount').innerHTML = ((response.percentage * offeramount) / 100)
+            document.getElementById('amounttobepay').innerHTML = document.getElementById('offerdiscount').innerHTML - document.getElementById('coupondiscount').innerHTML
 
-            if (response.coupon != null) {
-
-              document.getElementById('coupondiscount').innerHTML = response.offeramount
-
-              document.getElementById('amounttobepay').innerHTML = document.getElementById('offerdiscount').innerHTML - document.getElementById('coupondiscount').innerHTML
-            }
-            
           } else {
-            document.getElementById('coupondiscount').innerHTML = "Coupon Not Valid"
-            document.getElementById('amounttobepay').innerHTML = document.getElementById('offerdiscount').innerHTML
+
+            document.getElementById('coupondiscount').innerHTML = "Coupon Invalid coupon"
+
           }
-        }
-        else {
-          document.getElementById('coupondiscount').innerHTML = "0"
         }
       }
     })
   }
 
-function removeProducts(cartID, ProID) {
-  $.ajax({
-    url: '/removeCartProduct',
-    method: 'post',
-    data: {
-      cartID: cartID,
-      ProID: ProID
-    },
-    success: (response) => {
-      if (response.ProRemove) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Item Removed from Cart",
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        location.reload();
-      }
+  function removeProducts(cartID, ProID) {
+    $.ajax({
+      url: '/removeCartProduct',
+      method: 'post',
+      data: {
+        cartID: cartID,
+        ProID: ProID
+      },
+      success: (response) => {
+        if (response.ProRemove) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Item Removed from Cart",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+          location.reload();
+        }
 
-    }
-  })}
+      }
+    })
+  }
 
 </script>
+
+
+
 <script>
   function myFunction(index) {
     // Get the text field

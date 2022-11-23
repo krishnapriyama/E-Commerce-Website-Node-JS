@@ -22,6 +22,7 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/aos.css">
   <link rel="stylesheet" href="/stylesheets/style.css">
+  
   {{!-- end link --}}
 
 
@@ -59,8 +60,8 @@
 
   <div class="site-wrap">
     <header class="site-navbar" role="banner">
-      <div class="site-navbar-top">
-        <div class="container">
+      <div class="site-navbar">
+        <div class="p-5">
           <div class="row align-items-center">
 
             <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
@@ -92,7 +93,7 @@
                   <li><a href="/login"><span class='fa fa-user-tag' style="text-decoration: none;"></span></a></li>
                   {{/if}}
 
-                  {{#if viewproducts}}
+                  {{#if viewproductswishlist}}
                   <li><a href="/wishlist"><i class="fa-solid fa-heart"></i></a></li>
                   {{else}}
                   <li><a href="/wishlist"><span class='fa fa-heart-o'></span></a></li>
@@ -123,7 +124,7 @@
       </div>
       <nav class="site-navigation text-right text-md-center" role="navigation">
         <div class="container">
-          <ul class="site-menu js-clone-nav d-none d-md-block">
+          <ul class="site-menu text-center">
             <li class="has-children">
               {{#if user}}
               <a href="/homepage">Home</a>
@@ -134,7 +135,6 @@
             <li><a href="/aboutus">About</a></li>
             <li><a href="/viewproducts">Shop</a></li>
             <li><a href="/orders">Orders</a></li>
-            <li><a href="#">New Arrivals</a></li>
             <li><a href="/contactus">Contact</a></li>
           </ul>
         </div>

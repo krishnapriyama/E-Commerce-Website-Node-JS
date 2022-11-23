@@ -157,7 +157,7 @@
                   </div>
                   {{/if}}
 
-                  <div class="card-body" style="width: 320px;">
+                  <div class="card-body" style="width: 100%;">
                      <strong>
                         <center>
                            <p class="card-text text-dark" style="width: 320px; height: 50px;">{{this.result.name}}
@@ -180,10 +180,12 @@
 
                      {{/if}}
 
-                     <a href="/singleproduct/{{this.result._id}}" class="btn text-white mr-3 btn-dark">MORE
-                        <a onclick="addtocartconfrom('{{this.result._id}}')" class="btn text-white btn-dark">ADD TO
-                           CART</a>
-                           <a onclick="remove('{{this.result._id}}')" class="btn text-white btn-dark mt-2">Remove From Wishlist</a></center>
+                     <a onclick="addtowishlist('{{this.result._id}}')" class="btn text-white btn-dark"><i
+                           class="fa-solid fa-heart"></i> </a>
+
+                     <a onclick="addtocartconfrom('{{this.result._id}}')" class="btn text-white btn-dark">
+                        CART <i class="fa-solid fa-cart-shopping"></i></a>
+                           <a onclick="remove('{{this.result._id}}')" class="btn text-white btn-dark">Remove <i class="fa-solid fa-trash"></i></a></center>
                   </div>
                </div>
             </div>

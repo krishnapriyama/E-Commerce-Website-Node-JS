@@ -13,23 +13,27 @@
 
   .card {
     position: relative;
-    display: -webkit-box;
+    display:
+      -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient:
+      vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: #fff;
+    background-color:
+      #fff;
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.10rem
   }
 
   .card-header:first-child {
-    border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+    border-radius:
+      calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
   }
 
   .card-header {
@@ -56,7 +60,8 @@
     flex-grow: 1;
     width: 25%;
     margin-top: -18px;
-    text-align: center;
+    text-align:
+      center;
     position: relative
   }
 
@@ -68,7 +73,8 @@
     height: 7px;
     position: absolute;
     content: "";
-    width: 100%;
+    width:
+      100%;
     left: 0;
     top: 18px
   }
@@ -100,7 +106,8 @@
 
   .itemside {
     position: relative;
-    display: -webkit-box;
+    display:
+      -webkit-box;
     display: -ms-flexbox;
     display: flex;
     width: 100%
@@ -120,7 +127,8 @@
 
   ul.row,
   ul.row-sm {
-    list-style: none;
+    list-style:
+      none;
     padding: 0
   }
 
@@ -150,208 +158,258 @@
   .btn-warning:hover {
     color: #ffffff;
     background-color: #ff2b00;
-    border-color: #ff2b00;
+    border-color:
+      #ff2b00;
     border-radius: 1px
   }
 </style>
 <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
 
-<div class="container ">
+<div class="container">
   {{#each products}}
   <article class="card rounded mb-5">
-    <header class="card-header"> My Orders / Tracking </header>
+    <header class="card-header">
+      My Orders / Tracking
+    </header>
     <div class="card-body">
-      <h6>Order ID: {{this.items._id}}</h6>
+      <h6>
+        Order ID:
+        {{this.items._id}}
+      </h6>
       <article class="card">
         <div class="card-body row">
-          <div class="col"> <strong>Estimated Delivery time:</strong> <br>After One Week</div>
-          <div class="col"> <strong>Shipping BY:</strong> <br> Phono - Mart ukz-1, | <i class="fa fa-phone"></i>
+          <div class="col">
+            <strong>
+              Estimated Delivery time:
+            </strong>
+            <br />
+            After One Week
+          </div>
+          <div class="col">
+            <strong>
+              Shipping BY:
+            </strong>
+            <br />
+            Phono - Mart ukz-1, |
+            <i class="fa fa-phone"></i>
             +1598675986
           </div>
-          <div class="col"> <strong>OrderPlace Date:</strong> <br>{{this.Date}} </div>
-          <div class="col"> <strong>Address #:</strong> <br> Name -
-            {{this.delivaryDetails.name}}{{this.delivaryDetails.lastname}} <br>
-            Mobile - {{this.delivaryDetails.mobile}} <br>
-            Address - {{this.delivaryDetails.address}} <br>
-            Pincode - {{this.delivaryDetails.pincode}} <br>
-            Email - {{this.delivaryDetails.email}} <br>
-            Country - {{this.delivaryDetails.country}} <br>
-            State - {{this.delivaryDetails.state}} <br> </div>
+          <div class="col">
+            <strong>
+              OrderPlace Date:
+            </strong>
+            <br />{{this.Date}}
+          </div>
+          <div class="col">
+            <strong>
+              Address #:
+            </strong>
+            <br />
+            Name -
+            {{this.delivaryDetails.name}}{{this.delivaryDetails.lastname}}
+            <br />
+            Mobile -
+            {{this.delivaryDetails.mobile}}
+            <br />
+            Address -
+            {{this.delivaryDetails.address}}
+            <br />
+            Pincode -
+            {{this.delivaryDetails.pincode}}
+            <br />
+            Email -
+            {{this.delivaryDetails.email}}
+            <br />
+            Country -
+            {{this.delivaryDetails.country}}
+            <br />
+            State -
+            {{this.delivaryDetails.state}}
+            <br />
+          </div>
         </div>
       </article>
       <div class="track">
-
-        {{#if (stringCompare this.status 'placed')}}
-
-
-        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
-            confirmed</span> </div>
-        <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by
-            courier</span> </div>
-        <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
-          </span></div>
-
+        {{#if (stringCompare this.status "placed")}}
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-check"></i>
+          </span>
+          <span class="text">
+            Order confirmed
+          </span>
+        </div>
+        <div class="step">
+          <span class="icon">
+            <i class="fa fa-user"></i>
+          </span>
+          <span class="text">
+            Picked by courier
+          </span>
+        </div>
+        <div class="step">
+          <span class="icon">
+            <i class="fa fa-truck"></i>
+          </span>
+          <span class="text">
+            Delivered
+          </span>
+        </div>
         {{else}}
-        {{#if (stringCompare this.status 'Shipped')}}
-
-
-        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
-            confirmed</span> </div>
-        <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked
-            by courier</span> </div>
-        <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
-          </span></div>
-
+        {{#if (stringCompare this.status "Shipped")}}
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-check"></i>
+          </span>
+          <span class="text">
+            Order confirmed
+          </span>
+        </div>
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-user"></i>
+          </span>
+          <span class="text">
+            Picked by courier
+          </span>
+        </div>
+        <div class="step">
+          <span class="icon">
+            <i class="fa fa-truck"></i>
+          </span>
+          <span class="text">
+            Delivered
+          </span>
+        </div>
         {{else}}
-        {{#if (stringCompare this.status 'delivered')}}
-
-        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order
-            confirmed</span> </div>
-        <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked
-            by courier</span> </div>
-        <div class="step active "> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Delivered
-            the way
-          </span></div>
-
+        {{#if (stringCompare this.status "delivered")}}
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-check"></i>
+          </span>
+          <span class="text">
+            Order confirmed
+          </span>
+        </div>
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-user"></i>
+          </span>
+          <span class="text">
+            Picked by courier
+          </span>
+        </div>
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-truck"></i>
+          </span>
+          <span class="text">
+            Delivered the way
+          </span>
+        </div>
         {{else}}
-        {{#if (stringCompare this.status 'Cancel')}}
-       <div class="step active "></div>
-            <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Cancelled </span> </div>
-            <div class="step active "></div>
-
+        {{#if (stringCompare this.status "Cancel")}}
+        <div class="step active"></div>
+        <div class="step active">
+          <span class="icon">
+            <i class="fa fa-user"></i>
+          </span>
+          <span class="text">
+            Cancelled
+          </span>
+        </div>
+        <div class="step active"></div>
         {{/if}}
         {{/if}}
         {{/if}}
         {{/if}}
-
       </div>
-      <hr>
+      <hr />
       <ul class="row">
         <li class="col-md-4">
           <figure class="itemside mb-3">
-            <div class="aside"><img src="/product-images/{{this.items._id}}.png" class="img-sm border"></div>
+            <div class="aside">
+              <img src="/product-images/{{this.items._id}}.png" class="img-sm border" />
+            </div>
             <figcaption class="info align-self-center">
-              <p class="title">{{this.items.name}} <br>{{this.items.type}}</p> <span
-                class="text-muted">₹{{this.items.price}}</span>
+              <p class="title">
+                {{this.items.name}}
+                <br />{{this.items.type}}
+              </p>
+              <span class="text-muted">
+                ₹{{this.items.price}}
+              </span>
             </figcaption>
           </figure>
         </li>
       </ul>
-      <hr>
-      <a href="/orders" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to
-        orders</a>
-        <button onclick="downlodinvoice()" class="btn btn-warning text-white" data-abc="true"><i class="fas fa-file-invoice"></i> Download Invoice</button>
+      <hr />
+      <a href="/orders" class="btn btn-warning" data-abc="true">
+        <i class="fa fa-chevron-left"></i>
+        Back to orders
+      </a>
+      <button onclick="downlodinvoice()" class="btn btn-warning text-white" data-abc="true">
+        <i class="fas fa-file-invoice"></i>
+        Download Invoice
+      </button>
     </div>
   </article>
   {{/each}}
 </div>
 
 <script>
-
-
-
-function downlodinvoice(){
-var data = {
-    // Customize enables you to provide your own templates
-    // Please review the documentation for instructions and examples
-    "customize": {
-        //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
-    },
-    "images": {
-        // The logo on top of your invoice
-        "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
-        // The invoice background
-        "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
-    },
-    // Your own data
-    "sender": {
-        "company": "Sample Corp",
-        "address": "Sample Street 123",
-        "zip": "1234 AB",
-        "city": "Sampletown",
-        "country": "Samplecountry"
-        //"custom1": "custom value 1",
-        //"custom2": "custom value 2",
-        //"custom3": "custom value 3"
-    },
-    // Your recipient
-    "client": {
-        "company": "Client Corp",
-        "address": "Clientstreet 456",
-        "zip": "4567 CD",
-        "city": "Clientcity",
-        "country": "Clientcountry"
-        // "custom1": "custom value 1",
-        // "custom2": "custom value 2",
-        // "custom3": "custom value 3"
-    },
-    "information": {
-        // Invoice number
-        "number": "2021.0001",
-        // Invoice data
-        "date": "12-12-2021",
-        // Invoice due date
-        "due-date": "31-12-2021"
-    },
-    // The products you would like to see on your invoice
-    // Total values are being calculated automatically
-    "products": [
-        {
-            "quantity": 2,
-            "description": name,
-            "tax-rate": 6,
-            "price": 33.87
-        },
-        {
-            "quantity": 4.1,
-            "description": name,
-            "tax-rate": 6,
-            "price": 12.34
-        },
-        {
-            "quantity": 4.5678,
-            "description": name,
-            "tax-rate": 21,
-            "price": 6324.453456
-        }
-    ],
-    // The message you would like to display on the bottom of your invoice
-    "bottom-notice": "Kindly pay your invoice within 15 days.",
-    // Settings to customize your invoice
-    "settings": {
-        "currency": "USD", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
-        // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')
-        // "tax-notation": "gst", // Defaults to 'vat'
-        // "margin-top": 25, // Defaults to '25'
-        // "margin-right": 25, // Defaults to '25'
-        // "margin-left": 25, // Defaults to '25'
-        // "margin-bottom": 25, // Defaults to '25'
-        // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
-        // "height": "1000px", // allowed units: mm, cm, in, px
-        // "width": "500px", // allowed units: mm, cm, in, px
-        // "orientation": "landscape", // portrait or landscape, defaults to portrait
-    },
-    // Translate your invoice to your preferred language
-    "translate": {
-        // "invoice": "FACTUUR",  // Default to 'INVOICE'
-        // "number": "Nummer", // Defaults to 'Number'
-        // "date": "Datum", // Default to 'Date'
-        // "due-date": "Verloopdatum", // Defaults to 'Due Date'
-        // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
-        // "products": "Producten", // Defaults to 'Products'
-        // "quantity": "Aantal", // Default to 'Quantity'
-        // "price": "Prijs", // Defaults to 'Price'
-        // "product-total": "Totaal", // Defaults to 'Total'
-        // "total": "Totaal" // Defaults to 'Total'
-    },
-};
-
-//Create your invoice! Easy!
-easyinvoice.createInvoice(data, function (result) {
-    //The response will contain a base64 encoded PDF file
-    console.log('PDF base64 string: ', result.pdf);
-     easyinvoice.download('Invoice.pdf', result.pdf);
-});
-}
+  function downlodinvoice() {
+    var data = { // Customize enables you to provide
+      your own templates // Please review the documentation for instructions and
+  examples "customize": { // "template": fs.readFileSync('template.html',
+        'base64') // Must be base64 encoded html }, "images": { // The logo on top of
+        your invoice "logo":
+          "https://public.easyinvoice.cloud/img/logo_en_original.png", // The invoice
+        background "background":
+          "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+      }, // Your own data
+      "sender": {
+        "company": "Sample Corp", "address": "Sample Street 123", "zip":
+          "1234 AB", "city": "Sampletown", "country": "Samplecountry" //"custom1":
+  "custom value 1", //"custom2": "custom value 2", //"custom3": "custom value 3"
+      }, // Your recipient "client": { "company": "Client Corp", "address":
+      "Clientstreet 456", "zip": "4567 CD", "city": "Clientcity", "country":
+        "Clientcountry" // "custom1": "custom value 1", // "custom2": "custom value
+  2", // "custom3": "custom value 3" }, "information": { // Invoice number
+  "number": "2021.0001", // Invoice data "date": "12-12-2021", // Invoice due
+      date "due-date": "31-12-2021"
+    }, // The products you would like to see on your
+    invoice // Total values are being calculated automatically "products": [ {
+    "quantity": 2, "description": name, "tax-rate": 6, "price": 33.87
+  }, {
+    "quantity": 4.1, "description": name, "tax-rate": 6, "price": 12.34
+  }, {
+    "quantity": 4.5678, "description": name, "tax-rate": 21, "price": 6324.453456
+  } ], // The message you would like to display on the bottom of your invoice
+  "bottom-notice": "Kindly pay your invoice within 15 days.", // Settings to
+    customize your invoice "settings": {
+      "currency": "USD", // See documentation
+        'Locales and Currency' for more info.Leave empty for no currency. // "locale":
+  "nl-NL", // Defaults to en-US, used for number formatting (See documentation
+          'Locales and Currency') // "tax-notation": "gst", // Defaults to 'vat' //
+          "margin-top": 25, // Defaults to '25' // "margin-right": 25, // Defaults to
+            '25' // "margin-left": 25, // Defaults to '25' // "margin-bottom": 25, //
+  Defaults to '25' // "format": "A4", // Defaults to A4, options: A3, A4, A5,
+    Legal, Letter, Tabloid // "height": "1000px", // allowed units: mm, cm, in, px
+    // "width": "500px", // allowed units: mm, cm, in, px // "orientation":
+    "landscape", // portrait or landscape, defaults to portrait }, // Translate
+      your invoice to your preferred language "translate": { // "invoice":
+      "FACTUUR", // Default to 'INVOICE' // "number": "Nummer", // Defaults to
+        'Number' // "date": "Datum", // Default to 'Date' // "due-date":
+      "Verloopdatum", // Defaults to 'Due Date' // "subtotal": "Subtotaal", //
+        Defaults to 'Subtotal' // "products": "Producten", // Defaults to 'Products'
+  // "quantity": "Aantal", // Default to 'Quantity' // "price": "Prijs", //
+  Defaults to 'Price' // "product-total": "Totaal", // Defaults to 'Total' //
+      "total": "Totaal" // Defaults to 'Total' }, }; //Create your invoice! Easy!
+      easyinvoice.createInvoice(data, function (result) { //The response will
+  contain a base64 encoded PDF file console.log('PDF base64 string: ',
+        result.pdf); easyinvoice.download('Invoice.pdf', result.pdf);
+      });
+    }
 </script>

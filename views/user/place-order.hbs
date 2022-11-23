@@ -14,8 +14,20 @@
                 </li>
                 {{/each}}
                 <li class="list-group-item d-flex justify-content-between">
+                    <span>OfferAmount (RS)</span>
+                    <strong class="text-dark" name="totalAmount">{{cart.offerAmount}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>CouponCode</span>
+                    <strong class="text-dark" name="totalAmount">{{cart.couponcode}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>CouponAmount (RS)</span>
+                    <strong class="text-dark" name="totalAmount">{{cart.couponAmount}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
                     <span>Total (RS)</span>
-                    <strong class="text-dark" name="totalAmount">{{total}}</strong>
+                    <strong class="text-dark" name="totalAmount">{{cart.amounttopay}}</strong>
                 </li>
             </ul>
             <div class="container text-center mt-4">
@@ -41,42 +53,50 @@
             <h4 class="mb-3">Billing address</h4>
             <form class="needs-validation" novalidate="" id="checkout-form">
                 <div class="row">
+
                     <div class="col-md-6 mb-3">
                         <input type="text" name="userId" value="{{user._id}}" hidden>
                         <label for="firstName">First name</label>
-                        <input type="text" name="name" class="form-control" id="firstName" placeholder="" value=""
-                            required>
-                        <div class="invalid-feedback"> Valid first name is required. </div>
+                        <input type="text" name="name" class="form-control" id="firstName" placeholder="First name"
+                            onkeyup="validatename()" required>
+                        <span id="name-error" style="color: red;"></span>
                     </div>
+
                     <div class="col-md-6 mb-3">
                         <label for="lastName">Last name</label>
-                        <input type="text" name="lastname" class="form-control" id="lastName" placeholder="" value=""
-                            required>
-                        <div class="invalid-feedback"> Valid last name is required. </div>
+                        <input type="text" name="" class="form-control" id="lastName" placeholder="Last name"
+                            onkeyup="validatelname()" required>
+                        <span id="lastname-error" style="color: red;"></span>
                     </div>
                 </div>
+
                 <div class="mb-3">
-                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                    <label for="email">Email</label>
                     <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com"
-                        required>
-                    <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
+                        onkeyup="validateemail()" required>
+                    <span id="email-error" style="color: red;"></span>
                 </div>
+
                 <div class="mb-3">
                     <label for="address">Mobile Number</label>
-                    <input type="text" name="mobile" class="form-control" id="mobile" placeholder="0000000000" required>
-                    <div class="invalid-feedback"> Please enter your shipping address. </div>
+                    <input type="number" name="mobile" class="form-control" id="mobile" placeholder="0000000000"
+                        onkeyup="validatemobile()" required>
+                    <span id="mobile-error" style="color: red;"></span>
                 </div>
+
                 <div class="mb-3">
                     <label for="address">Address</label>
                     <input type="text" name="address" class="form-control" id="address" placeholder="1234 Main St"
-                        required>
-                    <div class="invalid-feedback"> Please enter your shipping address. </div>
+                        onkeyup="validateaddress()" required>
+                    <span id="address-error" style="color: red;"></span>
                 </div>
+
                 <div class="mb-3">
                     <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
                     <input type="text" name="address2" class="form-control" id="address2"
                         placeholder="Apartment or suite" required>
                 </div>
+
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label for="country">Country</label>
@@ -92,16 +112,18 @@
                             <option value="">Choose...</option>
                             <option id="state">California</option>
                         </select>
-                        <div class="invalid-feedback"> Please provide a valid state. </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="zip">Zip</label>
-                        <input type="text" class="form-control" id="pincode" placeholder="" name="pincode">
-                        <div class="invalid-feedback"> Zip code required. </div>
+                        <input type="text" class="form-control" id="pincode" placeholder="zipcode" name="pincode"
+                            onkeyup="validatezip()">
+                        <span id="pincode-error" style="color: red;"></span>
                     </div>
                 </div>
+                <div class="container" style="width: 100%; height: 5rem; text-align: center;">
+                    <span id="errorMessage" style="color: red;" class="text-center"></span>
+                </div>
                 <hr class="mb-4">
-
 
                 <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
@@ -134,7 +156,8 @@
                 <!-- Set up a container element for the button -->
                 <div id="paypal-button-container" hidden class="clr"></div>
                 <div id="checkout-button" class="clr">
-                    <button class="w-100 btn btn-primary btn-lg" id="checkoutSubmit" hidden type="submit">Continue
+                    <button class="w-100 btn btn-primary btn-lg" onclick="return validateForm()" id="checkoutSubmit"
+                        hidden type="submit">Continue
                         to checkout</button>
                 </div>
             </form>
@@ -142,29 +165,7 @@
     </div>
 </div>
 
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-        window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation')
 
-            // Loop over them and prevent submission
-            Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        }, false)
-    }())
-
-
-</script>
 <script>
     $("#checkout-form").submit((e) => {
         e.preventDefault()
@@ -185,7 +186,6 @@
     })
 
     function selectAddress(name, lastname, email, mobile, address, country, state, pincode) {
-
         document.getElementById('firstName').value = name
         document.getElementById('lastName').value = lastname
         document.getElementById('email').value = email
@@ -195,6 +195,7 @@
         document.getElementById('state').value = state
         document.getElementById('pincode').value = pincode
     }
+
     function razorpayPayment(order) {
         var options = {
             "key": "rzp_test_JqPjDeZbLpvY3e", // Enter the Key ID generated from the Dashboard
@@ -246,9 +247,11 @@
 
     function displayPaypal() {
         let list1 = document.getElementById("checkoutSubmit").hidden = true
-        let list2 = document.getElementById("paypal-button-container").hidden = false
-
-
+        if(validateForm()){
+            let list2 = document.getElementById("paypal-button-container").hidden = false
+        }else{
+            let list2 = document.getElementById("paypal-button-container").hidden = true
+        }  
     }
 
     function displayCOD() {
@@ -290,7 +293,94 @@
         });
     }
     }).render('#paypal-button-container');
+</script>
 
 
+<script>
+    var nameError = document.getElementById('name-error')
+    var lastnameError = document.getElementById('lastname-error')
+    var emailError = document.getElementById('email-error')
+    var mobileError = document.getElementById('mobile-error')
+    var addressError = document.getElementById('address-error')
+    var pincodeError = document.getElementById('pincode-error')
+    var errorMessage = document.getElementById('errorMessage')
+
+    function validatename() {
+        var name = document.getElementById('firstName').value;
+        if (name.length >= 10 || name == '') {
+            nameError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            nameError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validatelname() {
+        var lname = document.getElementById('lastName').value;
+        if (lname.length >= 10 || lname == '') {
+            lastnameError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            lastnameError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validateemail() {
+        var email = document.getElementById('email').value;
+        var mailformat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+        if (email.match(mailformat) || email == '') {
+            emailError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            emailError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validatemobile() {
+        var mobile = document.getElementById('mobile').value;
+        if (mobile.length > 10 || mobile.length < 10 || mobile == '') {
+            mobileError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            mobileError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validateaddress() {
+        var address = document.getElementById('address').value;
+        if (address.length > 50 || address == '') {
+            addressError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            addressError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validatezip() {
+        var pincode = document.getElementById('pincode').value;
+        if (pincode.length > 6 || pincode.length < 6 || pincode == '') {
+            pincodeError.innerHTML = "Invalid Details"
+            return false
+        } else {
+            pincodeError.innerHTML = ""
+            return true
+        }
+    }
+
+    function validateForm() {
+        if (!validatename() || !validatelname() || !validateemail() || !validatemobile() || !validateaddress() || !validatezip()){
+            errorMessage.style.display = 'block';
+        errorMessage.innerHTML = "Enter All Details Properly";
+        setTimeout(function () { errorMessage.style.display = 'none'; }, 3000);
+        return false;
+        }else{
+        return true;
+    }
+    }
 
 </script>
