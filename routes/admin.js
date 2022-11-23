@@ -13,6 +13,7 @@ const credential = {
   password: '123admin',
 }
 
+
 // Increment values
 Handlebars.registerHelper('inc', function (value, options) {
   return parseInt(value) + 1
