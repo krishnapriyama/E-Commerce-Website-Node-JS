@@ -6,7 +6,7 @@ module.exports = {
     let products = {
       name: product.name,
       modelnumber: product.modelnumber,
-      stock: product.stock,
+      stock: Number(product.stock),
       modelname: product.modelname,
       series: product.series,
       color: product.color,
