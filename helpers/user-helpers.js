@@ -433,7 +433,6 @@ module.exports = {
         .get()
         .collection(collection.PRODUCT_COLLECTION)
         .findOne({ _id: ObjectId(productId) });
-      console.log("stock", stock);
       resolve(stock);
     });
   },
@@ -749,7 +748,6 @@ module.exports = {
           },
         ])
         .toArray()
-        console.log(orderItems);
       resolve(orderItems)
     })
   },

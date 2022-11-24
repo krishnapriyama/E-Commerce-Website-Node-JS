@@ -307,7 +307,6 @@ router.get('/cart', verifylogin, async (req, res) => {
 
 router.get('/add-to-cart/:id', (req, res) => {
   if (req.session.user) {
-    console.log(req.body);
     let proId = req.params.id
     let user = req.session.user
     userHelpers.addtocart(proId, req.session.userid, user).then(() => {
@@ -319,7 +318,6 @@ router.get('/add-to-cart/:id', (req, res) => {
 })
 
 router.post('/change-product-quantity', async (req, res, next) => {
-  console.log(req.body)
   await userHelpers.getMaxStock(req.body.product).then(async (response) => {
     if (req.body.count <= 1) {
       if (
@@ -521,10 +519,8 @@ router.get('/orders', verifylogin, async (req, res, next) => {
 })
 
 router.get('/orderdetails/:id', verifylogin, async (req, res) => {
-  console.log(req.params.id,"--------"); 
   let user = req.session.user
   let products = await userHelpers.getOrderProducts(req.params.id)
-  console.log(products);
   res.render('user/orderdetails', { user, products })
 })
 
