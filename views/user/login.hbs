@@ -1,42 +1,45 @@
 <style>
-    .bg-color{
-          background-color: white;
-          font-family: Arial, Helvetica, sans-serif;
-      }
-      .btn-rounded{
-          border-radius: 30px;
-      }
+    .bg-color {
+        background-color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .btn-rounded {
+        border-radius: 30px;
+    }
 </style>
+
 <body class="bg-color">
     <section class="container mt-5 mb-5">
         <div class="row justify-content-md-center">
             <form class="col-md-6 col-sm-12 bg-white p-5 rounded shadow" action="/login" method="post">
                 <div class="col-12 text-center">
-                    <h3 class="text-dark mb-4" style="font-family: 'Fuzzy Bubbles', cursive;"><strong>LOGIN HERE</strong></h3>
+                    <h3 class="text-dark mb-4" style="font-family: 'Fuzzy Bubbles', cursive;"><strong>LOGIN
+                            HERE</strong></h3>
                 </div>
-                    <input type="hidden" name="path" value="{{path}}">
+                <input type="hidden" name="path" value="{{path}}">
                 <div class="mb-3">
                     <label for="text" class="form-label text-dark">Email</label>
-                    <input type="email" name="email" class="form-control border-dark" id="username" value="kirankumar01@gmail.com" required>
+                    <input type="email" name="email" class="form-control border-dark" id="username" required>
                 </div>
                 <div class="form-text text-danger"></div>
                 <div class="mb-3">
                     <label for="text" class="form-label text-dark">Password</label>
-                    <input type="text" name="password" class="form-control border-dark" id="age" value="123" required>
+                    <input type="text" name="password" class="form-control border-dark" id="age" required>
                 </div>
                 <div class="valid" style="color: red;">{{err}}</div>
-                
+
                 <div class="mb-3  text-center text-dark mt-3">
-                   <a href="/signup"class="text-dark btn">Don't Have An Account ?<br> Create New Account</a> 
+                    <a href="/signup" class="text-dark btn">Don't Have An Account ?<br> Create New Account</a>
                 </div>
                 <div class="mb-3 text-center text-dark mt-3">
-                   <a href="/enterphno" class="text-dark btn">Login With OTP</a> 
+                    <a href="/enterphno" class="text-dark btn">Login With OTP</a>
                 </div>
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn w-75" style="width:80px; background-color: black;color: white;">LOGIN HERE</button>
+                    <button type="submit" class="btn w-75"
+                        style="width:80px; background-color: black;color: white;">LOGIN HERE</button>
                 </div>
             </form>
         </div>
     </section>
 </body>
-
