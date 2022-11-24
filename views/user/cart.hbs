@@ -36,9 +36,6 @@
                             class="text-dark d-inline-block text-decoration-none align-middle">{{this.product.name}}</a>
                         </h5><span class="text-muted font-weight-normal font-italic d-block">Category:
                           {{this.product.category}}</span>
-                        <span id="stock" class="text-muted font-weight-normal font-italic d-block" hidden>Category:
-                          {{this.product.stock}}</span>
-
                       </div>
                     </div>
                   </th>
@@ -283,7 +280,7 @@
         } else {
           const Toast = Swal.mixin({
             toast: true,
-            position: 'bottom',
+            position: 'top-end',
             showConfirmButton: false,
             timer: 2000,
             timerProgressBar: true,

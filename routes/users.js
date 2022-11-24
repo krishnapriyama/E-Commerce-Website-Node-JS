@@ -23,10 +23,11 @@ Handlebars.registerHelper('inc', function (value, options) {
 
 // Session
 const verifylogin = (req, res, next) => {
+
   if (req.session.user) {
     next()
   } else {
-    res.redirect('/login')
+    res.render('user/login', { admin: false ,path:req.path})
   }
 }
 
@@ -74,7 +75,7 @@ router.get('/listAllProducts/:category', async (req, res, next) => {
       offerAmount,
     })
   } else {
-    let products = await categoryHelpers.productCatogeries(req.params.category)
+    let products = await  categoryHelpers.productCatogeries(req.params.category)
     let offerAmount = await categoryHelpers.getoffer_amount()
     res.render('user/listProducts', {
       category: req.params.category,
@@ -116,7 +117,12 @@ router.post('/login', (req, res) => {
         req.session.user = response.user
         // req.session.userName = response.user.
         req.session.userid = response.user._id
-        res.redirect('/homepage')
+        if(req.body.path){
+          res.redirect(req.body.path)
+        }else{
+          res.redirect('/homepage')
+        }
+        
       }
     })
     .catch((err) => {
@@ -155,8 +161,8 @@ router.get('/logout', (req, res) => {
 // All Products
 router.get('/viewproducts', async (req, res) => {
   if (req.session.user) {
-    let cartCount = await userHelpers.getcartCount(req.session.user._id)
-    let offerAmount = await categoryHelpers.getoffer_amount()
+    let cartCount =  await userHelpers.getcartCount(req.session.user._id)
+    let offerAmount =  await categoryHelpers.getoffer_amount()
     let user = req.session.user
     let viewproductswishlist = await userHelpers.viewwishlist(
       req.session.user._id,
@@ -301,6 +307,7 @@ router.get('/cart', verifylogin, async (req, res) => {
 
 router.get('/add-to-cart/:id', (req, res) => {
   if (req.session.user) {
+    console.log(req.body);
     let proId = req.params.id
     let user = req.session.user
     userHelpers.addtocart(proId, req.session.userid, user).then(() => {
@@ -315,7 +322,6 @@ router.post('/change-product-quantity', async (req, res, next) => {
   console.log(req.body)
   await userHelpers.getMaxStock(req.body.product).then(async (response) => {
     if (req.body.count <= 1) {
-      console.log(parseInt(req.body.quantity), '-', response.stock)
       if (
         parseInt(req.body.quantity) == parseInt(response.stock) &&
         req.body.count == '1'
@@ -515,8 +521,10 @@ router.get('/orders', verifylogin, async (req, res, next) => {
 })
 
 router.get('/orderdetails/:id', verifylogin, async (req, res) => {
+  console.log(req.params.id,"--------"); 
   let user = req.session.user
   let products = await userHelpers.getOrderProducts(req.params.id)
+  console.log(products);
   res.render('user/orderdetails', { user, products })
 })
 

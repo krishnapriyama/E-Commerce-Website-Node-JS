@@ -98,6 +98,7 @@ module.exports = {
               result: 1,
               category: 1,
               offer: 1,
+              stock:1,
               offer_amount: {
                 $subtract: [
                   '$result.price',

@@ -156,10 +156,12 @@
                   <div class="card-body text-center" style="width: 100%;">
                      <strong>
                         <center>
-                           <p class="card-text text-dark text-center" style="width: 100%; height: 50px;">{{this.result.name}}
+                           <p class="card-text text-dark text-center" style="width: 100%; height: 50px;">
+                              {{this.result.name}}
                            </p><br>
                      </strong>
 
+                     <input type="hidden" value="{{this.result.stock}}" id="stockid">
 
                      {{#if this.offer}}
                      <p class="card-text text-bold" style="color: green; margin-bottom: -17px;">
@@ -194,23 +196,28 @@
 
 <script>
    function addtocartconfrom(prodId) {
+      let stockamount = document.getElementById('stockid').value
       $.ajax({
          url: `/add-to-cart/${prodId}`,
          method: "get",
          success: (response) => {
-            if (response.status == true) {
-               let count = $('#cartCount').html()
-               count = parseInt(count) + 1
-               $('#cartCount').html(count)
-               Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  title: 'Added to Cart',
-                  showConfirmButton: false,
-                  timer: 1500
-               })
-            } else if (response.status == false) {
-               location.href = "/login";
+            if (stockamount > 0) {
+               if (response.status == true) {
+                  let count = $('#cartCount').html()
+                  count = parseInt(count) + 1
+                  $('#cartCount').html(count)
+                  Swal.fire({
+                     position: 'center',
+                     icon: 'success',
+                     title: 'Added to Cart',
+                     showConfirmButton: false,
+                     timer: 1500
+                  })
+               } else if (response.status == false) {
+                  location.href = "/login";
+               }
+            }else{
+               alert("huu8h")
             }
          }
       })

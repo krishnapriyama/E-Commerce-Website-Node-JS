@@ -60,6 +60,16 @@ app.engine(
             return false;
           }
         }
+      },
+      logicalOperation: function (left, opertor, right) {
+        if (opertor == ">") {
+          console.log("----------", left, opertor, right);
+          if (left > right) {
+            return true;
+          } else {
+            return false;
+          }
+        }
       }
     }
   })

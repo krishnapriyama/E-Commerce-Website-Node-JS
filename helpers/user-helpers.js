@@ -738,10 +738,10 @@ module.exports = {
           },
           {
             $lookup: {
-              from: collection.PRODUCT_COLLECTION,
-              localField: 'products.item',
+              from: "product",
+              localField: 'products.products.item',
               foreignField: '_id',
-              as: 'items',
+              as: 'items'
             },
           },
           {
@@ -749,6 +749,7 @@ module.exports = {
           },
         ])
         .toArray()
+        console.log(orderItems);
       resolve(orderItems)
     })
   },
